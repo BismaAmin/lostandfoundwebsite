@@ -55,7 +55,8 @@ Non-Functional Requirements
 # Phase 2: System Design
 
 1. Database structure through ERD diagram
-2. System architecture 
+   ![ERD diagarm](https://github.com/BismaAmin/lostandfoundwebsite/blob/6c5f96d75eda4dcf195089fb8a714bfb54e317a3/lostandfounderd.drawio.png)
+3. System architecture 
 - **User Layer:** Students and staff register/login, report lost or found items, and submit claims.
 - **Frontend Layer:** Web or mobile interface for reporting, searching, browsing, and claiming items.
 - **Application Server:** Handles authentication, item management, claim processing, and status updates.
