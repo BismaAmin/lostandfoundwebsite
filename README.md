@@ -56,7 +56,8 @@ Non-Functional Requirements
 
 1. Database structure through ERD diagram
    ![ERD diagarm](https://github.com/BismaAmin/lostandfoundwebsite/blob/6c5f96d75eda4dcf195089fb8a714bfb54e317a3/lostandfounderd.drawio.png)
-3. System architecture 
+3. System architecture
+   ![Architecture Design](https://github.com/BismaAmin/lostandfoundwebsite/blob/71b67d2bf46266354f32a2aba57c06ae045bc577/lostfoundarhidesign.drawio.png)
 - **User Layer:** Students and staff register/login, report lost or found items, and submit claims.
 - **Frontend Layer:** Web or mobile interface for reporting, searching, browsing, and claiming items.
 - **Application Server:** Handles authentication, item management, claim processing, and status updates.
