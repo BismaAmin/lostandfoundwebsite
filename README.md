@@ -15,9 +15,47 @@ The platform should:
 
 # 2. System Users
 The platform supports three main user roles:
-1. Students: Report and search for lost/found items.
-2. Staff: Assist in reporting and recovery process.
-3. Admin: Manage users, posts, and overall system moderation.
+
+## User
+
+Regular users can:
+
+- Register and login
+- Report lost items
+- Report found items
+- Search and filter items
+- Submit ownership claims
+- Receive notifications
+- Track their reports and claim status
+
+## Manager
+
+Managers are responsible for operational verification and claim handling.
+
+Managers can:
+
+- Review lost item reports
+- Review found item reports
+- Review claim requests
+- Verify ownership evidence
+- Approve or reject claims
+- Update item status
+- Coordinate item recovery
+- Escalate disputes to Admin
+
+## Admin
+
+Administrators manage the entire platform.
+
+Admins can:
+
+- Manage users and managers
+- Monitor all platform activities
+- Remove spam or fraudulent reports
+- Ban or suspend users
+- Resolve escalated disputes
+- View analytics and reports
+- Configure platform settings
 
 # 3. Technology Stack
 1. Frontend: HTML, CSS, JavaScript
@@ -30,15 +68,16 @@ The platform supports three main user roles:
 # Phase 1: Requirement Analysis
 
 Identifying user needs:
-- **Students:** Report and search lost/found items  
-- **Staff:** Report items and assist in recovery process  
+- **User:** Report and search lost/found items  
+- **Manager:** verify reported items, review ownership claims and approve or reject claims  
 - **Admin:** System management and monitoring
   
 System Features
 - Report lost items  
 - Report found items  
 - Search and filter items  
-- Claim and verification system  
+- Claim and verification system
+- Manager verification dashboard
 - Admin control panel
   
 Functional Requirements
@@ -62,7 +101,7 @@ Non-Functional Requirements
   
    ![Architecture Design](https://github.com/BismaAmin/lostandfoundwebsite/blob/71b67d2bf46266354f32a2aba57c06ae045bc577/lostfoundarhidesign.drawio.png)
    
-- **User Layer:** Students and staff register/login, report lost or found items, and submit claims.
+- **User Layer:** Students and manager register/login, report lost or found items, and submit claims.
 - **Frontend Layer:** Web or mobile interface for reporting, searching, browsing, and claiming items.
 - **Application Server:** Handles authentication, item management, claim processing, and status updates.
 - **Database Layer:** Stores user accounts, lost items, found items, and claim records with approval status.
@@ -94,15 +133,19 @@ The server-side logic will be implemented by the developer.
 - Found item management
 - Search functionality
 - Claim system
+- Manager Verification
+- Notification System
 
 ### Business Logic:
 - Matching lost and found items
 - Handling claim approval/rejection
+- Manager approval/rejection workflow
 
 ### Security:
 - Password encryption
 - Session or JWT authentication
 - Input validation
+- Role-based access control
 
 # Phase 5: Database Integration
 
@@ -119,7 +162,9 @@ All system modules will be tested.
 - Test authentication system  
 - Test item posting functionality  
 - Test search and filter features  
-- Test claim system  
+- Test claim system
+- Manager verification
+- Notification system
 - Fix bugs and improve performance  
 
 # Phase 7: Deployment
