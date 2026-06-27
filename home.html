@@ -1,0 +1,1414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lost & Found · Reunite People</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+        }
+
+        body {
+            background: #f0f9f6;
+        }
+
+        /* ===== STICKY NAVBAR ===== */
+        .navbar {
+            background: #0D9488;
+            padding: 0.8rem 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .navbar.scrolled {
+            background: #0F766E;
+            box-shadow: 0 8px 40px rgba(13, 148, 136, 0.3);
+        }
+        .navbar .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            color: white;
+            font-size: 1.4rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+        .navbar .logo i {
+            font-size: 1.8rem;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 0.4rem;
+            border-radius: 12px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2.5rem;
+        }
+        .nav-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s;
+            position: relative;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: white;
+            transition: width 0.3s;
+        }
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
+        }
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: white;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .nav-actions a {
+            color: white;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+        .nav-actions .btn-outline {
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            padding: 0.4rem 1.6rem;
+            border-radius: 60px;
+            transition: all 0.3s;
+            background: rgba(255, 255, 255, 0.05);
+        }
+        .nav-actions .btn-outline:hover {
+            background: white;
+            color: #0D9488;
+            border-color: white;
+            transform: translateY(-2px);
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            background: linear-gradient(135deg, #0D9488 0%, #0F766E 50%, #115E59 100%);
+            padding: 4.5rem 3rem 5rem;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 60%;
+            height: 200%;
+            background: radial-gradient(ellipse, rgba(255, 255, 255, 0.08) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -10%;
+            width: 50%;
+            height: 150%;
+            background: radial-gradient(ellipse, rgba(255, 255, 255, 0.05) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .hero .content {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .hero .badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(8px);
+            padding: 0.3rem 1.2rem;
+            border-radius: 60px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 0.8rem;
+            letter-spacing: -1px;
+        }
+        .hero h1 span {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+
+        .hero-search {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            max-width: 780px;
+            margin: 0 auto 2rem;
+            background: white;
+            border-radius: 60px;
+            padding: 0.4rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+        }
+        .hero-search input,
+        .hero-search select {
+            border: none;
+            padding: 0.8rem 1.2rem;
+            font-size: 0.9rem;
+            outline: none;
+            background: transparent;
+            flex: 1;
+            min-width: 120px;
+            color: #1a1a2e;
+            font-weight: 500;
+        }
+        .hero-search select {
+            cursor: pointer;
+            appearance: auto;
+            -webkit-appearance: auto;
+            color: #2C2C2A;
+        }
+        .hero-search input::placeholder {
+            color: #9a9a96;
+            font-weight: 400;
+        }
+        .hero-search .search-btn {
+            background: #0D9488;
+            color: white;
+            border: none;
+            border-radius: 60px;
+            padding: 0.8rem 2.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            white-space: nowrap;
+            font-size: 0.9rem;
+        }
+        .hero-search .search-btn:hover {
+            background: #0F766E;
+            transform: scale(1.02);
+            box-shadow: 0 8px 25px rgba(13, 148, 136, 0.4);
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .hero-btns .btn-primary {
+            background: white;
+            color: #0D9488;
+            padding: 0.7rem 2.5rem;
+            border-radius: 60px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+        }
+        .hero-btns .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+        }
+        .hero-btns .btn-outline-white {
+            background: transparent;
+            color: white;
+            padding: 0.7rem 2.5rem;
+            border-radius: 60px;
+            text-decoration: none;
+            font-weight: 700;
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            transition: all 0.3s;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            backdrop-filter: blur(4px);
+        }
+        .hero-btns .btn-outline-white:hover {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: white;
+            transform: translateY(-3px);
+        }
+
+        /* ===== STATS ===== */
+        .stats {
+            padding: 3.5rem 3rem;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            max-width: 1100px;
+            margin: -2rem auto 0;
+            position: relative;
+            z-index: 2;
+        }
+        .stat-card {
+            background: white;
+            padding: 1.8rem 1.5rem;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 8px 40px rgba(13, 148, 136, 0.08);
+            transition: all 0.3s;
+            border: 1px solid rgba(13, 148, 136, 0.06);
+        }
+        .stat-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 16px 60px rgba(13, 148, 136, 0.12);
+        }
+        .stat-card .icon {
+            font-size: 2rem;
+            color: #0D9488;
+            margin-bottom: 0.3rem;
+            display: block;
+        }
+        .stat-card .number {
+            font-size: 2.8rem;
+            font-weight: 900;
+            color: #0F766E;
+            letter-spacing: -1px;
+        }
+        .stat-card .label {
+            color: #64748b;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-top: 0.2rem;
+        }
+
+        /* ===== RECENT ITEMS ===== */
+        .recent-section {
+            padding: 3rem 3rem 4rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .recent-section .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        .recent-section .section-title {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #0F766E;
+            letter-spacing: -0.5px;
+        }
+        .recent-section .section-title span {
+            color: #0D9488;
+        }
+        .recent-section .view-all {
+            color: #0D9488;
+            text-decoration: none;
+            font-weight: 600;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+        .recent-section .view-all:hover {
+            color: #0F766E;
+            transform: translateX(4px);
+        }
+
+        .recent-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+        .recent-grid .col-header {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin-bottom: 1.2rem;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #0F766E;
+        }
+        .recent-grid .col-header .badge {
+            font-size: 0.65rem;
+            padding: 0.2rem 0.9rem;
+            border-radius: 60px;
+            font-weight: 600;
+        }
+        .badge.lost {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+        .badge.found {
+            background: #d1fae5;
+            color: #059669;
+        }
+
+        .item-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1rem 1.2rem;
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+            border: 1px solid #e6f0ed;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        .item-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(13, 148, 136, 0.08);
+            border-color: #0D9488;
+        }
+        .item-card .item-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            background: #e6f5f2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            color: #0D9488;
+            flex-shrink: 0;
+        }
+        .item-card .item-info {
+            flex: 1;
+        }
+        .item-card .item-info h5 {
+            font-size: 0.95rem;
+            color: #0F766E;
+            font-weight: 700;
+        }
+        .item-card .item-info .meta {
+            font-size: 0.75rem;
+            color: #64748b;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 0.1rem;
+        }
+        .item-card .item-info .meta i {
+            margin-right: 0.2rem;
+            color: #94a3b8;
+        }
+        .item-card .view-btn {
+            background: #0D9488;
+            color: white;
+            border: none;
+            padding: 0.4rem 1.2rem;
+            border-radius: 60px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+        .item-card .view-btn:hover {
+            background: #0F766E;
+            transform: scale(1.04);
+        }
+
+        /* ===== ITEM DETAIL MODAL ===== */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            z-index: 999;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+        }
+        .modal-overlay.active {
+            display: flex;
+        }
+        .modal-content {
+            background: white;
+            max-width: 500px;
+            width: 100%;
+            border-radius: 20px;
+            padding: 2rem;
+            position: relative;
+            animation: modalSlideIn 0.3s ease;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        @keyframes modalSlideIn {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        .modal-content .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1.2rem;
+            font-size: 1.5rem;
+            color: #64748b;
+            cursor: pointer;
+            background: none;
+            border: none;
+            transition: 0.3s;
+        }
+        .modal-content .close-modal:hover {
+            color: #0F766E;
+            transform: rotate(90deg);
+        }
+        .modal-content .modal-icon {
+            font-size: 3rem;
+            color: #0D9488;
+            margin-bottom: 0.5rem;
+        }
+        .modal-content h3 {
+            font-size: 1.3rem;
+            color: #0F766E;
+            margin-bottom: 0.3rem;
+        }
+        .modal-content .modal-meta {
+            color: #64748b;
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
+        }
+        .modal-content .modal-meta i {
+            margin-right: 0.3rem;
+            color: #94a3b8;
+        }
+        .modal-content .modal-description {
+            color: #334155;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1.2rem;
+            padding: 1rem;
+            background: #f8fafc;
+            border-radius: 12px;
+        }
+        .modal-content .modal-actions {
+            display: flex;
+            gap: 0.8rem;
+        }
+        .modal-content .modal-actions .btn-claim {
+            background: #0D9488;
+            color: white;
+            border: none;
+            padding: 0.6rem 2rem;
+            border-radius: 60px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            flex: 1;
+        }
+        .modal-content .modal-actions .btn-claim:hover {
+            background: #0F766E;
+        }
+        .modal-content .modal-actions .btn-close-modal {
+            background: #e2e8f0;
+            color: #334155;
+            border: none;
+            padding: 0.6rem 1.5rem;
+            border-radius: 60px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .modal-content .modal-actions .btn-close-modal:hover {
+            background: #cbd5e1;
+        }
+
+        /* ===== HOW IT WORKS ===== */
+        .how-it-works {
+            background: white;
+            padding: 4rem 3rem;
+            text-align: center;
+        }
+        .how-it-works .section-title {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #0F766E;
+            letter-spacing: -0.5px;
+        }
+        .how-it-works .subtitle {
+            color: #64748b;
+            margin-bottom: 2.5rem;
+            font-size: 1.05rem;
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .step {
+            background: #f5fbfa;
+            border-radius: 20px;
+            padding: 2rem 1.5rem;
+            transition: all 0.3s;
+            border: 1px solid #e0f0ec;
+            position: relative;
+        }
+        .step:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 40px rgba(13, 148, 136, 0.08);
+            border-color: #0D9488;
+        }
+        .step .step-num {
+            display: inline-block;
+            background: #0D9488;
+            color: white;
+            font-size: 0.6rem;
+            font-weight: 800;
+            padding: 0.15rem 0.6rem;
+            border-radius: 60px;
+            margin-bottom: 0.6rem;
+        }
+        .step .step-icon {
+            font-size: 2.2rem;
+            color: #0D9488;
+            margin-bottom: 0.5rem;
+        }
+        .step h5 {
+            font-size: 1rem;
+            color: #0F766E;
+            font-weight: 700;
+        }
+        .step p {
+            font-size: 0.85rem;
+            color: #64748b;
+            margin-top: 0.3rem;
+            line-height: 1.5;
+        }
+
+        /* ===== CTA BANNER ===== */
+        .cta-banner {
+            background: linear-gradient(135deg, #0D9488 0%, #0F766E 50%, #115E59 100%);
+            padding: 3.5rem 2rem;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        .cta-banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -20%;
+            width: 60%;
+            height: 200%;
+            background: radial-gradient(ellipse, rgba(255, 255, 255, 0.06) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .cta-banner .content {
+            position: relative;
+            z-index: 1;
+        }
+        .cta-banner h2 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+        .cta-banner p {
+            opacity: 0.9;
+            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+        }
+        .cta-banner .btn-white {
+            background: white;
+            color: #0D9488;
+            padding: 0.7rem 2.8rem;
+            border-radius: 60px;
+            text-decoration: none;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 1rem;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+        }
+        .cta-banner .btn-white:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: #0F2E2A;
+            color: white;
+            padding: 3rem 3rem 1.5rem;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1.5fr;
+            gap: 2.5rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .footer-grid .brand h5 {
+            font-size: 1.2rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .footer-grid .brand p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.85rem;
+            line-height: 1.7;
+            margin-top: 0.5rem;
+        }
+        .footer-grid h5 {
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+            color: white;
+        }
+        .footer-grid a {
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            font-size: 0.85rem;
+            display: block;
+            margin-bottom: 0.4rem;
+            transition: 0.3s;
+        }
+        .footer-grid a:hover {
+            color: white;
+            transform: translateX(4px);
+        }
+        .footer-grid .contact p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.85rem;
+            margin-bottom: 0.3rem;
+        }
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 0.8rem;
+        }
+        .social-icons a {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 1.2rem;
+            transition: 0.3s;
+            display: inline-block;
+            margin: 0;
+        }
+        .social-icons a:hover {
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 1.5rem;
+            margin-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1024px) {
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .steps {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 900px) {
+            .navbar {
+                padding: 0.6rem 1.5rem;
+                flex-wrap: wrap;
+            }
+            .nav-links {
+                gap: 1.2rem;
+            }
+            .nav-links a {
+                font-size: 0.8rem;
+            }
+            .hero {
+                padding: 3rem 1.5rem 3.5rem;
+            }
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            .recent-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 1.5rem;
+            }
+            .footer {
+                padding: 2rem 1.5rem 1rem;
+            }
+            .stats {
+                padding: 2rem 1.5rem;
+                margin-top: -1rem;
+                gap: 1rem;
+            }
+            .recent-section {
+                padding: 2rem 1.5rem;
+            }
+            .how-it-works {
+                padding: 2.5rem 1.5rem;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .navbar {
+                padding: 0.5rem 1rem;
+            }
+            .nav-links {
+                gap: 0.8rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .nav-links a {
+                font-size: 0.7rem;
+            }
+            .nav-actions a {
+                font-size: 0.7rem;
+            }
+            .nav-actions .btn-outline {
+                padding: 0.2rem 1rem;
+            }
+            .hero {
+                padding: 2rem 1rem 2.5rem;
+            }
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+            .hero p {
+                font-size: 0.9rem;
+            }
+            .hero-search {
+                flex-wrap: wrap;
+                border-radius: 20px;
+                padding: 0.5rem;
+                gap: 0.4rem;
+            }
+            .hero-search input,
+            .hero-search select {
+                flex: 1 1 100%;
+                min-width: 100%;
+                padding: 0.5rem 0.8rem;
+                background: #f8fafc;
+                border-radius: 12px;
+                font-size: 0.8rem;
+            }
+            .hero-search .search-btn {
+                flex: 1 1 100%;
+                padding: 0.6rem;
+                font-size: 0.85rem;
+            }
+            .hero-btns {
+                flex-direction: column;
+                align-items: center;
+            }
+            .hero-btns .btn-primary,
+            .hero-btns .btn-outline-white {
+                width: 100%;
+                justify-content: center;
+                padding: 0.6rem;
+            }
+            .stats {
+                grid-template-columns: 1fr 1fr;
+                gap: 0.6rem;
+                padding: 1rem;
+                margin-top: -0.5rem;
+            }
+            .stat-card {
+                padding: 1rem;
+            }
+            .stat-card .number {
+                font-size: 1.8rem;
+            }
+            .stat-card .icon {
+                font-size: 1.3rem;
+            }
+            .recent-section .section-title {
+                font-size: 1.4rem;
+            }
+            .recent-section .section-header {
+                flex-direction: column;
+                gap: 0.5rem;
+                align-items: flex-start;
+            }
+            .steps {
+                grid-template-columns: 1fr 1fr;
+                gap: 0.8rem;
+            }
+            .step {
+                padding: 1.2rem;
+            }
+            .step .step-icon {
+                font-size: 1.6rem;
+            }
+            .cta-banner {
+                padding: 2rem 1rem;
+            }
+            .cta-banner h2 {
+                font-size: 1.5rem;
+            }
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            .footer {
+                padding: 1.5rem 1rem 1rem;
+            }
+            .item-card {
+                padding: 0.8rem 1rem;
+            }
+            .item-card .item-icon {
+                width: 38px;
+                height: 38px;
+                font-size: 1rem;
+            }
+            .modal-content {
+                padding: 1.5rem;
+                margin: 1rem;
+            }
+            .modal-content .modal-actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== NAVBAR ===== -->
+    <nav class="navbar" id="navbar">
+        <div class="logo">
+            <i class="fas fa-magnifying-glass-location"></i>
+            <span>Lost&Found</span>
+        </div>
+        <div class="nav-links">
+            <a href="home.html" class="active">Home</a>
+            <a href="reportitem.html">Report Lost</a>
+            <a href="itemfound.html">Report Found</a>
+            <a href="search.html">Browse</a>
+        </div>
+        <div class="nav-actions">
+            <a href="login.html">Login</a>
+            <a href="register.html" class="btn-outline">Register</a>
+        </div>
+    </nav>
+
+    <!-- ===== HERO ===== -->
+    <section class="hero">
+        <div class="content">
+            <div class="badge"><i class="fas fa-heart" style="margin-right:0.4rem;"></i> 856 items reunited</div>
+            <h1>Lost something? <br /><span>We'll help you find it.</span></h1>
+            <p>Post lost or found items in seconds. Our smart matching system connects owners with finders.</p>
+
+            <div class="hero-search">
+                <input type="text" placeholder="Search for items..." id="searchInput" />
+                <select id="categoryFilter">
+                    <option value="">All Categories</option>
+                    <option value="electronics">Electronics</option>
+                    <option value="documents">Documents</option>
+                    <option value="accessories">Accessories</option>
+                    <option value="books">Books</option>
+                    <option value="clothing">Clothing</option>
+                </select>
+                <select id="locationFilter">
+                    <option value="">All Locations</option>
+                    <option value="library">Library</option>
+                    <option value="cafeteria">Cafeteria</option>
+                    <option value="parking">Parking</option>
+                    <option value="auditorium">Auditorium</option>
+                </select>
+                <button class="search-btn"><i class="fas fa-search"></i> Search</button>
+            </div>
+
+            <div class="hero-btns">
+                <a href="reportitem.html" class="btn-primary"><i class="fas fa-triangle-exclamation"></i> Report Lost</a>
+                <a href="itemfound.html" class="btn-outline-white"><i class="fas fa-hand-peace"></i> Report Found</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== STATS ===== -->
+    <section class="stats" id="statsSection">
+        <div class="stat-card">
+            <span class="icon"><i class="fas fa-clipboard-list"></i></span>
+            <div class="number" data-target="1247">0</div>
+            <div class="label">Total Reports</div>
+        </div>
+        <div class="stat-card">
+            <span class="icon"><i class="fas fa-handshake"></i></span>
+            <div class="number" data-target="856">0</div>
+            <div class="label">Items Recovered</div>
+        </div>
+        <div class="stat-card">
+            <span class="icon"><i class="fas fa-users"></i></span>
+            <div class="number" data-target="2341">0</div>
+            <div class="label">Active Users</div>
+        </div>
+        <div class="stat-card">
+            <span class="icon"><i class="fas fa-tags"></i></span>
+            <div class="number" data-target="15">0</div>
+            <div class="label">Categories</div>
+        </div>
+    </section>
+
+    <!-- ===== RECENT ITEMS ===== -->
+    <section class="recent-section">
+        <div class="section-header">
+            <h2 class="section-title">Recent <span>Activity</span></h2>
+            <a class="view-all" id="viewAllLink">View all →</a>
+        </div>
+        <div class="recent-grid">
+            <!-- Lost Items -->
+            <div>
+                <div class="col-header">
+                    <span class="badge lost">●</span> Recently Lost
+                </div>
+                <div class="item-card" data-title="Black Samsung A54" data-location="Library" data-date="2 days ago" data-category="Electronics" data-description="Samsung A54 with blue silicone cover, screen has small scratch. Last seen near the study area.">
+                    <div class="item-icon"><i class="fas fa-mobile-screen-button"></i></div>
+                    <div class="item-info">
+                        <h5>Black Samsung A54</h5>
+                        <div class="meta">
+                            <span><i class="fas fa-location-dot"></i> Library</span>
+                            <span><i class="fas fa-calendar-day"></i> 2 days ago</span>
+                        </div>
+                    </div>
+                    <button class="view-btn">View</button>
+                </div>
+                <div class="item-card" data-title="Brown Leather Wallet" data-location="Parking Lot" data-date="3 days ago" data-category="Accessories" data-description="Brown leather wallet containing ID card, bank cards, and some cash. Initials 'A.K.' inside.">
+                    <div class="item-icon"><i class="fas fa-wallet"></i></div>
+                    <div class="item-info">
+                        <h5>Brown Leather Wallet</h5>
+                        <div class="meta">
+                            <span><i class="fas fa-location-dot"></i> Parking Lot</span>
+                            <span><i class="fas fa-calendar-day"></i> 3 days ago</span>
+                        </div>
+                    </div>
+                    <button class="view-btn">View</button>
+                </div>
+                <div class="item-card" data-title="Student ID Card" data-location="Cafeteria" data-date="4 days ago" data-category="Documents" data-description="University ID card - Name: Ahmad Rizwan, Faculty of Engineering. Card number: 2024-0789.">
+                    <div class="item-icon"><i class="fas fa-id-card"></i></div>
+                    <div class="item-info">
+                        <h5>Student ID Card</h5>
+                        <div class="meta">
+                            <span><i class="fas fa-location-dot"></i> Cafeteria</span>
+                            <span><i class="fas fa-calendar-day"></i> 4 days ago</span>
+                        </div>
+                    </div>
+                    <button class="view-btn">View</button>
+                </div>
+            </div>
+
+            <!-- Found Items -->
+            <div>
+                <div class="col-header">
+                    <span class="badge found">●</span> Recently Found
+                </div>
+                <div class="item-card" data-title="Bunch of Keys" data-location="Sports Hall" data-date="1 day ago" data-category="Accessories" data-description="3 keys with a small silver keychain. One key has a red tag.">
+                    <div class="item-icon"><i class="fas fa-key"></i></div>
+                    <div class="item-info">
+                        <h5>Bunch of Keys</h5>
+                        <div class="meta">
+                            <span><i class="fas fa-location-dot"></i> Sports Hall</span>
+                            <span><i class="fas fa-calendar-day"></i> 1 day ago</span>
+                        </div>
+                    </div>
+                    <button class="view-btn">View</button>
+                </div>
+                <div class="item-card" data-title="White Earbuds" data-location="Main Hall" data-date="2 days ago" data-category="Electronics" data-description="Apple AirPods in white charging case. Case has a small scratch on the back.">
+                    <div class="item-icon"><i class="fas fa-headphones"></i></div>
+                    <div class="item-info">
+                        <h5>White Earbuds</h5>
+                        <div class="meta">
+                            <span><i class="fas fa-location-dot"></i> Main Hall</span>
+                            <span><i class="fas fa-calendar-day"></i> 2 days ago</span>
+                        </div>
+                    </div>
+                    <button class="view-btn">View</button>
+                </div>
+                <div class="item-card" data-title="Data Structures Textbook" data-location="CS Lab" data-date="3 days ago" data-category="Books" data-description="Data Structures & Algorithms textbook. Marked with sticky notes on chapter 5 and 7. Name written inside: 'M. Hassan'.">
+                    <div class="item-icon"><i class="fas fa-book"></i></div>
+                    <div class="item-info">
+                        <h5>Data Structures Textbook</h5>
+                        <div class="meta">
+                            <span><i class="fas fa-location-dot"></i> CS Lab</span>
+                            <span><i class="fas fa-calendar-day"></i> 3 days ago</span>
+                        </div>
+                    </div>
+                    <button class="view-btn">View</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== HOW IT WORKS ===== -->
+    <section class="how-it-works">
+        <h2 class="section-title">How It Works</h2>
+        <p class="subtitle">Four simple steps to reunite people with their belongings</p>
+        <div class="steps">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-icon"><i class="fas fa-pen-to-square"></i></div>
+                <h5>Report</h5>
+                <p>Post details of your lost or found item</p>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-icon"><i class="fas fa-link"></i></div>
+                <h5>Match</h5>
+                <p>Our system finds potential matches</p>
+            </div>
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-icon"><i class="fas fa-handshake"></i></div>
+                <h5>Claim</h5>
+                <p>Request and verify ownership</p>
+            </div>
+            <div class="step">
+                <div class="step-num">4</div>
+                <div class="step-icon"><i class="fas fa-heart"></i></div>
+                <h5>Reunite</h5>
+                <p>Items return to their owners</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== CTA BANNER ===== -->
+    <section class="cta-banner">
+        <div class="content">
+            <h2>Lost something today? 🎯</h2>
+            <p>Don't wait — report it now and increase your chances of getting it back</p>
+            <a href="reportitem.html" class="btn-white"><i class="fas fa-triangle-exclamation"></i> Report Lost Item</a>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="brand">
+                <h5><i class="fas fa-magnifying-glass-location"></i> Lost&Found</h5>
+                <p>Reuniting people with their belongings since 2024. A trusted community platform for schools, universities, and public spaces.</p>
+            </div>
+            <div>
+                <h5>Quick Links</h5>
+                <a href="reportitem.html">Report Lost</a>
+                <a href="itemfound.html">Report Found</a>
+                <a href="search.html">Browse Items</a>
+                <a href="#">How It Works</a>
+            </div>
+            <div>
+                <h5>Categories</h5>
+                <a href="#">Electronics</a>
+                <a href="#">Documents</a>
+                <a href="#">Accessories</a>
+                <a href="#">Books</a>
+                <a href="#">Clothing</a>
+            </div>
+            <div class="contact">
+                <h5>Contact</h5>
+                <p><i class="fas fa-envelope" style="margin-right:0.4rem;"></i> support@lostfound.com</p>
+                <p><i class="fas fa-phone" style="margin-right:0.4rem;"></i> +92 319 0153045</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2026 Lost & Found Portal. All rights reserved.
+        </div>
+    </footer>
+
+    <!-- ===== ITEM DETAIL MODAL ===== -->
+    <div class="modal-overlay" id="itemModal">
+        <div class="modal-content">
+            <button class="close-modal" id="closeModal">&times;</button>
+            <div class="modal-icon" id="modalIcon"><i class="fas fa-mobile-screen-button"></i></div>
+            <h3 id="modalTitle">Item Title</h3>
+            <div class="modal-meta">
+                <span id="modalLocation"><i class="fas fa-location-dot"></i> Location</span>
+                <span style="margin:0 0.8rem;">|</span>
+                <span id="modalDate"><i class="fas fa-calendar-day"></i> Date</span>
+                <span style="margin:0 0.8rem;">|</span>
+                <span id="modalCategory"><i class="fas fa-tag"></i> Category</span>
+            </div>
+            <div class="modal-description" id="modalDescription">
+                Item description goes here.
+            </div>
+            <div class="modal-actions">
+                <button class="btn-claim" id="claimBtn"><i class="fas fa-handshake"></i> Claim This Item</button>
+                <button class="btn-close-modal" id="closeModalBtn">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== JAVASCRIPT ===== -->
+    <script>
+        // ===== STICKY NAVBAR =====
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', function() {
+            navbar.classList.toggle('scrolled', window.scrollY > 80);
+        });
+
+        // ===== STATS COUNTER =====
+        function animateCounters() {
+            const statNumbers = document.querySelectorAll('.stat-card .number');
+            
+            statNumbers.forEach(el => {
+                const target = parseInt(el.getAttribute('data-target'));
+                const duration = 2000;
+                const startTime = performance.now();
+                
+                function updateCounter(currentTime) {
+                    const elapsed = currentTime - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+                    const eased = 1 - Math.pow(1 - progress, 3);
+                    const current = Math.floor(eased * target);
+                    el.textContent = current.toLocaleString();
+                    
+                    if (progress < 1) {
+                        requestAnimationFrame(updateCounter);
+                    } else {
+                        el.textContent = target.toLocaleString();
+                    }
+                }
+                requestAnimationFrame(updateCounter);
+            });
+        }
+
+        const statsSection = document.getElementById('statsSection');
+        let hasAnimated = false;
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !hasAnimated) {
+                    hasAnimated = true;
+                    animateCounters();
+                }
+            });
+        }, { 
+            threshold: 0.2,
+            rootMargin: '0px 0px -50px 0px'
+        });
+
+        observer.observe(statsSection);
+
+        // ===== SEARCH =====
+        document.querySelector('.hero-search .search-btn').addEventListener('click', function() {
+            const query = document.getElementById('searchInput').value || 'all items';
+            const category = document.getElementById('categoryFilter').value || 'All';
+            const location = document.getElementById('locationFilter').value || 'All';
+            alert('🔍 Searching: "' + query + '"\nCategory: ' + category + '\nLocation: ' + location);
+        });
+
+        // ===== ITEM MODAL - FIXED =====
+        const modalOverlay = document.getElementById('itemModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalLocation = document.getElementById('modalLocation');
+        const modalDate = document.getElementById('modalDate');
+        const modalCategory = document.getElementById('modalCategory');
+        const modalDescription = document.getElementById('modalDescription');
+        const modalIcon = document.getElementById('modalIcon');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const closeModalX = document.getElementById('closeModal');
+        const claimBtn = document.getElementById('claimBtn');
+
+        // Map icons to item types
+        const iconMap = {
+            'Mobile': 'fa-mobile-screen-button',
+            'Wallet': 'fa-wallet',
+            'ID': 'fa-id-card',
+            'Keys': 'fa-key',
+            'Earbuds': 'fa-headphones',
+            'Book': 'fa-book',
+            'Laptop': 'fa-laptop',
+            'Charger': 'fa-plug',
+            'Bag': 'fa-bag-shopping',
+            'Watch': 'fa-clock'
+        };
+
+        function getIconForTitle(title) {
+            if (title.toLowerCase().includes('samsung') || title.toLowerCase().includes('phone')) return iconMap['Mobile'];
+            if (title.toLowerCase().includes('wallet')) return iconMap['Wallet'];
+            if (title.toLowerCase().includes('id')) return iconMap['ID'];
+            if (title.toLowerCase().includes('key')) return iconMap['Keys'];
+            if (title.toLowerCase().includes('earbud') || title.toLowerCase().includes('airpod')) return iconMap['Earbuds'];
+            if (title.toLowerCase().includes('book') || title.toLowerCase().includes('textbook')) return iconMap['Book'];
+            if (title.toLowerCase().includes('laptop')) return iconMap['Laptop'];
+            if (title.toLowerCase().includes('charger')) return iconMap['Charger'];
+            if (title.toLowerCase().includes('bag')) return iconMap['Bag'];
+            if (title.toLowerCase().includes('watch')) return iconMap['Watch'];
+            return 'fa-box';
+        }
+
+        function openModal(card) {
+            const title = card.dataset.title || 'Unknown Item';
+            const location = card.dataset.location || 'Unknown Location';
+            const date = card.dataset.date || 'Unknown Date';
+            const category = card.dataset.category || 'Other';
+            const description = card.dataset.description || 'No description available.';
+            const iconClass = getIconForTitle(title);
+
+            modalTitle.textContent = title;
+            modalLocation.innerHTML = `<i class="fas fa-location-dot"></i> ${location}`;
+            modalDate.innerHTML = `<i class="fas fa-calendar-day"></i> ${date}`;
+            modalCategory.innerHTML = `<i class="fas fa-tag"></i> ${category}`;
+            modalDescription.textContent = description;
+            modalIcon.innerHTML = `<i class="fas ${iconClass}"></i>`;
+            
+            modalOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            modalOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        // View buttons
+        document.querySelectorAll('.item-card .view-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const card = this.closest('.item-card');
+                openModal(card);
+            });
+        });
+
+        // Click on card also opens modal
+        document.querySelectorAll('.item-card').forEach(card => {
+            card.addEventListener('click', function(e) {
+                // Don't open if clicking the button (already handled)
+                if (e.target.classList.contains('view-btn')) return;
+                openModal(this);
+            });
+        });
+
+        // Close modal
+        closeModalBtn.addEventListener('click', closeModal);
+        closeModalX.addEventListener('click', closeModal);
+        modalOverlay.addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+
+        // Claim button
+        claimBtn.addEventListener('click', function() {
+            const itemName = modalTitle.textContent;
+            alert('✅ Claim request sent for "' + itemName + '"!\n\nThe owner will be notified and contact you shortly.');
+            closeModal();
+        });
+
+        // ===== VIEW ALL - Navigate to browse page =====
+        document.getElementById('viewAllLink').addEventListener('click', function(e) {
+            e.preventDefault();
+            alert('📋 Browse all items page would open here.\n\nIn production, this would navigate to browse.html');
+            // window.location.href = 'browse.html';
+        });
+
+        // ===== NAV LINKS =====
+         document.querySelectorAll('.nav-links a, .nav-actions a').forEach(link => {
+    link.addEventListener('click', function(e) {
+        // Pages that should navigate normally - USE YOUR ACTUAL FILE NAMES
+        const allowedPages = ['login.html', 'register.html', 'reportitem.html', 'itemfound.html', 'forgot-password.html', 'home.html' , 'search.html'];
+        
+        // Check if this link should navigate
+        if (this.href) {
+            const shouldNavigate = allowedPages.some(page => this.href.includes(page));
+            if (shouldNavigate) {
+                return; // Let the browser navigate
+            }
+        }
+        
+        // For demo links (Browse, #, etc.)
+        e.preventDefault();
+        if (!this.classList.contains('btn-outline') && !this.classList.contains('btn-login')) {
+            document.querySelectorAll('.nav-links a').forEach(l => l.classList.remove('active'));
+            this.classList.add('active');
+        }
+        alert('🔗 ' + this.textContent.trim() + ' page (demo)');
+    });
+});
+
+        // ===== CTA BUTTONS =====
+        document.querySelectorAll('.hero-btns a, .cta-banner .btn-white').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                alert('📝 ' + this.textContent.trim() + ' (demo)');
+            });
+        });
+
+        // ===== FOOTER LINKS =====
+        document.querySelectorAll('.footer-grid a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                alert('🔗 ' + this.textContent.trim() + ' page (demo)');
+            });
+        });
+
+        // ===== SEARCH AUTO-SUGGEST =====
+        const searchInput = document.getElementById('searchInput');
+        searchInput.addEventListener('input', function() {
+            if (this.value.length > 1) {
+                this.style.background = '#f0f7ff';
+                setTimeout(() => this.style.background = '', 600);
+            }
+        });
+    </script>
+
+</body>
+</html>
