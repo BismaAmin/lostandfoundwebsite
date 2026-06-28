@@ -1,0 +1,1907 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Browse · Lost & Found</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+        }
+
+        body {
+            background: #f0f9f6;
+        }
+
+        /* ===== NAVBAR ===== */
+        .navbar {
+            background: #0D9488;
+            padding: 0.8rem 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .navbar .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            color: white;
+            font-size: 1.4rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+        .navbar .logo i {
+            font-size: 1.8rem;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 0.4rem;
+            border-radius: 12px;
+        }
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2.5rem;
+        }
+        .nav-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s;
+            position: relative;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: white;
+            transition: width 0.3s;
+        }
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
+        }
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: white;
+        }
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .nav-actions a {
+            color: white;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+        .nav-actions .btn-outline {
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            padding: 0.4rem 1.6rem;
+            border-radius: 60px;
+            transition: all 0.3s;
+            background: rgba(255, 255, 255, 0.05);
+        }
+        .nav-actions .btn-outline:hover {
+            background: white;
+            color: #0D9488;
+            border-color: white;
+            transform: translateY(-2px);
+        }
+
+        /* ===== BROWSE HEADER ===== */
+        .browse-header {
+            background: linear-gradient(135deg, #0D9488 0%, #0F766E 50%, #115E59 100%);
+            padding: 2.5rem 3rem 3rem;
+            text-align: center;
+            color: white;
+        }
+        .browse-header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+        .browse-header p {
+            opacity: 0.85;
+            margin-top: 0.3rem;
+            font-size: 1.05rem;
+        }
+
+        /* ===== FILTERS BAR ===== */
+        .filters-bar {
+            background: white;
+            padding: 1.2rem 2rem;
+            border-bottom: 1px solid #e6f0ed;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 1rem;
+            position: sticky;
+            top: 72px;
+            z-index: 50;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+        }
+        .filters-bar .search-wrapper {
+            flex: 1;
+            min-width: 200px;
+            position: relative;
+        }
+        .filters-bar .search-wrapper input {
+            width: 100%;
+            padding: 0.6rem 1rem 0.6rem 2.5rem;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 60px;
+            font-size: 0.9rem;
+            outline: none;
+            transition: 0.3s;
+            background: #f8fafc;
+        }
+        .filters-bar .search-wrapper input:focus {
+            border-color: #0D9488;
+            box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.1);
+            background: white;
+        }
+        .filters-bar .search-wrapper i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+        }
+        .filters-bar select {
+            padding: 0.6rem 2.5rem 0.6rem 1rem;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 60px;
+            font-size: 0.85rem;
+            outline: none;
+            background: #f8fafc;
+            cursor: pointer;
+            transition: 0.3s;
+            min-width: 140px;
+        }
+        .filters-bar select:focus {
+            border-color: #0D9488;
+            box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.1);
+        }
+        .filters-bar .date-range {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .filters-bar .date-range input {
+            padding: 0.5rem 0.8rem;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 60px;
+            font-size: 0.8rem;
+            outline: none;
+            background: #f8fafc;
+            transition: 0.3s;
+        }
+        .filters-bar .date-range input:focus {
+            border-color: #0D9488;
+            box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.1);
+        }
+        .filters-bar .date-range span {
+            color: #64748b;
+            font-size: 0.8rem;
+        }
+
+        /* ===== STATUS TOGGLES ===== */
+        .status-toggles {
+            display: flex;
+            gap: 0.4rem;
+            padding: 0.2rem;
+            background: #f1f5f9;
+            border-radius: 60px;
+            flex-wrap: wrap;
+        }
+        .status-toggles .toggle-btn {
+            padding: 0.4rem 1.2rem;
+            border: none;
+            border-radius: 60px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            background: transparent;
+            color: #64748b;
+            white-space: nowrap;
+        }
+        .status-toggles .toggle-btn:hover {
+            color: #0F766E;
+        }
+        .status-toggles .toggle-btn.active {
+            background: #0D9488;
+            color: white;
+            box-shadow: 0 4px 12px rgba(13, 148, 136, 0.25);
+        }
+        .status-toggles .toggle-btn.hidden {
+            display: none;
+        }
+
+        /* ===== FILTER CHIPS ===== */
+        .filter-chips {
+            padding: 0.8rem 2rem;
+            background: white;
+            border-bottom: 1px solid #e6f0ed;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            align-items: center;
+        }
+        .filter-chips .chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.3rem 0.8rem;
+            background: #e6f5f2;
+            border-radius: 60px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: #0F766E;
+        }
+        .filter-chips .chip .remove {
+            cursor: pointer;
+            font-size: 0.7rem;
+            color: #64748b;
+            transition: 0.3s;
+        }
+        .filter-chips .chip .remove:hover {
+            color: #E24B4A;
+        }
+        .filter-chips .clear-all {
+            font-size: 0.75rem;
+            color: #0D9488;
+            cursor: pointer;
+            font-weight: 600;
+            background: none;
+            border: none;
+            transition: 0.3s;
+        }
+        .filter-chips .clear-all:hover {
+            color: #0F766E;
+            text-decoration: underline;
+        }
+
+        /* ===== RESULTS HEADER ===== */
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 2rem 0.8rem;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+        .results-header .count {
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+        .results-header .count strong {
+            color: #0F766E;
+        }
+        .results-header .sort-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .results-header .sort-wrapper label {
+            font-size: 0.8rem;
+            color: #64748b;
+        }
+        .results-header .sort-wrapper select {
+            padding: 0.4rem 1rem;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 60px;
+            font-size: 0.8rem;
+            outline: none;
+            background: #f8fafc;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .results-header .sort-wrapper select:focus {
+            border-color: #0D9488;
+        }
+
+        /* ===== RESULTS GRID ===== */
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            padding: 1rem 2rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .result-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid #e6f0ed;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        .result-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(13, 148, 136, 0.08);
+            border-color: #0D9488;
+        }
+        .result-card .card-image {
+            height: 160px;
+            background: #e6f5f2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: #0D9488;
+            position: relative;
+        }
+        .result-card .card-image .status-badge {
+            position: absolute;
+            top: 0.8rem;
+            right: 0.8rem;
+            padding: 0.2rem 0.8rem;
+            border-radius: 60px;
+            font-size: 0.6rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        /* ===== ALL STATUS BADGE COLORS ===== */
+        .status-badge.lost {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+        .status-badge.found {
+            background: #d1fae5;
+            color: #059669;
+        }
+        .status-badge.pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        .status-badge.approved {
+            background: #dbeafe;
+            color: #2563eb;
+        }
+        .status-badge.rejected {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+        .status-badge.resolved {
+            background: #e0e7ff;
+            color: #4338ca;
+        }
+
+        .result-card .card-body {
+            padding: 1rem 1.2rem 1.2rem;
+        }
+        .result-card .card-body h4 {
+            font-size: 1rem;
+            color: #0F766E;
+            font-weight: 700;
+        }
+        .result-card .card-body .meta {
+            font-size: 0.75rem;
+            color: #64748b;
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+            margin-top: 0.2rem;
+        }
+        .result-card .card-body .meta i {
+            margin-right: 0.2rem;
+            color: #94a3b8;
+        }
+        .result-card .card-body .description {
+            font-size: 0.82rem;
+            color: #334155;
+            margin-top: 0.4rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .result-card .card-body .view-btn {
+            margin-top: 0.8rem;
+            background: #0D9488;
+            color: white;
+            border: none;
+            padding: 0.4rem 1.2rem;
+            border-radius: 60px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .result-card .card-body .view-btn:hover {
+            background: #0F766E;
+            transform: scale(1.04);
+        }
+
+        /* ===== EMPTY STATE ===== */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            grid-column: 1 / -1;
+        }
+        .empty-state .empty-icon {
+            font-size: 4rem;
+            color: #94a3b8;
+            margin-bottom: 1rem;
+        }
+        .empty-state h3 {
+            font-size: 1.3rem;
+            color: #0F766E;
+        }
+        .empty-state p {
+            color: #64748b;
+            margin-top: 0.3rem;
+        }
+        .empty-state .empty-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .empty-state .empty-actions .btn-empty {
+            padding: 0.5rem 1.8rem;
+            border-radius: 60px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .empty-state .empty-actions .btn-report {
+            background: #0D9488;
+            color: white;
+        }
+        .empty-state .empty-actions .btn-report:hover {
+            background: #0F766E;
+            transform: translateY(-2px);
+        }
+        .empty-state .empty-actions .btn-clear {
+            background: #e2e8f0;
+            color: #334155;
+        }
+        .empty-state .empty-actions .btn-clear:hover {
+            background: #cbd5e1;
+            transform: translateY(-2px);
+        }
+
+        /* ===== PAGINATION ===== */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 1.5rem 2rem 3rem;
+            flex-wrap: wrap;
+        }
+        .pagination button {
+            padding: 0.4rem 0.9rem;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 60px;
+            background: white;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.3s;
+            color: #334155;
+        }
+        .pagination button:hover:not(:disabled) {
+            border-color: #0D9488;
+            color: #0D9488;
+        }
+        .pagination button.active {
+            background: #0D9488;
+            color: white;
+            border-color: #0D9488;
+        }
+        .pagination button:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+        .pagination .dots {
+            color: #94a3b8;
+            padding: 0 0.3rem;
+        }
+
+        /* ===== ITEM DETAIL MODAL ===== */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            z-index: 999;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+        }
+        .modal-overlay.active {
+            display: flex;
+        }
+        .modal-content {
+            background: white;
+            max-width: 550px;
+            width: 100%;
+            border-radius: 20px;
+            padding: 2rem;
+            position: relative;
+            animation: modalSlideIn 0.3s ease;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        @keyframes modalSlideIn {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        .modal-content .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1.2rem;
+            font-size: 1.5rem;
+            color: #64748b;
+            cursor: pointer;
+            background: none;
+            border: none;
+            transition: 0.3s;
+        }
+        .modal-content .close-modal:hover {
+            color: #0F766E;
+            transform: rotate(90deg);
+        }
+        .modal-content .modal-icon {
+            font-size: 3rem;
+            color: #0D9488;
+            margin-bottom: 0.5rem;
+        }
+        .modal-content h3 {
+            font-size: 1.3rem;
+            color: #0F766E;
+            margin-bottom: 0.3rem;
+        }
+        .modal-content .modal-status-badge {
+            display: inline-block;
+            padding: 0.2rem 0.9rem;
+            border-radius: 60px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.5rem;
+        }
+        .modal-content .modal-status-badge.lost {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+        .modal-content .modal-status-badge.found {
+            background: #d1fae5;
+            color: #059669;
+        }
+        .modal-content .modal-status-badge.pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        .modal-content .modal-status-badge.approved {
+            background: #dbeafe;
+            color: #2563eb;
+        }
+        .modal-content .modal-status-badge.rejected {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+        .modal-content .modal-status-badge.resolved {
+            background: #e0e7ff;
+            color: #4338ca;
+        }
+        .modal-content .modal-meta {
+            color: #64748b;
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.3rem 0.6rem;
+        }
+        .modal-content .modal-meta i {
+            margin-right: 0.2rem;
+            color: #94a3b8;
+        }
+        .modal-content .modal-description {
+            color: #334155;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1.2rem;
+            padding: 1rem;
+            background: #f8fafc;
+            border-radius: 12px;
+        }
+        .modal-content .modal-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+        .modal-content .modal-actions .btn-claim {
+            background: #0D9488;
+            color: white;
+            border: none;
+            padding: 0.7rem;
+            border-radius: 60px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            width: 100%;
+        }
+        .modal-content .modal-actions .btn-claim:hover {
+            background: #0F766E;
+        }
+        .modal-content .modal-actions .btn-resolved {
+            background: #e0e7ff;
+            color: #4338ca;
+            border: none;
+            padding: 0.7rem;
+            border-radius: 60px;
+            font-weight: 600;
+            cursor: not-allowed;
+            width: 100%;
+            opacity: 0.8;
+        }
+        .modal-content .modal-actions .btn-lost {
+            background: #fef3c7;
+            color: #92400e;
+            border: none;
+            padding: 0.7rem;
+            border-radius: 60px;
+            font-weight: 600;
+            cursor: not-allowed;
+            width: 100%;
+            opacity: 0.9;
+        }
+        .modal-content .modal-actions .btn-approve {
+            background: #059669;
+            color: white;
+            border: none;
+            padding: 0.7rem;
+            border-radius: 60px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            width: 100%;
+        }
+        .modal-content .modal-actions .btn-approve:hover {
+            background: #047857;
+        }
+        .modal-content .modal-actions .btn-reject {
+            background: #dc2626;
+            color: white;
+            border: none;
+            padding: 0.7rem;
+            border-radius: 60px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            width: 100%;
+        }
+        .modal-content .modal-actions .btn-reject:hover {
+            background: #b91c1c;
+        }
+        .modal-content .modal-actions .btn-delete {
+            background: #E24B4A;
+            color: white;
+            border: none;
+            padding: 0.7rem;
+            border-radius: 60px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            width: 100%;
+            margin-top: 0.3rem;
+        }
+        .modal-content .modal-actions .btn-delete:hover {
+            background: #dc2626;
+        }
+        .modal-content .modal-actions .btn-resolve-manager {
+            background: #0D9488;
+            color: white;
+            border: none;
+            padding: 0.7rem;
+            border-radius: 60px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            width: 100%;
+        }
+        .modal-content .modal-actions .btn-resolve-manager:hover {
+            background: #0F766E;
+        }
+        
+        .modal-content .modal-actions .btn-login-prompt {
+    background: #0D9488;
+    color: white;
+    border: none;
+    padding: 0.7rem;
+    border-radius: 60px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: 0.3s;
+    width: 100%;
+    text-decoration: none;
+    text-align: center;
+    display: block;
+}
+.modal-content .modal-actions .btn-login-prompt:hover {
+    background: #0F766E;
+    transform: translateY(-2px);
+}
+
+        .modal-content .modal-actions .btn-close-modal {
+            background: #e2e8f0;
+            color: #334155;
+            border: none;
+            padding: 0.7rem;
+            border-radius: 60px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            width: 100%;
+            margin-top: 0.3rem;
+        }
+        .modal-content .modal-actions .btn-close-modal:hover {
+            background: #cbd5e1;
+        }
+        .modal-content .modal-actions .btn-group {
+            display: flex;
+            gap: 0.6rem;
+        }
+        .modal-content .modal-actions .btn-group .btn-approve,
+        .modal-content .modal-actions .btn-group .btn-reject {
+            flex: 1;
+        }
+
+        .modal-content .status-message {
+            padding: 0.6rem 1rem;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+        .modal-content .status-message.info {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+        .modal-content .status-message.warning {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        .modal-content .status-message.success {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        .modal-content .status-message.error {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+        .modal-content .status-message.admin-info {
+            background: #e0e7ff;
+            color: #4338ca;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: #0F2E2A;
+            color: white;
+            padding: 2.5rem 3rem 1.5rem;
+            margin-top: 1rem;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1.5fr;
+            gap: 2.5rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .footer-grid .brand h5 {
+            font-size: 1.2rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .footer-grid .brand p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.85rem;
+            line-height: 1.7;
+            margin-top: 0.5rem;
+        }
+        .footer-grid h5 {
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+            color: white;
+        }
+        .footer-grid a {
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            font-size: 0.85rem;
+            display: block;
+            margin-bottom: 0.4rem;
+            transition: 0.3s;
+        }
+        .footer-grid a:hover {
+            color: white;
+            transform: translateX(4px);
+        }
+        .footer-grid .contact p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.85rem;
+            margin-bottom: 0.3rem;
+        }
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 0.8rem;
+        }
+        .social-icons a {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 1.2rem;
+            transition: 0.3s;
+            display: inline-block;
+            margin: 0;
+        }
+        .social-icons a:hover {
+            color: white;
+            transform: translateY(-3px);
+        }
+        .footer-bottom {
+            text-align: center;
+            padding-top: 1.5rem;
+            margin-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1024px) {
+            .results-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 900px) {
+            .navbar {
+                padding: 0.6rem 1.5rem;
+                flex-wrap: wrap;
+            }
+            .nav-links {
+                gap: 1.2rem;
+            }
+            .nav-links a {
+                font-size: 0.8rem;
+            }
+            .filters-bar {
+                padding: 1rem 1.5rem;
+                top: 60px;
+            }
+            .filters-bar .search-wrapper {
+                min-width: 150px;
+            }
+            .browse-header {
+                padding: 2rem 1.5rem;
+            }
+            .browse-header h1 {
+                font-size: 2rem;
+            }
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 1.5rem;
+            }
+            .footer {
+                padding: 2rem 1.5rem 1rem;
+            }
+            .modal-content .modal-actions .btn-group {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .navbar {
+                padding: 0.5rem 1rem;
+            }
+            .nav-links {
+                gap: 0.8rem;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .nav-links a {
+                font-size: 0.7rem;
+            }
+            .nav-actions a {
+                font-size: 0.7rem;
+            }
+            .nav-actions .btn-outline {
+                padding: 0.2rem 1rem;
+            }
+            .results-grid {
+                grid-template-columns: 1fr;
+                padding: 1rem;
+                gap: 1rem;
+            }
+            .filters-bar {
+                flex-direction: column;
+                align-items: stretch;
+                padding: 0.8rem 1rem;
+                gap: 0.6rem;
+            }
+            .filters-bar .search-wrapper {
+                min-width: 100%;
+            }
+            .filters-bar select {
+                min-width: 100%;
+            }
+            .filters-bar .date-range {
+                flex-wrap: wrap;
+            }
+            .filters-bar .date-range input {
+                flex: 1;
+                min-width: 80px;
+            }
+            .status-toggles {
+                justify-content: center;
+            }
+            .filter-chips {
+                padding: 0.6rem 1rem;
+            }
+            .results-header {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 0.8rem 1rem;
+            }
+            .pagination {
+                padding: 1rem;
+            }
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            .footer {
+                padding: 1.5rem 1rem 1rem;
+            }
+            .browse-header h1 {
+                font-size: 1.5rem;
+            }
+            .browse-header p {
+                font-size: 0.9rem;
+            }
+            .modal-content {
+                padding: 1.5rem;
+                margin: 1rem;
+            }
+            .modal-content .modal-actions .btn-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== NAVBAR ===== -->
+    <nav class="navbar" id="navbar">
+        <div class="logo">
+            <i class="fas fa-magnifying-glass-location"></i>
+            <span>Lost&Found</span>
+        </div>
+        <div class="nav-links">
+            <a href="home.html">Home</a>
+            <a href="reportitem.html">Report Lost</a>
+            <a href="itemfound.html">Report Found</a>
+            <a href="pub/search.html" class="active">Browse</a>
+        </div>
+        <div class="nav-actions">
+            <a href="../auth/login.html">Login</a>
+            <a href="../auth/register.html" class="btn-outline">Register</a>
+        </div>
+    </nav>
+
+    <!-- ===== BROWSE HEADER ===== -->
+    <section class="browse-header">
+        <h1>Browse Items</h1>
+        <p>Search through all lost and found items to find what you're looking for</p>
+    </section>
+
+    <!-- ===== FILTERS BAR ===== -->
+    <div class="filters-bar" id="filtersBar">
+        <div class="search-wrapper">
+            <i class="fas fa-search"></i>
+            <input type="text" id="searchInput" placeholder="Search items..." />
+        </div>
+
+        <select id="categoryFilter">
+            <option value="">All Categories</option>
+            <option value="Electronics">📱 Electronics</option>
+            <option value="Documents">📄 Documents</option>
+            <option value="Accessories">🔑 Accessories</option>
+            <option value="Books">📚 Books</option>
+            <option value="Clothing">👕 Clothing</option>
+            <option value="Bag">👜 Bag</option>
+            <option value="Watch">⌚ Watch</option>
+            <option value="Jewelry">💍 Jewelry</option>
+            <option value="Others">📦 Others</option>
+        </select>
+
+        <select id="locationFilter">
+            <option value="">All Locations</option>
+            <option value="Library">Library</option>
+            <option value="Cafeteria">Cafeteria</option>
+            <option value="Parking Lot">Parking Lot</option>
+            <option value="Auditorium">Auditorium</option>
+            <option value="Sports Hall">Sports Hall</option>
+            <option value="Main Hall">Main Hall</option>
+            <option value="CS Lab">CS Lab</option>
+        </select>
+
+        <div class="date-range">
+            <input type="date" id="dateFrom" />
+            <span>to</span>
+            <input type="date" id="dateTo" />
+        </div>
+
+        <!-- ===== STATUS TOGGLES - Dynamically shown based on role ===== -->
+        <div class="status-toggles" id="statusToggles">
+            <!-- All buttons will be shown/hidden by JavaScript -->
+        </div>
+    </div>
+
+    <!-- ===== FILTER CHIPS ===== -->
+    <div class="filter-chips" id="filterChips">
+        <span style="font-size:0.75rem; color:#64748b; margin-right:0.3rem;">Active filters:</span>
+        <div id="chipsContainer" style="display:flex; flex-wrap:wrap; gap:0.5rem; align-items:center;"></div>
+        <button class="clear-all" id="clearAllFilters">Clear all</button>
+    </div>
+
+    <!-- ===== RESULTS HEADER ===== -->
+    <div class="results-header">
+        <div class="count">Showing <strong id="resultCount">0</strong> of <strong id="totalCount">0</strong> results</div>
+        <div class="sort-wrapper">
+            <label for="sortSelect">Sort by:</label>
+            <select id="sortSelect">
+                <option value="newest">Newest First</option>
+                <option value="oldest">Oldest First</option>
+                <option value="recent">Most Recent Activity</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- ===== RESULTS GRID ===== -->
+    <div class="results-grid" id="resultsGrid">
+        <!-- Cards will be rendered here by JavaScript -->
+    </div>
+
+    <!-- ===== PAGINATION ===== -->
+    <div class="pagination" id="pagination">
+        <!-- Rendered by JavaScript -->
+    </div>
+
+    <!-- ===== ITEM DETAIL MODAL ===== -->
+    <div class="modal-overlay" id="itemModal">
+        <div class="modal-content">
+            <button class="close-modal" id="closeModal">&times;</button>
+            <div class="modal-icon" id="modalIcon"><i class="fas fa-mobile-screen-button"></i></div>
+            <h3 id="modalTitle">Item Title</h3>
+            <span class="modal-status-badge" id="modalStatusBadge">Lost</span>
+            <div class="modal-meta">
+                <span id="modalLocation"><i class="fas fa-location-dot"></i> Location</span>
+                <span id="modalDate"><i class="fas fa-calendar-day"></i> Date</span>
+                <span id="modalCategory"><i class="fas fa-tag"></i> Category</span>
+                <span id="modalStatus"><i class="fas fa-circle"></i> Status</span>
+            </div>
+            <div class="modal-description" id="modalDescription">
+                Item description goes here.
+            </div>
+            <div class="modal-actions" id="modalActions">
+                <!-- Buttons will be dynamically rendered here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="brand">
+                <h5><i class="fas fa-magnifying-glass-location"></i> Lost&Found</h5>
+                <p>Reuniting people with their belongings since 2024. A trusted community platform for schools, universities, and public spaces.</p>
+            </div>
+            <div>
+                <h5>Quick Links</h5>
+                <a href="pub/reportitem.html">Report Lost</a>
+                <a href="pub/itemfound.html">Report Found</a>
+                <a href="pub/search.html">Browse Items</a>
+                <a href="#">How It Works</a>
+            </div>
+            <div>
+                <h5>Categories</h5>
+                <a href="#">Electronics</a>
+                <a href="#">Documents</a>
+                <a href="#">Accessories</a>
+                <a href="#">Books</a>
+                <a href="#">Clothing</a>
+            </div>
+            <div class="contact">
+                <h5>Contact</h5>
+                <p><i class="fas fa-envelope" style="margin-right:0.4rem;"></i> support@lostfound.com</p>
+                <p><i class="fas fa-phone" style="margin-right:0.4rem;"></i> +92 319 0153045</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            &copy; 2026 Lost & Found Portal. All rights reserved.
+        </div>
+    </footer>
+
+    <!-- ===== JAVASCRIPT ===== -->
+    <script>
+        // ==========================================
+        // USER ROLE CONFIGURATION
+        // ==========================================
+        // Change this to test different roles:
+        // 'guest', 'user', 'manager', 'admin'
+        const currentUserRole = 'manager'; // <-- Change this to test
+
+        console.log('👤 Current User Role:', currentUserRole);
+        console.log('📋 Available roles: guest, user, manager, admin');
+
+        // ==========================================
+        // ROLE-BASED STATUS CONFIGURATION
+        // ==========================================
+        const roleStatusConfig = {
+            guest: {
+                visibleStatuses: ['lost', 'found'],
+                toggles: ['All', 'Lost', 'Found']
+            },
+            user: {
+                visibleStatuses: ['lost', 'found', 'pending', 'approved', 'rejected', 'resolved'],
+                toggles: ['All', 'Lost', 'Found', 'Pending Review', 'Approved', 'Rejected', 'Resolved']
+            },
+            manager: {
+                visibleStatuses: ['lost', 'found', 'pending', 'approved', 'rejected', 'resolved'],
+                toggles: ['All', 'Lost', 'Found', 'Pending Review', 'Approved', 'Rejected', 'Resolved']
+            },
+            admin: {
+                visibleStatuses: ['lost', 'found', 'pending', 'approved', 'rejected', 'resolved'],
+                toggles: ['All', 'Lost', 'Found', 'Pending Review', 'Approved', 'Rejected', 'Resolved']
+            }
+        };
+
+        // ==========================================
+        // SAMPLE DATA WITH ALL STATUSES
+        // ==========================================
+        const allItems = [
+            { id: 1, title: 'Black Samsung A54', category: 'Electronics', location: 'Library', date: '2026-06-10',
+                status: 'found', description: 'Samsung A54 with blue silicone cover, screen has small scratch.',
+                icon: 'fa-mobile-screen-button' },
+            { id: 2, title: 'Brown Leather Wallet', category: 'Accessories', location: 'Parking Lot',
+                date: '2026-06-08', status: 'lost', description: 'Brown leather wallet containing ID card and bank cards.',
+                icon: 'fa-wallet' },
+            { id: 3, title: 'Student ID Card', category: 'Documents', location: 'Cafeteria', date: '2026-06-07',
+                status: 'pending', description: 'University ID card - Ahmad Rizwan, Faculty of Engineering.',
+                icon: 'fa-id-card' },
+            { id: 4, title: 'Bunch of Keys', category: 'Accessories', location: 'Sports Hall', date: '2026-06-09',
+                status: 'approved', description: '3 keys with a small silver keychain. One key has a red tag.',
+                icon: 'fa-key' },
+            { id: 5, title: 'White Earbuds', category: 'Electronics', location: 'Main Hall', date: '2026-06-08',
+                status: 'rejected', description: 'Apple AirPods in white charging case.', icon: 'fa-headphones' },
+            { id: 6, title: 'Data Structures Textbook', category: 'Books', location: 'CS Lab', date: '2026-06-07',
+                status: 'resolved', description: 'Data Structures & Algorithms textbook with sticky notes.',
+                icon: 'fa-book' },
+            { id: 7, title: 'Black Laptop Bag', category: 'Bag', location: 'Auditorium', date: '2026-06-12',
+                status: 'lost', description: 'Black laptop bag with a small tear on the side.', icon: 'fa-bag-shopping' },
+            { id: 8, title: 'Silver Watch', category: 'Watch', location: 'Library', date: '2026-06-11',
+                status: 'found', description: 'Silver analog watch with leather strap.', icon: 'fa-clock' },
+            { id: 9, title: 'Gold Ring', category: 'Jewelry', location: 'Cafeteria', date: '2026-06-10',
+                status: 'pending', description: 'Gold ring with a small diamond.', icon: 'fa-gem' },
+            { id: 10, title: 'Physics Textbook', category: 'Books', location: 'Library', date: '2026-06-09',
+                status: 'approved', description: 'University Physics textbook - 12th edition.', icon: 'fa-book' },
+            { id: 11, title: 'Phone Charger', category: 'Electronics', location: 'CS Lab', date: '2026-06-13',
+                status: 'lost', description: 'USB-C fast charger for Samsung phone.', icon: 'fa-plug' },
+            { id: 12, title: 'Blue Water Bottle', category: 'Accessories', location: 'Sports Hall', date: '2026-06-12',
+                status: 'rejected', description: 'Blue stainless steel water bottle.', icon: 'fa-bottle-water' },
+            { id: 13, title: 'MacBook Pro', category: 'Electronics', location: 'Library', date: '2026-06-14',
+                status: 'found', description: 'Space gray MacBook Pro 14-inch with stickers on the lid.',
+                icon: 'fa-laptop' },
+            { id: 14, title: 'Library Card', category: 'Documents', location: 'Library', date: '2026-06-13',
+                status: 'resolved', description: 'University library card for Sarah Ahmed.', icon: 'fa-id-card' },
+            { id: 15, title: 'Gym Bag', category: 'Bag', location: 'Sports Hall', date: '2026-06-14',
+                status: 'resolved', description: 'Nike gym bag with gym clothes and shoes.', icon: 'fa-bag-shopping' },
+        ];
+
+        // ==========================================
+        // STATE
+        // ==========================================
+        let currentPage = 1;
+        const itemsPerPage = 12;
+        let filteredItems = [...allItems];
+        let activeFilters = {
+            search: '',
+            category: '',
+            location: '',
+            status: 'all',
+            dateFrom: '',
+            dateTo: '',
+            sort: 'newest'
+        };
+
+        // ==========================================
+        // DOM REFS
+        // ==========================================
+        const resultsGrid = document.getElementById('resultsGrid');
+        const pagination = document.getElementById('pagination');
+        const resultCount = document.getElementById('resultCount');
+        const totalCount = document.getElementById('totalCount');
+        const chipsContainer = document.getElementById('chipsContainer');
+        const modalActions = document.getElementById('modalActions');
+        const statusToggles = document.getElementById('statusToggles');
+
+        // ==========================================
+        // BUILD STATUS TOGGLES BASED ON ROLE
+        // ==========================================
+        function buildStatusToggles() {
+            const config = roleStatusConfig[currentUserRole] || roleStatusConfig.guest;
+            const toggleMap = {
+                'All': 'all',
+                'Lost': 'lost',
+                'Found': 'found',
+                'Pending Review': 'pending',
+                'Approved': 'approved',
+                'Rejected': 'rejected',
+                'Resolved': 'resolved'
+            };
+
+            statusToggles.innerHTML = '';
+            config.toggles.forEach(label => {
+                const btn = document.createElement('button');
+                btn.className = 'toggle-btn' + (label === 'All' ? ' active' : '');
+                btn.dataset.status = toggleMap[label];
+                btn.textContent = label;
+                statusToggles.appendChild(btn);
+            });
+
+            // Re-bind click events
+            document.querySelectorAll('.status-toggles .toggle-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.status-toggles .toggle-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    activeFilters.status = this.dataset.status;
+                    applyFilters();
+                });
+            });
+        }
+
+        // ==========================================
+        // FILTER FUNCTIONS
+        // ==========================================
+        function applyFilters() {
+            let items = [...allItems];
+
+            // Filter by role visibility (only show statuses the role can see)
+            const config = roleStatusConfig[currentUserRole] || roleStatusConfig.guest;
+            items = items.filter(item => config.visibleStatuses.includes(item.status));
+
+            if (activeFilters.search) {
+                const search = activeFilters.search.toLowerCase();
+                items = items.filter(item =>
+                    item.title.toLowerCase().includes(search) ||
+                    item.description.toLowerCase().includes(search)
+                );
+            }
+
+            if (activeFilters.category) {
+                items = items.filter(item => item.category === activeFilters.category);
+            }
+
+            if (activeFilters.location) {
+                items = items.filter(item => item.location === activeFilters.location);
+            }
+
+            if (activeFilters.status !== 'all') {
+                items = items.filter(item => item.status === activeFilters.status);
+            }
+
+            if (activeFilters.dateFrom) {
+                items = items.filter(item => item.date >= activeFilters.dateFrom);
+            }
+
+            if (activeFilters.dateTo) {
+                items = items.filter(item => item.date <= activeFilters.dateTo);
+            }
+
+            switch (activeFilters.sort) {
+                case 'newest':
+                    items.sort((a, b) => new Date(b.date) - new Date(a.date));
+                    break;
+                case 'oldest':
+                    items.sort((a, b) => new Date(a.date) - new Date(b.date));
+                    break;
+                case 'recent':
+                    items.sort((a, b) => new Date(b.date) - new Date(a.date));
+                    break;
+            }
+
+            filteredItems = items;
+            currentPage = 1;
+            renderResults();
+            updateChips();
+        }
+
+        // ==========================================
+        // RENDER RESULTS
+        // ==========================================
+        function renderResults() {
+            const total = filteredItems.length;
+            const start = (currentPage - 1) * itemsPerPage;
+            const end = Math.min(start + itemsPerPage, total);
+            const pageItems = filteredItems.slice(start, end);
+
+            resultCount.textContent = total;
+            totalCount.textContent = allItems.length;
+
+            if (pageItems.length === 0) {
+                resultsGrid.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon"><i class="fas fa-search"></i></div>
+                        <h3>No items found</h3>
+                        <p>Try adjusting your filters or search terms</p>
+                        <div class="empty-actions">
+                            <button class="btn-empty btn-report" onclick="window.location.href='pub/reportitem.html'">
+                                <i class="fas fa-plus"></i> Report an Item
+                            </button>
+                            <button class="btn-empty btn-clear" onclick="clearAllFilters()">
+                                <i class="fas fa-undo"></i> Clear Filters
+                            </button>
+                        </div>
+                    </div>
+                `;
+                renderPagination(0);
+                return;
+            }
+
+            resultsGrid.innerHTML = pageItems.map(item => `
+                <div class="result-card" data-id="${item.id}">
+                    <div class="card-image">
+                        <i class="fas ${item.icon}"></i>
+                        <span class="status-badge ${item.status}">${item.status}</span>
+                    </div>
+                    <div class="card-body">
+                        <h4>${item.title}</h4>
+                        <div class="meta">
+                            <span><i class="fas fa-location-dot"></i> ${item.location}</span>
+                            <span><i class="fas fa-calendar-day"></i> ${new Date(item.date).toLocaleDateString()}</span>
+                            <span><i class="fas fa-tag"></i> ${item.category}</span>
+                        </div>
+                        <div class="description">${item.description}</div>
+                        <button class="view-btn" onclick="viewItem(${item.id})">View Details</button>
+                    </div>
+                </div>
+            `).join('');
+
+            renderPagination(total);
+        }
+
+        // ==========================================
+        // RENDER PAGINATION
+        // ==========================================
+        function renderPagination(total) {
+            const totalPages = Math.ceil(total / itemsPerPage);
+
+            if (totalPages <= 1) {
+                pagination.innerHTML = '';
+                return;
+            }
+
+            let html = '';
+            html += `<button ${currentPage === 1 ? 'disabled' : ''} onclick="goToPage(${currentPage - 1})">
+                <i class="fas fa-chevron-left"></i>
+            </button>`;
+
+            if (totalPages <= 7) {
+                for (let i = 1; i <= totalPages; i++) {
+                    html += `<button class="${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>`;
+                }
+            } else {
+                html += `<button class="${1 === currentPage ? 'active' : ''}" onclick="goToPage(1)">1</button>`;
+                if (currentPage > 3) {
+                    html += `<span class="dots">…</span>`;
+                }
+                for (let i = Math.max(2, currentPage - 1); i <= Math.min(totalPages - 1, currentPage + 1); i++) {
+                    html += `<button class="${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>`;
+                }
+                if (currentPage < totalPages - 2) {
+                    html += `<span class="dots">…</span>`;
+                }
+                html += `<button class="${totalPages === currentPage ? 'active' : ''}" onclick="goToPage(${totalPages})">${totalPages}</button>`;
+            }
+
+            html += `<button ${currentPage === totalPages ? 'disabled' : ''} onclick="goToPage(${currentPage + 1})">
+                <i class="fas fa-chevron-right"></i>
+            </button>`;
+
+            pagination.innerHTML = html;
+        }
+
+        function goToPage(page) {
+            const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
+            if (page < 1 || page > totalPages) return;
+            currentPage = page;
+            renderResults();
+            document.querySelector('.results-grid').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // ==========================================
+        // VIEW ITEM DETAIL MODAL (ROLE-BASED)
+        // ==========================================
+        function viewItem(id) {
+            const item = allItems.find(i => i.id === id);
+            if (!item) return;
+
+            // Set basic modal content
+            document.getElementById('modalTitle').textContent = item.title;
+            document.getElementById('modalLocation').innerHTML = `<i class="fas fa-location-dot"></i> ${item.location}`;
+            document.getElementById('modalDate').innerHTML = `<i class="fas fa-calendar-day"></i> ${new Date(item.date).toLocaleDateString()}`;
+            document.getElementById('modalCategory').innerHTML = `<i class="fas fa-tag"></i> ${item.category}`;
+            document.getElementById('modalStatus').innerHTML = `<i class="fas fa-circle"></i> ${item.status.charAt(0).toUpperCase() + item.status.slice(1)}`;
+            document.getElementById('modalIcon').innerHTML = `<i class="fas ${item.icon}"></i>`;
+
+            // Status badge
+            const statusBadge = document.getElementById('modalStatusBadge');
+            statusBadge.textContent = item.status.charAt(0).toUpperCase() + item.status.slice(1);
+            statusBadge.className = `modal-status-badge ${item.status}`;
+
+            // Description
+            const descEl = document.getElementById('modalDescription');
+            descEl.innerHTML = item.description;
+
+            // ==========================================
+            // ROLE-BASED ACTION BUTTONS
+            // ==========================================
+            let actionsHtml = '';
+
+            if (currentUserRole === 'guest') {
+                // ===== GUEST USER (Not Logged In) =====
+                if (item.status === 'lost' || item.status === 'found') {
+                    actionsHtml = `
+                        <div class="status-message info">
+                            <i class="fas fa-info-circle"></i> Login to claim this item
+                        </div>
+                        <a href="../auth/login.html" class="btn-login-prompt">
+                            <i class="fas fa-sign-in-alt"></i> Login to Claim
+                        </a>
+                        <button class="btn-close-modal" onclick="closeModal()">Close</button>
+                    `;
+                }
+
+            } else if (currentUserRole === 'user') {
+                // ===== REGULAR USER (Logged In) =====
+                if (item.status === 'lost') {
+                    actionsHtml = `
+                        <button class="btn-lost" disabled>
+                            <i class="fas fa-search"></i> Item is Still Lost
+                        </button>
+                        <button class="btn-close-modal" onclick="closeModal()">Close</button>
+                    `;
+                } else if (item.status === 'found') {
+                    actionsHtml = `
+                        <button class="btn-claim" onclick="handleClaim('${item.title}')">
+                            <i class="fas fa-handshake"></i> Claim This Item
+                        </button>
+                        <button class="btn-close-modal" onclick="closeModal()">Close</button>
+                    `;
+                } else if (item.status === 'pending') {
+                    actionsHtml = `
+                        <div class="status-message warning">
+                            <i class="fas fa-clock"></i> Your claim is pending review
+                        </div>
+                        <button class="btn-close-modal" onclick="closeModal()">Close</button>
+                    `;
+                } else if (item.status === 'approved') {
+                    actionsHtml = `
+                        <div class="status-message success">
+                            <i class="fas fa-check-circle"></i> Claim Approved! Contact details revealed.
+                        </div>
+                        <button class="btn-resolved" disabled>
+                            <i class="fas fa-check-circle"></i> Claim Approved
+                        </button>
+                        <button class="btn-close-modal" onclick="closeModal()">Close</button>
+                    `;
+                } else if (item.status === 'rejected') {
+                    actionsHtml = `
+                        <div class="status-message error">
+                            <i class="fas fa-times-circle"></i> Your claim was rejected
+                        </div>
+                        <button class="btn-close-modal" onclick="closeModal()">Close</button>
+                    `;
+                } else if (item.status === 'resolved') {
+                    actionsHtml = `
+                        <div class="status-message success">
+                            <i class="fas fa-check-circle"></i> This item has been resolved
+                        </div>
+                        <button class="btn-resolved" disabled>
+                            <i class="fas fa-check-circle"></i> Resolved
+                        </button>
+                        <button class="btn-close-modal" onclick="closeModal()">Close</button>
+                    `;
+                }
+
+            } else if (currentUserRole === 'manager') {
+                // ===== MANAGER =====
+                if (item.status === 'lost') {
+                    actionsHtml = `
+                        <button class="btn-lost" disabled>
+                            <i class="fas fa-search"></i> Item is Still Lost
+                        </button>
+                        <button class="btn-close-modal" onclick="closeModal()">Close</button>
+                    `;
+                } else if (item.status === 'found') {
+                    actionsHtml = `
+                        <button class="btn-claim" onclick="handleClaim('${item.title}')">
+                            <i class="fas fa-handshake"></i> Claim This Item
+                        </button>
+                        <button class="btn-close-modal" onclick="closeModal()">Close</button>
+                    `;
+                } else if (item.status === 'pending') {
+                    actionsHtml = `
+                        <div class="status-message warning">
+                            <i class="fas fa-clock"></i> Pending Review - Please verify ownership evidence
+                        </div>
+                        <div class="btn-group">
+                            <button class="btn-approve" onclick="handleApprove('${item.title}')">
+                                <i class="fas fa-check"></i> Approve
+                            </button>
+                            <button class="btn-reject" onclick="handleReject('${item.title}')">
+                                <i class="fas fa-times"></i> Reject
+                            </button>
+                        </div>
+                        <button class="btn-close-modal" onclick="closeModal()">Close</button>
+                    `;
+                } else if (item.status === 'approved') {
+                    actionsHtml = `
+                        <div class="status-message success">
+                            <i class="fas fa-check-circle"></i> Claim Approved
+                        </div>
+                        <button class="btn-resolve-manager" onclick="handleResolve('${item.title}')">
+                            <i class="fas fa-check-double"></i> Mark as Resolved
+                        </button>
+                        <button class="btn-close-modal" onclick="closeModal()">Close</button>
+                    `;
+                } else if (item.status === 'rejected') {
+                    actionsHtml = `
+                        <div class="status-message error">
+                            <i class="fas fa-times-circle"></i> Claim Rejected
+                        </div>
+                        <button class="btn-close-modal" onclick="closeModal()">Close</button>
+                    `;
+                } else if (item.status === 'resolved') {
+                    actionsHtml = `
+                        <div class="status-message success">
+                            <i class="fas fa-check-circle"></i> Item Resolved
+                        </div>
+                        <button class="btn-resolved" disabled>
+                            <i class="fas fa-check-circle"></i> Resolved
+                        </button>
+                        <button class="btn-close-modal" onclick="closeModal()">Close</button>
+                    `;
+                }
+
+            } else if (currentUserRole === 'admin') {
+                // ===== ADMIN =====
+                // Admin CANNOT claim items - only manage and delete
+                if (item.status === 'lost') {
+                    actionsHtml = `
+                        <div class="status-message admin-info">
+                            <i class="fas fa-shield-alt"></i> Admin view - You cannot claim items
+                        </div>
+                        <button class="btn-lost" disabled>
+                            <i class="fas fa-search"></i> Item is Still Lost
+                        </button>
+                        <button class="btn-delete" onclick="handleDelete('${item.title}')">
+                            <i class="fas fa-trash"></i> Delete Item
+                        </button>
+                        <button class="btn-close-modal" onclick="closeModal()">Close</button>
+                    `;
+                } else if (item.status === 'found') {
+                    actionsHtml = `
+                        <div class="status-message admin-info">
+                            <i class="fas fa-shield-alt"></i> Admin view - You cannot claim items
+                        </div>
+                        <button class="btn-delete" onclick="handleDelete('${item.title}')">
+                            <i class="fas fa-trash"></i> Delete Item
+                        </button>
+                        <button class="btn-close-modal" onclick="closeModal()">Close</button>
+                    `;
+                } else if (item.status === 'pending') {
+                    actionsHtml = `
+                        <div class="status-message warning">
+                            <i class="fas fa-clock"></i> Pending Review
+                        </div>
+                        <div class="btn-group">
+                            <button class="btn-approve" onclick="handleApprove('${item.title}')">
+                                <i class="fas fa-check"></i> Approve
+                            </button>
+                            <button class="btn-reject" onclick="handleReject('${item.title}')">
+                                <i class="fas fa-times"></i> Reject
+                            </button>
+                        </div>
+                        <button class="btn-delete" onclick="handleDelete('${item.title}')">
+                            <i class="fas fa-trash"></i> Delete Item
+                        </button>
+                        <button class="btn-close-modal" onclick="closeModal()">Close</button>
+                    `;
+                } else if (item.status === 'approved') {
+                    actionsHtml = `
+                        <div class="status-message success">
+                            <i class="fas fa-check-circle"></i> Claim Approved
+                        </div>
+                        <button class="btn-resolve-manager" onclick="handleResolve('${item.title}')">
+                            <i class="fas fa-check-double"></i> Mark as Resolved
+                        </button>
+                        <button class="btn-delete" onclick="handleDelete('${item.title}')">
+                            <i class="fas fa-trash"></i> Delete Item
+                        </button>
+                        <button class="btn-close-modal" onclick="closeModal()">Close</button>
+                    `;
+                } else if (item.status === 'rejected') {
+                    actionsHtml = `
+                        <div class="status-message error">
+                            <i class="fas fa-times-circle"></i> Claim Rejected
+                        </div>
+                        <button class="btn-delete" onclick="handleDelete('${item.title}')">
+                            <i class="fas fa-trash"></i> Delete Item
+                        </button>
+                        <button class="btn-close-modal" onclick="closeModal()">Close</button>
+                    `;
+                } else if (item.status === 'resolved') {
+                    actionsHtml = `
+                        <div class="status-message success">
+                            <i class="fas fa-check-circle"></i> Item Resolved
+                        </div>
+                        <button class="btn-resolved" disabled>
+                            <i class="fas fa-check-circle"></i> Resolved
+                        </button>
+                        <button class="btn-delete" onclick="handleDelete('${item.title}')">
+                            <i class="fas fa-trash"></i> Delete Item
+                        </button>
+                        <button class="btn-close-modal" onclick="closeModal()">Close</button>
+                    `;
+                }
+            }
+
+            modalActions.innerHTML = actionsHtml;
+
+            // Show modal
+            document.getElementById('itemModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // ==========================================
+        // MODAL FUNCTIONS
+        // ==========================================
+        function closeModal() {
+            document.getElementById('itemModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        document.getElementById('closeModal').onclick = closeModal;
+        document.getElementById('itemModal').onclick = function(e) {
+            if (e.target === this) closeModal();
+        };
+
+        // ==========================================
+        // ACTION HANDLERS
+        // ==========================================
+        function handleClaim(title) {
+            alert('✅ Claim request sent for "' + title + '"!');
+            closeModal();
+        }
+
+        function handleApprove(title) {
+            if (confirm('Approve claim for "' + title + '"? This will share contact details.')) {
+                alert('✅ Claim for "' + title + '" has been approved!');
+                closeModal();
+            }
+        }
+
+        function handleReject(title) {
+            const reason = prompt('Please provide a reason for rejecting this claim:');
+            if (reason !== null) {
+                alert('❌ Claim for "' + title + '" has been rejected.\nReason: ' + reason);
+                closeModal();
+            }
+        }
+
+        function handleResolve(title) {
+            if (confirm('Mark "' + title + '" as resolved?')) {
+                alert('✅ "' + title + '" marked as resolved!');
+                closeModal();
+            }
+        }
+
+        function handleDelete(title) {
+            if (confirm('⚠️ Are you sure you want to delete "' + title + '"? This action cannot be undone.')) {
+                alert('🗑️ "' + title + '" has been deleted.');
+                closeModal();
+            }
+        }
+
+        // ==========================================
+        // UPDATE CHIPS
+        // ==========================================
+        function updateChips() {
+            const chips = [];
+            if (activeFilters.search) chips.push({ label: `Search: "${activeFilters.search}"`, key: 'search' });
+            if (activeFilters.category) chips.push({ label: `Category: ${activeFilters.category}`, key: 'category' });
+            if (activeFilters.location) chips.push({ label: `Location: ${activeFilters.location}`, key: 'location' });
+            if (activeFilters.status !== 'all') chips.push({ label: `Status: ${activeFilters.status}`, key: 'status' });
+            if (activeFilters.dateFrom) chips.push({ label: `From: ${new Date(activeFilters.dateFrom).toLocaleDateString()}`,
+                key: 'dateFrom' });
+            if (activeFilters.dateTo) chips.push({ label: `To: ${new Date(activeFilters.dateTo).toLocaleDateString()}`,
+                key: 'dateTo' });
+
+            if (chips.length === 0) {
+                chipsContainer.innerHTML =
+                `<span style="color:#94a3b8; font-size:0.8rem;">No active filters</span>`;
+                return;
+            }
+
+            chipsContainer.innerHTML = chips.map(chip => `
+                <span class="chip">
+                    ${chip.label}
+                    <span class="remove" onclick="removeChip('${chip.key}')">&times;</span>
+                </span>
+            `).join('');
+        }
+
+        function removeChip(key) {
+            activeFilters[key] = key === 'status' ? 'all' : '';
+            if (key === 'search') document.getElementById('searchInput').value = '';
+            if (key === 'category') document.getElementById('categoryFilter').value = '';
+            if (key === 'location') document.getElementById('locationFilter').value = '';
+            if (key === 'dateFrom') document.getElementById('dateFrom').value = '';
+            if (key === 'dateTo') document.getElementById('dateTo').value = '';
+            if (key === 'status') {
+                document.querySelectorAll('.status-toggles .toggle-btn').forEach(btn => {
+                    btn.classList.toggle('active', btn.dataset.status === 'all');
+                });
+            }
+            applyFilters();
+        }
+
+        function clearAllFilters() {
+            activeFilters = { search: '', category: '', location: '', status: 'all', dateFrom: '', dateTo: '',
+                sort: 'newest' };
+            document.getElementById('searchInput').value = '';
+            document.getElementById('categoryFilter').value = '';
+            document.getElementById('locationFilter').value = '';
+            document.getElementById('dateFrom').value = '';
+            document.getElementById('dateTo').value = '';
+            document.querySelectorAll('.status-toggles .toggle-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.status === 'all');
+            });
+            document.getElementById('sortSelect').value = 'newest';
+            applyFilters();
+        }
+
+        // ==========================================
+        // EVENT LISTENERS
+        // ==========================================
+        let searchTimeout;
+        document.getElementById('searchInput').addEventListener('input', function() {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                activeFilters.search = this.value.trim();
+                applyFilters();
+            }, 300);
+        });
+
+        document.getElementById('categoryFilter').addEventListener('change', function() {
+            activeFilters.category = this.value;
+            applyFilters();
+        });
+
+        document.getElementById('locationFilter').addEventListener('change', function() {
+            activeFilters.location = this.value;
+            applyFilters();
+        });
+
+        document.getElementById('dateFrom').addEventListener('change', function() {
+            activeFilters.dateFrom = this.value;
+            applyFilters();
+        });
+
+        document.getElementById('dateTo').addEventListener('change', function() {
+            activeFilters.dateTo = this.value;
+            applyFilters();
+        });
+
+        document.getElementById('sortSelect').addEventListener('change', function() {
+            activeFilters.sort = this.value;
+            applyFilters();
+        });
+
+        document.getElementById('clearAllFilters').addEventListener('click', clearAllFilters);
+
+        // ==========================================
+        // NAV LINKS
+        // ==========================================
+        document.querySelectorAll('.nav-links a, .nav-actions a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                const allowedPages = ['auth/login.html', 'auth/register.html', 'auth/forgotpassword.html', 
+                    'pub/reportitem.html', 'pub/itemfound.html', 'pub/home.html', 'pub/search.html'
+                ];
+
+                if (this.href) {
+                    const shouldNavigate = allowedPages.some(page => this.href.includes(page));
+                    if (shouldNavigate) {
+                        return;
+                    }
+                }
+
+                e.preventDefault();
+                if (!this.classList.contains('btn-outline') && !this.classList.contains('btn-login')) {
+                    document.querySelectorAll('.nav-links a').forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                }
+                alert('🔗 ' + this.textContent.trim() + ' page (demo)');
+            });
+        });
+
+        // ==========================================
+        // KEYBOARD SHORTCUT
+        // ==========================================
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        // ==========================================
+        // INIT
+        // ==========================================
+        buildStatusToggles();
+        applyFilters();
+
+        console.log('👤 Current Role:', currentUserRole);
+        console.log('📋 Visible Statuses:', roleStatusConfig[currentUserRole]?.visibleStatuses || ['lost', 'found']);
+    </script>
+
+</body>
+</html>
