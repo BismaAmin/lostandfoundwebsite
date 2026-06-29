@@ -161,21 +161,51 @@
             transform: translateY(-50%);
             color: #94a3b8;
         }
-        .filters-bar select {
-            padding: 0.6rem 2.5rem 0.6rem 1rem;
-            border: 1.5px solid #e2e8f0;
+
+        .select-wrapper {
+            position: relative;
+            display: inline-block;
+            min-width: 140px;
+        }
+
+        .select-wrapper select {
+            padding: 0.7rem 2.5rem 0.7rem 1.2rem;
+            border: 2px solid #e2e8f0;
             border-radius: 60px;
             font-size: 0.85rem;
             outline: none;
             background: #f8fafc;
             cursor: pointer;
-            transition: 0.3s;
-            min-width: 140px;
+            transition: all 0.3s ease;
+            color: #1a1a2e;
+            appearance: none;
+            -webkit-appearance: none;
+            width: 100%;
         }
-        .filters-bar select:focus {
+
+        .select-wrapper select:focus {
             border-color: #0D9488;
-            box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.1);
+            box-shadow: 0 0 0 4px rgba(13, 148, 136, 0.1);
+            background: white;
         }
+
+        .select-wrapper::after {
+            content: "▼";
+            position: absolute;
+            right: 1.2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+            font-size: 0.6rem;
+            pointer-events: none;
+            font-weight: 700;
+            transition: all 0.3s ease;
+        }
+
+        .select-wrapper:hover::after {
+            color: #0D9488;
+        }
+
         .filters-bar .date-range {
             display: flex;
             align-items: center;
@@ -199,7 +229,6 @@
             font-size: 0.8rem;
         }
 
-        /* ===== STATUS TOGGLES ===== */
         .status-toggles {
             display: flex;
             gap: 0.4rem;
@@ -228,11 +257,7 @@
             color: white;
             box-shadow: 0 4px 12px rgba(13, 148, 136, 0.25);
         }
-        .status-toggles .toggle-btn.hidden {
-            display: none;
-        }
 
-        /* ===== FILTER CHIPS ===== */
         .filter-chips {
             padding: 0.8rem 2rem;
             background: white;
@@ -276,7 +301,6 @@
             text-decoration: underline;
         }
 
-        /* ===== RESULTS HEADER ===== */
         .results-header {
             display: flex;
             justify-content: space-between;
@@ -292,30 +316,50 @@
         .results-header .count strong {
             color: #0F766E;
         }
-        .results-header .sort-wrapper {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+
+        /* ===== PERMISSION BADGE ON CARDS ===== */
+        .permission-badge {
+            font-size: 0.55rem;
+            padding: 0.1rem 0.6rem;
+            border-radius: 60px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            margin-left: 0.4rem;
         }
-        .results-header .sort-wrapper label {
-            font-size: 0.8rem;
+        .permission-badge.can-claim {
+            background: #d1fae5;
+            color: #059669;
+        }
+        .permission-badge.can-approve {
+            background: #dbeafe;
+            color: #2563eb;
+        }
+        .permission-badge.can-delete {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+        .permission-badge.view-only {
+            background: #f1f5f9;
             color: #64748b;
         }
-        .results-header .sort-wrapper select {
-            padding: 0.4rem 1rem;
-            border: 1.5px solid #e2e8f0;
-            border-radius: 60px;
-            font-size: 0.8rem;
-            outline: none;
-            background: #f8fafc;
-            cursor: pointer;
-            transition: 0.3s;
+        .permission-badge.can-resolve {
+            background: #e0e7ff;
+            color: #4338ca;
         }
-        .results-header .sort-wrapper select:focus {
-            border-color: #0D9488;
+        .permission-badge.contact-visible {
+            background: #d1fae5;
+            color: #059669;
+        }
+        .permission-badge.pending-review {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        .permission-badge.not-visible {
+            background: #fee2e2;
+            color: #dc2626;
         }
 
-        /* ===== RESULTS GRID ===== */
         .results-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -359,8 +403,6 @@
             text-transform: uppercase;
             letter-spacing: 0.3px;
         }
-
-        /* ===== ALL STATUS BADGE COLORS ===== */
         .status-badge.lost {
             background: #fee2e2;
             color: #dc2626;
@@ -432,58 +474,6 @@
             transform: scale(1.04);
         }
 
-        /* ===== EMPTY STATE ===== */
-        .empty-state {
-            text-align: center;
-            padding: 4rem 2rem;
-            grid-column: 1 / -1;
-        }
-        .empty-state .empty-icon {
-            font-size: 4rem;
-            color: #94a3b8;
-            margin-bottom: 1rem;
-        }
-        .empty-state h3 {
-            font-size: 1.3rem;
-            color: #0F766E;
-        }
-        .empty-state p {
-            color: #64748b;
-            margin-top: 0.3rem;
-        }
-        .empty-state .empty-actions {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            margin-top: 1.5rem;
-            flex-wrap: wrap;
-        }
-        .empty-state .empty-actions .btn-empty {
-            padding: 0.5rem 1.8rem;
-            border-radius: 60px;
-            font-weight: 600;
-            border: none;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        .empty-state .empty-actions .btn-report {
-            background: #0D9488;
-            color: white;
-        }
-        .empty-state .empty-actions .btn-report:hover {
-            background: #0F766E;
-            transform: translateY(-2px);
-        }
-        .empty-state .empty-actions .btn-clear {
-            background: #e2e8f0;
-            color: #334155;
-        }
-        .empty-state .empty-actions .btn-clear:hover {
-            background: #cbd5e1;
-            transform: translateY(-2px);
-        }
-
-        /* ===== PAGINATION ===== */
         .pagination {
             display: flex;
             justify-content: center;
@@ -516,304 +506,7 @@
             opacity: 0.4;
             cursor: not-allowed;
         }
-        .pagination .dots {
-            color: #94a3b8;
-            padding: 0 0.3rem;
-        }
 
-        /* ===== ITEM DETAIL MODAL ===== */
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(4px);
-            z-index: 999;
-            align-items: center;
-            justify-content: center;
-            padding: 1.5rem;
-        }
-        .modal-overlay.active {
-            display: flex;
-        }
-        .modal-content {
-            background: white;
-            max-width: 550px;
-            width: 100%;
-            border-radius: 20px;
-            padding: 2rem;
-            position: relative;
-            animation: modalSlideIn 0.3s ease;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-        @keyframes modalSlideIn {
-            from {
-                transform: translateY(30px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-        .modal-content .close-modal {
-            position: absolute;
-            top: 1rem;
-            right: 1.2rem;
-            font-size: 1.5rem;
-            color: #64748b;
-            cursor: pointer;
-            background: none;
-            border: none;
-            transition: 0.3s;
-        }
-        .modal-content .close-modal:hover {
-            color: #0F766E;
-            transform: rotate(90deg);
-        }
-        .modal-content .modal-icon {
-            font-size: 3rem;
-            color: #0D9488;
-            margin-bottom: 0.5rem;
-        }
-        .modal-content h3 {
-            font-size: 1.3rem;
-            color: #0F766E;
-            margin-bottom: 0.3rem;
-        }
-        .modal-content .modal-status-badge {
-            display: inline-block;
-            padding: 0.2rem 0.9rem;
-            border-radius: 60px;
-            font-size: 0.7rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 0.5rem;
-        }
-        .modal-content .modal-status-badge.lost {
-            background: #fee2e2;
-            color: #dc2626;
-        }
-        .modal-content .modal-status-badge.found {
-            background: #d1fae5;
-            color: #059669;
-        }
-        .modal-content .modal-status-badge.pending {
-            background: #fef3c7;
-            color: #92400e;
-        }
-        .modal-content .modal-status-badge.approved {
-            background: #dbeafe;
-            color: #2563eb;
-        }
-        .modal-content .modal-status-badge.rejected {
-            background: #fee2e2;
-            color: #b91c1c;
-        }
-        .modal-content .modal-status-badge.resolved {
-            background: #e0e7ff;
-            color: #4338ca;
-        }
-        .modal-content .modal-meta {
-            color: #64748b;
-            font-size: 0.85rem;
-            margin-bottom: 1rem;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.3rem 0.6rem;
-        }
-        .modal-content .modal-meta i {
-            margin-right: 0.2rem;
-            color: #94a3b8;
-        }
-        .modal-content .modal-description {
-            color: #334155;
-            font-size: 0.95rem;
-            line-height: 1.6;
-            margin-bottom: 1.2rem;
-            padding: 1rem;
-            background: #f8fafc;
-            border-radius: 12px;
-        }
-        .modal-content .modal-actions {
-            display: flex;
-            flex-direction: column;
-            gap: 0.6rem;
-        }
-        .modal-content .modal-actions .btn-claim {
-            background: #0D9488;
-            color: white;
-            border: none;
-            padding: 0.7rem;
-            border-radius: 60px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.3s;
-            width: 100%;
-        }
-        .modal-content .modal-actions .btn-claim:hover {
-            background: #0F766E;
-        }
-        .modal-content .modal-actions .btn-resolved {
-            background: #e0e7ff;
-            color: #4338ca;
-            border: none;
-            padding: 0.7rem;
-            border-radius: 60px;
-            font-weight: 600;
-            cursor: not-allowed;
-            width: 100%;
-            opacity: 0.8;
-        }
-        .modal-content .modal-actions .btn-lost {
-            background: #fef3c7;
-            color: #92400e;
-            border: none;
-            padding: 0.7rem;
-            border-radius: 60px;
-            font-weight: 600;
-            cursor: not-allowed;
-            width: 100%;
-            opacity: 0.9;
-        }
-        .modal-content .modal-actions .btn-approve {
-            background: #059669;
-            color: white;
-            border: none;
-            padding: 0.7rem;
-            border-radius: 60px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.3s;
-            width: 100%;
-        }
-        .modal-content .modal-actions .btn-approve:hover {
-            background: #047857;
-        }
-        .modal-content .modal-actions .btn-reject {
-            background: #dc2626;
-            color: white;
-            border: none;
-            padding: 0.7rem;
-            border-radius: 60px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.3s;
-            width: 100%;
-        }
-        .modal-content .modal-actions .btn-reject:hover {
-            background: #b91c1c;
-        }
-        .modal-content .modal-actions .btn-delete {
-            background: #E24B4A;
-            color: white;
-            border: none;
-            padding: 0.7rem;
-            border-radius: 60px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.3s;
-            width: 100%;
-            margin-top: 0.3rem;
-        }
-        .modal-content .modal-actions .btn-delete:hover {
-            background: #dc2626;
-        }
-        .modal-content .modal-actions .btn-resolve-manager {
-            background: #0D9488;
-            color: white;
-            border: none;
-            padding: 0.7rem;
-            border-radius: 60px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.3s;
-            width: 100%;
-        }
-        .modal-content .modal-actions .btn-resolve-manager:hover {
-            background: #0F766E;
-        }
-        
-        .modal-content .modal-actions .btn-login-prompt {
-    background: #0D9488;
-    color: white;
-    border: none;
-    padding: 0.7rem;
-    border-radius: 60px;
-    font-weight: 600;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: 0.3s;
-    width: 100%;
-    text-decoration: none;
-    text-align: center;
-    display: block;
-}
-.modal-content .modal-actions .btn-login-prompt:hover {
-    background: #0F766E;
-    transform: translateY(-2px);
-}
-
-        .modal-content .modal-actions .btn-close-modal {
-            background: #e2e8f0;
-            color: #334155;
-            border: none;
-            padding: 0.7rem;
-            border-radius: 60px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.3s;
-            width: 100%;
-            margin-top: 0.3rem;
-        }
-        .modal-content .modal-actions .btn-close-modal:hover {
-            background: #cbd5e1;
-        }
-        .modal-content .modal-actions .btn-group {
-            display: flex;
-            gap: 0.6rem;
-        }
-        .modal-content .modal-actions .btn-group .btn-approve,
-        .modal-content .modal-actions .btn-group .btn-reject {
-            flex: 1;
-        }
-
-        .modal-content .status-message {
-            padding: 0.6rem 1rem;
-            border-radius: 12px;
-            font-size: 0.85rem;
-            margin-bottom: 0.8rem;
-            display: flex;
-            align-items: center;
-            gap: 0.6rem;
-        }
-        .modal-content .status-message.info {
-            background: #dbeafe;
-            color: #1e40af;
-        }
-        .modal-content .status-message.warning {
-            background: #fef3c7;
-            color: #92400e;
-        }
-        .modal-content .status-message.success {
-            background: #d1fae5;
-            color: #065f46;
-        }
-        .modal-content .status-message.error {
-            background: #fee2e2;
-            color: #991b1b;
-        }
-        .modal-content .status-message.admin-info {
-            background: #e0e7ff;
-            color: #4338ca;
-        }
-
-        /* ===== FOOTER ===== */
         .footer {
             background: #0F2E2A;
             color: white;
@@ -888,7 +581,6 @@
             color: rgba(255, 255, 255, 0.4);
         }
 
-        /* ===== RESPONSIVE ===== */
         @media (max-width: 1024px) {
             .results-grid {
                 grid-template-columns: repeat(2, 1fr);
@@ -910,9 +602,6 @@
                 padding: 1rem 1.5rem;
                 top: 60px;
             }
-            .filters-bar .search-wrapper {
-                min-width: 150px;
-            }
             .browse-header {
                 padding: 2rem 1.5rem;
             }
@@ -925,9 +614,6 @@
             }
             .footer {
                 padding: 2rem 1.5rem 1rem;
-            }
-            .modal-content .modal-actions .btn-group {
-                flex-direction: column;
             }
         }
 
@@ -1000,20 +686,13 @@
             .browse-header p {
                 font-size: 0.9rem;
             }
-            .modal-content {
-                padding: 1.5rem;
-                margin: 1rem;
-            }
-            .modal-content .modal-actions .btn-group {
-                flex-direction: column;
-            }
         }
     </style>
 </head>
 <body>
 
     <!-- ===== NAVBAR ===== -->
-    <nav class="navbar" id="navbar">
+    <nav class="navbar">
         <div class="logo">
             <i class="fas fa-magnifying-glass-location"></i>
             <span>Lost&Found</span>
@@ -1022,7 +701,7 @@
             <a href="home.html">Home</a>
             <a href="reportitem.html">Report Lost</a>
             <a href="itemfound.html">Report Found</a>
-            <a href="pub/search.html" class="active">Browse</a>
+            <a href="search.html" class="active">Browse</a>
         </div>
         <div class="nav-actions">
             <a href="../auth/login.html">Login</a>
@@ -1037,35 +716,39 @@
     </section>
 
     <!-- ===== FILTERS BAR ===== -->
-    <div class="filters-bar" id="filtersBar">
+    <div class="filters-bar">
         <div class="search-wrapper">
             <i class="fas fa-search"></i>
             <input type="text" id="searchInput" placeholder="Search items..." />
         </div>
+        
+        <div class="select-wrapper">
+            <select id="categoryFilter">
+                <option value="">All Categories</option>
+                <option value="Electronics">📱 Electronics</option>
+                <option value="Documents">📄 Documents</option>
+                <option value="Accessories">🔑 Accessories</option>
+                <option value="Books">📚 Books</option>
+                <option value="Clothing">👕 Clothing</option>
+                <option value="Bag">👜 Bag</option>
+                <option value="Watch">⌚ Watch</option>
+                <option value="Jewelry">💍 Jewelry</option>
+                <option value="Others">📦 Others</option>
+            </select>
+        </div>
 
-        <select id="categoryFilter">
-            <option value="">All Categories</option>
-            <option value="Electronics">📱 Electronics</option>
-            <option value="Documents">📄 Documents</option>
-            <option value="Accessories">🔑 Accessories</option>
-            <option value="Books">📚 Books</option>
-            <option value="Clothing">👕 Clothing</option>
-            <option value="Bag">👜 Bag</option>
-            <option value="Watch">⌚ Watch</option>
-            <option value="Jewelry">💍 Jewelry</option>
-            <option value="Others">📦 Others</option>
-        </select>
-
-        <select id="locationFilter">
-            <option value="">All Locations</option>
-            <option value="Library">Library</option>
-            <option value="Cafeteria">Cafeteria</option>
-            <option value="Parking Lot">Parking Lot</option>
-            <option value="Auditorium">Auditorium</option>
-            <option value="Sports Hall">Sports Hall</option>
-            <option value="Main Hall">Main Hall</option>
-            <option value="CS Lab">CS Lab</option>
-        </select>
+        <div class="select-wrapper">
+            <select id="locationFilter">
+                <option value="">All Locations</option>
+                <option value="Library">Library</option>
+                <option value="Cafeteria">Cafeteria</option>
+                <option value="Parking Lot">Parking Lot</option>
+                <option value="Auditorium">Auditorium</option>
+                <option value="Sports Hall">Sports Hall</option>
+                <option value="Main Hall">Main Hall</option>
+                <option value="CS Lab">CS Lab</option>
+            </select>
+        </div>
 
         <div class="date-range">
             <input type="date" id="dateFrom" />
@@ -1073,77 +756,48 @@
             <input type="date" id="dateTo" />
         </div>
 
-        <!-- ===== STATUS TOGGLES - Dynamically shown based on role ===== -->
+        <!-- ===== STATUS TOGGLES - Dynamically rendered by JavaScript ===== -->
         <div class="status-toggles" id="statusToggles">
-            <!-- All buttons will be shown/hidden by JavaScript -->
+            <!-- Rendered by JavaScript based on role -->
         </div>
     </div>
 
     <!-- ===== FILTER CHIPS ===== -->
-    <div class="filter-chips" id="filterChips">
+    <div class="filter-chips">
         <span style="font-size:0.75rem; color:#64748b; margin-right:0.3rem;">Active filters:</span>
-        <div id="chipsContainer" style="display:flex; flex-wrap:wrap; gap:0.5rem; align-items:center;"></div>
-        <button class="clear-all" id="clearAllFilters">Clear all</button>
+        <div id="chipsContainer" style="display:flex; flex-wrap:wrap; gap:0.5rem; align-items:center;">
+            <span style="color:#94a3b8; font-size:0.8rem;">No active filters</span>
+        </div>
+        <button class="clear-all" id="clearAllFilters" style="display:none;">Clear all</button>
     </div>
 
     <!-- ===== RESULTS HEADER ===== -->
     <div class="results-header">
-        <div class="count">Showing <strong id="resultCount">0</strong> of <strong id="totalCount">0</strong> results</div>
-        <div class="sort-wrapper">
-            <label for="sortSelect">Sort by:</label>
-            <select id="sortSelect">
-                <option value="newest">Newest First</option>
-                <option value="oldest">Oldest First</option>
-                <option value="recent">Most Recent Activity</option>
-            </select>
+        <div class="count">
+            Showing <strong id="resultCount">0</strong> of <strong id="totalCount">0</strong> results
         </div>
     </div>
 
     <!-- ===== RESULTS GRID ===== -->
     <div class="results-grid" id="resultsGrid">
-        <!-- Cards will be rendered here by JavaScript -->
+        <!-- Cards rendered by JavaScript -->
     </div>
 
     <!-- ===== PAGINATION ===== -->
-    <div class="pagination" id="pagination">
-        <!-- Rendered by JavaScript -->
-    </div>
-
-    <!-- ===== ITEM DETAIL MODAL ===== -->
-    <div class="modal-overlay" id="itemModal">
-        <div class="modal-content">
-            <button class="close-modal" id="closeModal">&times;</button>
-            <div class="modal-icon" id="modalIcon"><i class="fas fa-mobile-screen-button"></i></div>
-            <h3 id="modalTitle">Item Title</h3>
-            <span class="modal-status-badge" id="modalStatusBadge">Lost</span>
-            <div class="modal-meta">
-                <span id="modalLocation"><i class="fas fa-location-dot"></i> Location</span>
-                <span id="modalDate"><i class="fas fa-calendar-day"></i> Date</span>
-                <span id="modalCategory"><i class="fas fa-tag"></i> Category</span>
-                <span id="modalStatus"><i class="fas fa-circle"></i> Status</span>
-            </div>
-            <div class="modal-description" id="modalDescription">
-                Item description goes here.
-            </div>
-            <div class="modal-actions" id="modalActions">
-                <!-- Buttons will be dynamically rendered here -->
-            </div>
-        </div>
-    </div>
+    <div class="pagination" id="pagination"></div>
 
     <!-- ===== FOOTER ===== -->
     <footer class="footer">
         <div class="footer-grid">
             <div class="brand">
                 <h5><i class="fas fa-magnifying-glass-location"></i> Lost&Found</h5>
-                <p>Reuniting people with their belongings since 2024. A trusted community platform for schools, universities, and public spaces.</p>
+                <p>Reuniting people with their belongings since 2024.</p>
             </div>
             <div>
                 <h5>Quick Links</h5>
-                <a href="pub/reportitem.html">Report Lost</a>
-                <a href="pub/itemfound.html">Report Found</a>
-                <a href="pub/search.html">Browse Items</a>
-                <a href="#">How It Works</a>
+                <a href="reportitem.html">Report Lost</a>
+                <a href="itemfound.html">Report Found</a>
+                <a href="search.html">Browse Items</a>
             </div>
             <div>
                 <h5>Categories</h5>
@@ -1151,133 +805,175 @@
                 <a href="#">Documents</a>
                 <a href="#">Accessories</a>
                 <a href="#">Books</a>
-                <a href="#">Clothing</a>
             </div>
             <div class="contact">
                 <h5>Contact</h5>
-                <p><i class="fas fa-envelope" style="margin-right:0.4rem;"></i> support@lostfound.com</p>
-                <p><i class="fas fa-phone" style="margin-right:0.4rem;"></i> +92 319 0153045</p>
+                <p><i class="fas fa-envelope"></i> support@lostfound.com</p>
+                <p><i class="fas fa-phone"></i> +92 319 0153045</p>
                 <div class="social-icons">
                     <a href="#"><i class="fab fa-facebook"></i></a>
                     <a href="#"><i class="fab fa-twitter"></i></a>
                     <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-linkedin"></i></a>
                 </div>
             </div>
         </div>
-        <div class="footer-bottom">
-            &copy; 2026 Lost & Found Portal. All rights reserved.
-        </div>
+        <div class="footer-bottom">&copy; 2026 Lost & Found Portal. All rights reserved.</div>
     </footer>
 
-    <!-- ===== JAVASCRIPT ===== -->
     <script>
         // ==========================================
         // USER ROLE CONFIGURATION
         // ==========================================
-        // Change this to test different roles:
+        // 🔥 CHANGE THIS TO TEST DIFFERENT ROLES:
         // 'guest', 'user', 'manager', 'admin'
-        const currentUserRole = 'manager'; // <-- Change this to test
+        const currentUserRole = 'admin';  // <-- CHANGE THIS TO TEST
 
         console.log('👤 Current User Role:', currentUserRole);
-        console.log('📋 Available roles: guest, user, manager, admin');
 
         // ==========================================
-        // ROLE-BASED STATUS CONFIGURATION
+        // ROLE-BASED PERMISSIONS (From Summary Table)
         // ==========================================
-        const roleStatusConfig = {
+        const rolePermissions = {
             guest: {
+                role: 'guest',
                 visibleStatuses: ['lost', 'found'],
-                toggles: ['All', 'Lost', 'Found']
+                toggles: ['All', 'Lost', 'Found'],
+                canClaim: false,
+                canApprove: false,
+                canReject: false,
+                canResolve: false,
+                canDelete: false,
+                canViewContact: false,
+                statusPermissions: {
+                    lost: { view: true, claim: false, contact: false, approve: false, reject: false, resolve: false, delete: false, badge: 'View Only' },
+                    found: { view: true, claim: false, contact: false, approve: false, reject: false, resolve: false, delete: false, badge: 'View Only' },
+                    pending: { view: false, claim: false, contact: false, approve: false, reject: false, resolve: false, delete: false, badge: 'Not Visible' },
+                    approved: { view: false, claim: false, contact: false, approve: false, reject: false, resolve: false, delete: false, badge: 'Not Visible' },
+                    rejected: { view: false, claim: false, contact: false, approve: false, reject: false, resolve: false, delete: false, badge: 'Not Visible' },
+                    resolved: { view: false, claim: false, contact: false, approve: false, reject: false, resolve: false, delete: false, badge: 'Not Visible' }
+                }
             },
             user: {
+                role: 'user',
                 visibleStatuses: ['lost', 'found', 'pending', 'approved', 'rejected', 'resolved'],
-                toggles: ['All', 'Lost', 'Found', 'Pending Review', 'Approved', 'Rejected', 'Resolved']
+                toggles: ['All', 'Lost', 'Found', 'Pending Review', 'Approved', 'Rejected', 'Resolved'],
+                canClaim: true,
+                canApprove: false,
+                canReject: false,
+                canResolve: false,
+                canDelete: false,
+                canViewContact: true,
+                statusPermissions: {
+                    lost: { view: true, claim: false, contact: false, approve: false, reject: false, resolve: false, delete: false, badge: 'View Only' },
+                    found: { view: true, claim: true, contact: false, approve: false, reject: false, resolve: false, delete: false, badge: 'Can Claim' },
+                    pending: { view: true, claim: false, contact: false, approve: false, reject: false, resolve: false, delete: false, badge: 'Pending Review' },
+                    approved: { view: true, claim: false, contact: true, approve: false, reject: false, resolve: false, delete: false, badge: 'Contact Visible' },
+                    rejected: { view: true, claim: false, contact: false, approve: false, reject: false, resolve: false, delete: false, badge: 'View Only' },
+                    resolved: { view: true, claim: false, contact: true, approve: false, reject: false, resolve: false, delete: false, badge: 'Contact Visible' }
+                }
             },
             manager: {
+                role: 'manager',
                 visibleStatuses: ['lost', 'found', 'pending', 'approved', 'rejected', 'resolved'],
-                toggles: ['All', 'Lost', 'Found', 'Pending Review', 'Approved', 'Rejected', 'Resolved']
+                toggles: ['All', 'Lost', 'Found', 'Pending Review', 'Approved', 'Rejected', 'Resolved'],
+                canClaim: true,
+                canApprove: true,
+                canReject: true,
+                canResolve: true,
+                canDelete: false,
+                canViewContact: true,
+                statusPermissions: {
+                    lost: { view: true, claim: false, contact: false, approve: false, reject: false, resolve: false, delete: false, badge: 'View Only' },
+                    found: { view: true, claim: true, contact: false, approve: false, reject: false, resolve: false, delete: false, badge: 'Can Claim' },
+                    pending: { view: true, claim: false, contact: false, approve: true, reject: true, resolve: false, delete: false, badge: 'Can Approve/Reject' },
+                    approved: { view: true, claim: false, contact: true, approve: false, reject: false, resolve: true, delete: false, badge: 'Can Resolve' },
+                    rejected: { view: true, claim: false, contact: false, approve: false, reject: false, resolve: false, delete: false, badge: 'View Only' },
+                    resolved: { view: true, claim: false, contact: true, approve: false, reject: false, resolve: false, delete: false, badge: 'Contact Visible' }
+                }
             },
             admin: {
+                role: 'admin',
                 visibleStatuses: ['lost', 'found', 'pending', 'approved', 'rejected', 'resolved'],
-                toggles: ['All', 'Lost', 'Found', 'Pending Review', 'Approved', 'Rejected', 'Resolved']
+                toggles: ['All', 'Lost', 'Found', 'Pending Review', 'Approved', 'Rejected', 'Resolved'],
+                canClaim: false,
+                canApprove: true,
+                canReject: true,
+                canResolve: true,
+                canDelete: true,
+                canViewContact: true,
+                statusPermissions: {
+                    lost: { view: true, claim: false, contact: false, approve: false, reject: false, resolve: false, delete: true, badge: 'Can Delete' },
+                    found: { view: true, claim: false, contact: false, approve: false, reject: false, resolve: false, delete: true, badge: 'Can Delete' },
+                    pending: { view: true, claim: false, contact: false, approve: true, reject: true, resolve: false, delete: true, badge: 'Can Approve/Reject/Delete' },
+                    approved: { view: true, claim: false, contact: true, approve: false, reject: false, resolve: true, delete: true, badge: 'Can Resolve/Delete' },
+                    rejected: { view: true, claim: false, contact: false, approve: false, reject: false, resolve: false, delete: true, badge: 'Can Delete' },
+                    resolved: { view: true, claim: false, contact: true, approve: false, reject: false, resolve: false, delete: true, badge: 'Can Delete' }
+                }
             }
         };
 
+        // Get current permissions
+        const permissions = rolePermissions[currentUserRole] || rolePermissions.guest;
+
         // ==========================================
-        // SAMPLE DATA WITH ALL STATUSES
+        // SAMPLE DATA
         // ==========================================
         const allItems = [
             { id: 1, title: 'Black Samsung A54', category: 'Electronics', location: 'Library', date: '2026-06-10',
                 status: 'found', description: 'Samsung A54 with blue silicone cover, screen has small scratch.',
-                icon: 'fa-mobile-screen-button' },
+                icon: 'fa-mobile-screen-button', postedBy: 'Ahmed Khan' },
             { id: 2, title: 'Brown Leather Wallet', category: 'Accessories', location: 'Parking Lot',
-                date: '2026-06-08', status: 'lost', description: 'Brown leather wallet containing ID card and bank cards.',
-                icon: 'fa-wallet' },
+                date: '2026-06-08', status: 'lost', description: 'Brown leather wallet with ID card and bank cards.',
+                icon: 'fa-wallet', postedBy: 'Sara Ali' },
             { id: 3, title: 'Student ID Card', category: 'Documents', location: 'Cafeteria', date: '2026-06-07',
                 status: 'pending', description: 'University ID card - Ahmad Rizwan, Faculty of Engineering.',
-                icon: 'fa-id-card' },
+                icon: 'fa-id-card', postedBy: 'Omar Hassan' },
             { id: 4, title: 'Bunch of Keys', category: 'Accessories', location: 'Sports Hall', date: '2026-06-09',
                 status: 'approved', description: '3 keys with a small silver keychain. One key has a red tag.',
-                icon: 'fa-key' },
+                icon: 'fa-key', postedBy: 'Zara Malik' },
             { id: 5, title: 'White Earbuds', category: 'Electronics', location: 'Main Hall', date: '2026-06-08',
-                status: 'rejected', description: 'Apple AirPods in white charging case.', icon: 'fa-headphones' },
+                status: 'rejected', description: 'Apple AirPods in white charging case.', icon: 'fa-headphones',
+                postedBy: 'Rayan Ahmed' },
             { id: 6, title: 'Data Structures Textbook', category: 'Books', location: 'CS Lab', date: '2026-06-07',
                 status: 'resolved', description: 'Data Structures & Algorithms textbook with sticky notes.',
-                icon: 'fa-book' },
+                icon: 'fa-book', postedBy: 'Fatima Noor' },
             { id: 7, title: 'Black Laptop Bag', category: 'Bag', location: 'Auditorium', date: '2026-06-12',
-                status: 'lost', description: 'Black laptop bag with a small tear on the side.', icon: 'fa-bag-shopping' },
+                status: 'lost', description: 'Black laptop bag with a small tear on the side.', icon: 'fa-bag-shopping',
+                postedBy: 'Hassan Raza' },
             { id: 8, title: 'Silver Watch', category: 'Watch', location: 'Library', date: '2026-06-11',
-                status: 'found', description: 'Silver analog watch with leather strap.', icon: 'fa-clock' },
+                status: 'found', description: 'Silver analog watch with leather strap.', icon: 'fa-clock',
+                postedBy: 'Mona Khan' },
             { id: 9, title: 'Gold Ring', category: 'Jewelry', location: 'Cafeteria', date: '2026-06-10',
-                status: 'pending', description: 'Gold ring with a small diamond.', icon: 'fa-gem' },
+                status: 'pending', description: 'Gold ring with a small diamond.', icon: 'fa-gem', postedBy: 'Ali Ahmed' },
             { id: 10, title: 'Physics Textbook', category: 'Books', location: 'Library', date: '2026-06-09',
-                status: 'approved', description: 'University Physics textbook - 12th edition.', icon: 'fa-book' },
+                status: 'approved', description: 'University Physics textbook - 12th edition.', icon: 'fa-book',
+                postedBy: 'Nadia Shah' },
             { id: 11, title: 'Phone Charger', category: 'Electronics', location: 'CS Lab', date: '2026-06-13',
-                status: 'lost', description: 'USB-C fast charger for Samsung phone.', icon: 'fa-plug' },
+                status: 'lost', description: 'USB-C fast charger for Samsung phone.', icon: 'fa-plug',
+                postedBy: 'Usman Farooq' },
             { id: 12, title: 'Blue Water Bottle', category: 'Accessories', location: 'Sports Hall', date: '2026-06-12',
-                status: 'rejected', description: 'Blue stainless steel water bottle.', icon: 'fa-bottle-water' },
+                status: 'rejected', description: 'Blue stainless steel water bottle.', icon: 'fa-bottle-water',
+                postedBy: 'Ayesha Khan' },
             { id: 13, title: 'MacBook Pro', category: 'Electronics', location: 'Library', date: '2026-06-14',
                 status: 'found', description: 'Space gray MacBook Pro 14-inch with stickers on the lid.',
-                icon: 'fa-laptop' },
+                icon: 'fa-laptop', postedBy: 'Bilal Ahmed' },
             { id: 14, title: 'Library Card', category: 'Documents', location: 'Library', date: '2026-06-13',
-                status: 'resolved', description: 'University library card for Sarah Ahmed.', icon: 'fa-id-card' },
+                status: 'resolved', description: 'University library card for Sarah Ahmed.', icon: 'fa-id-card',
+                postedBy: 'Omar Farooq' },
             { id: 15, title: 'Gym Bag', category: 'Bag', location: 'Sports Hall', date: '2026-06-14',
-                status: 'resolved', description: 'Nike gym bag with gym clothes and shoes.', icon: 'fa-bag-shopping' },
+                status: 'found', description: 'Nike gym bag with gym clothes and shoes.', icon: 'fa-bag-shopping',
+                postedBy: 'Hira Khan' }
         ];
 
-        // ==========================================
-        // STATE
-        // ==========================================
         let currentPage = 1;
-        const itemsPerPage = 12;
+        const itemsPerPage = 9;
         let filteredItems = [...allItems];
-        let activeFilters = {
-            search: '',
-            category: '',
-            location: '',
-            status: 'all',
-            dateFrom: '',
-            dateTo: '',
-            sort: 'newest'
-        };
-
-        // ==========================================
-        // DOM REFS
-        // ==========================================
-        const resultsGrid = document.getElementById('resultsGrid');
-        const pagination = document.getElementById('pagination');
-        const resultCount = document.getElementById('resultCount');
-        const totalCount = document.getElementById('totalCount');
-        const chipsContainer = document.getElementById('chipsContainer');
-        const modalActions = document.getElementById('modalActions');
-        const statusToggles = document.getElementById('statusToggles');
+        let activeFilters = { search: '', category: '', location: '', status: 'all', dateFrom: '', dateTo: '' };
 
         // ==========================================
         // BUILD STATUS TOGGLES BASED ON ROLE
         // ==========================================
         function buildStatusToggles() {
-            const config = roleStatusConfig[currentUserRole] || roleStatusConfig.guest;
             const toggleMap = {
                 'All': 'all',
                 'Lost': 'lost',
@@ -1288,13 +984,15 @@
                 'Resolved': 'resolved'
             };
 
-            statusToggles.innerHTML = '';
-            config.toggles.forEach(label => {
+            const container = document.getElementById('statusToggles');
+            container.innerHTML = '';
+            
+            permissions.toggles.forEach(label => {
                 const btn = document.createElement('button');
                 btn.className = 'toggle-btn' + (label === 'All' ? ' active' : '');
                 btn.dataset.status = toggleMap[label];
                 btn.textContent = label;
-                statusToggles.appendChild(btn);
+                container.appendChild(btn);
             });
 
             // Re-bind click events
@@ -1309,14 +1007,127 @@
         }
 
         // ==========================================
-        // FILTER FUNCTIONS
+        // RENDER RESULTS WITH ROLE-BASED PERMISSIONS
+        // ==========================================
+        function renderResults() {
+            const total = filteredItems.length;
+            const start = (currentPage - 1) * itemsPerPage;
+            const end = Math.min(start + itemsPerPage, total);
+            const pageItems = filteredItems.slice(start, end);
+
+            document.getElementById('resultCount').textContent = total;
+            document.getElementById('totalCount').textContent = allItems.length;
+
+            if (pageItems.length === 0) {
+                document.getElementById('resultsGrid').innerHTML = `
+                    <div style="grid-column:1/-1; text-align:center; padding:4rem 2rem;">
+                        <i class="fas fa-search" style="font-size:4rem; color:#94a3b8; margin-bottom:1rem;"></i>
+                        <h3 style="color:#0F766E;">No items found</h3>
+                        <p style="color:#64748b;">Try adjusting your filters or search terms</p>
+                    </div>
+                `;
+                document.getElementById('pagination').innerHTML = '';
+                return;
+            }
+
+            document.getElementById('resultsGrid').innerHTML = pageItems.map(item => {
+                // Get permissions for this specific status
+                const statusPerm = permissions.statusPermissions[item.status] || permissions.statusPermissions.lost;
+                
+                // Determine permission badge based on status and role
+                let badgeClass = 'view-only';
+                let badgeText = statusPerm.badge || 'View Only';
+                
+                if (statusPerm.delete) {
+                    badgeClass = 'can-delete';
+                } else if (statusPerm.approve || statusPerm.reject) {
+                    badgeClass = 'can-approve';
+                } else if (statusPerm.claim) {
+                    badgeClass = 'can-claim';
+                } else if (statusPerm.contact) {
+                    badgeClass = 'contact-visible';
+                } else if (!statusPerm.view) {
+                    badgeClass = 'not-visible';
+                }
+                
+                const permissionBadge = `<span class="permission-badge ${badgeClass}">${badgeText}</span>`;
+
+                return `
+                <div class="result-card" onclick="viewItem(${item.id})">
+                    <div class="card-image">
+                        <i class="fas ${item.icon}"></i>
+                        <span class="status-badge ${item.status}">${item.status}</span>
+                    </div>
+                    <div class="card-body">
+                        <h4>${item.title} ${permissionBadge}</h4>
+                        <div class="meta">
+                            <span><i class="fas fa-location-dot"></i> ${item.location}</span>
+                            <span><i class="fas fa-calendar-day"></i> ${new Date(item.date).toLocaleDateString()}</span>
+                            <span><i class="fas fa-tag"></i> ${item.category}</span>
+                        </div>
+                        <div class="description">${item.description}</div>
+                        <button class="view-btn">View Details</button>
+                    </div>
+                </div>
+            `}).join('');
+
+            renderPagination(total);
+        }
+
+        // ==========================================
+        // RENDER PAGINATION
+        // ==========================================
+        function renderPagination(total) {
+            const totalPages = Math.ceil(total / itemsPerPage);
+            if (totalPages <= 1) {
+                document.getElementById('pagination').innerHTML = '';
+                return;
+            }
+
+            let html = '';
+            html += `<button ${currentPage === 1 ? 'disabled' : ''} onclick="goToPage(${currentPage - 1})">
+                <i class="fas fa-chevron-left"></i>
+            </button>`;
+
+            for (let i = 1; i <= totalPages; i++) {
+                if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
+                    html += `<button class="${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>`;
+                } else if (i === currentPage - 2 || i === currentPage + 2) {
+                    html += `<span class="dots">…</span>`;
+                }
+            }
+
+            html += `<button ${currentPage === totalPages ? 'disabled' : ''} onclick="goToPage(${currentPage + 1})">
+                <i class="fas fa-chevron-right"></i>
+            </button>`;
+
+            document.getElementById('pagination').innerHTML = html;
+        }
+
+        function goToPage(page) {
+            const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
+            if (page < 1 || page > totalPages) return;
+            currentPage = page;
+            renderResults();
+            document.querySelector('.results-grid').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // ==========================================
+        // VIEW ITEM - NAVIGATE TO DETAIL PAGE
+        // ==========================================
+        function viewItem(id) {
+            sessionStorage.setItem('viewItemId', id);
+            window.location.href = '../user/itemdetail.html';
+        }
+
+        // ==========================================
+        // APPLY FILTERS (WITH ROLE-BASED VISIBILITY)
         // ==========================================
         function applyFilters() {
             let items = [...allItems];
 
-            // Filter by role visibility (only show statuses the role can see)
-            const config = roleStatusConfig[currentUserRole] || roleStatusConfig.guest;
-            items = items.filter(item => config.visibleStatuses.includes(item.status));
+            // ===== 🔥 ROLE-BASED FILTERING =====
+            items = items.filter(item => permissions.visibleStatuses.includes(item.status));
 
             if (activeFilters.search) {
                 const search = activeFilters.search.toLowerCase();
@@ -1346,420 +1157,10 @@
                 items = items.filter(item => item.date <= activeFilters.dateTo);
             }
 
-            switch (activeFilters.sort) {
-                case 'newest':
-                    items.sort((a, b) => new Date(b.date) - new Date(a.date));
-                    break;
-                case 'oldest':
-                    items.sort((a, b) => new Date(a.date) - new Date(b.date));
-                    break;
-                case 'recent':
-                    items.sort((a, b) => new Date(b.date) - new Date(a.date));
-                    break;
-            }
-
             filteredItems = items;
             currentPage = 1;
             renderResults();
             updateChips();
-        }
-
-        // ==========================================
-        // RENDER RESULTS
-        // ==========================================
-        function renderResults() {
-            const total = filteredItems.length;
-            const start = (currentPage - 1) * itemsPerPage;
-            const end = Math.min(start + itemsPerPage, total);
-            const pageItems = filteredItems.slice(start, end);
-
-            resultCount.textContent = total;
-            totalCount.textContent = allItems.length;
-
-            if (pageItems.length === 0) {
-                resultsGrid.innerHTML = `
-                    <div class="empty-state">
-                        <div class="empty-icon"><i class="fas fa-search"></i></div>
-                        <h3>No items found</h3>
-                        <p>Try adjusting your filters or search terms</p>
-                        <div class="empty-actions">
-                            <button class="btn-empty btn-report" onclick="window.location.href='pub/reportitem.html'">
-                                <i class="fas fa-plus"></i> Report an Item
-                            </button>
-                            <button class="btn-empty btn-clear" onclick="clearAllFilters()">
-                                <i class="fas fa-undo"></i> Clear Filters
-                            </button>
-                        </div>
-                    </div>
-                `;
-                renderPagination(0);
-                return;
-            }
-
-            resultsGrid.innerHTML = pageItems.map(item => `
-                <div class="result-card" data-id="${item.id}">
-                    <div class="card-image">
-                        <i class="fas ${item.icon}"></i>
-                        <span class="status-badge ${item.status}">${item.status}</span>
-                    </div>
-                    <div class="card-body">
-                        <h4>${item.title}</h4>
-                        <div class="meta">
-                            <span><i class="fas fa-location-dot"></i> ${item.location}</span>
-                            <span><i class="fas fa-calendar-day"></i> ${new Date(item.date).toLocaleDateString()}</span>
-                            <span><i class="fas fa-tag"></i> ${item.category}</span>
-                        </div>
-                        <div class="description">${item.description}</div>
-                        <button class="view-btn" onclick="viewItem(${item.id})">View Details</button>
-                    </div>
-                </div>
-            `).join('');
-
-            renderPagination(total);
-        }
-
-        // ==========================================
-        // RENDER PAGINATION
-        // ==========================================
-        function renderPagination(total) {
-            const totalPages = Math.ceil(total / itemsPerPage);
-
-            if (totalPages <= 1) {
-                pagination.innerHTML = '';
-                return;
-            }
-
-            let html = '';
-            html += `<button ${currentPage === 1 ? 'disabled' : ''} onclick="goToPage(${currentPage - 1})">
-                <i class="fas fa-chevron-left"></i>
-            </button>`;
-
-            if (totalPages <= 7) {
-                for (let i = 1; i <= totalPages; i++) {
-                    html += `<button class="${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>`;
-                }
-            } else {
-                html += `<button class="${1 === currentPage ? 'active' : ''}" onclick="goToPage(1)">1</button>`;
-                if (currentPage > 3) {
-                    html += `<span class="dots">…</span>`;
-                }
-                for (let i = Math.max(2, currentPage - 1); i <= Math.min(totalPages - 1, currentPage + 1); i++) {
-                    html += `<button class="${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>`;
-                }
-                if (currentPage < totalPages - 2) {
-                    html += `<span class="dots">…</span>`;
-                }
-                html += `<button class="${totalPages === currentPage ? 'active' : ''}" onclick="goToPage(${totalPages})">${totalPages}</button>`;
-            }
-
-            html += `<button ${currentPage === totalPages ? 'disabled' : ''} onclick="goToPage(${currentPage + 1})">
-                <i class="fas fa-chevron-right"></i>
-            </button>`;
-
-            pagination.innerHTML = html;
-        }
-
-        function goToPage(page) {
-            const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
-            if (page < 1 || page > totalPages) return;
-            currentPage = page;
-            renderResults();
-            document.querySelector('.results-grid').scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-
-        // ==========================================
-        // VIEW ITEM DETAIL MODAL (ROLE-BASED)
-        // ==========================================
-        function viewItem(id) {
-            const item = allItems.find(i => i.id === id);
-            if (!item) return;
-
-            // Set basic modal content
-            document.getElementById('modalTitle').textContent = item.title;
-            document.getElementById('modalLocation').innerHTML = `<i class="fas fa-location-dot"></i> ${item.location}`;
-            document.getElementById('modalDate').innerHTML = `<i class="fas fa-calendar-day"></i> ${new Date(item.date).toLocaleDateString()}`;
-            document.getElementById('modalCategory').innerHTML = `<i class="fas fa-tag"></i> ${item.category}`;
-            document.getElementById('modalStatus').innerHTML = `<i class="fas fa-circle"></i> ${item.status.charAt(0).toUpperCase() + item.status.slice(1)}`;
-            document.getElementById('modalIcon').innerHTML = `<i class="fas ${item.icon}"></i>`;
-
-            // Status badge
-            const statusBadge = document.getElementById('modalStatusBadge');
-            statusBadge.textContent = item.status.charAt(0).toUpperCase() + item.status.slice(1);
-            statusBadge.className = `modal-status-badge ${item.status}`;
-
-            // Description
-            const descEl = document.getElementById('modalDescription');
-            descEl.innerHTML = item.description;
-
-            // ==========================================
-            // ROLE-BASED ACTION BUTTONS
-            // ==========================================
-            let actionsHtml = '';
-
-            if (currentUserRole === 'guest') {
-                // ===== GUEST USER (Not Logged In) =====
-                if (item.status === 'lost' || item.status === 'found') {
-                    actionsHtml = `
-                        <div class="status-message info">
-                            <i class="fas fa-info-circle"></i> Login to claim this item
-                        </div>
-                        <a href="../auth/login.html" class="btn-login-prompt">
-                            <i class="fas fa-sign-in-alt"></i> Login to Claim
-                        </a>
-                        <button class="btn-close-modal" onclick="closeModal()">Close</button>
-                    `;
-                }
-
-            } else if (currentUserRole === 'user') {
-                // ===== REGULAR USER (Logged In) =====
-                if (item.status === 'lost') {
-                    actionsHtml = `
-                        <button class="btn-lost" disabled>
-                            <i class="fas fa-search"></i> Item is Still Lost
-                        </button>
-                        <button class="btn-close-modal" onclick="closeModal()">Close</button>
-                    `;
-                } else if (item.status === 'found') {
-                    actionsHtml = `
-                        <button class="btn-claim" onclick="handleClaim('${item.title}')">
-                            <i class="fas fa-handshake"></i> Claim This Item
-                        </button>
-                        <button class="btn-close-modal" onclick="closeModal()">Close</button>
-                    `;
-                } else if (item.status === 'pending') {
-                    actionsHtml = `
-                        <div class="status-message warning">
-                            <i class="fas fa-clock"></i> Your claim is pending review
-                        </div>
-                        <button class="btn-close-modal" onclick="closeModal()">Close</button>
-                    `;
-                } else if (item.status === 'approved') {
-                    actionsHtml = `
-                        <div class="status-message success">
-                            <i class="fas fa-check-circle"></i> Claim Approved! Contact details revealed.
-                        </div>
-                        <button class="btn-resolved" disabled>
-                            <i class="fas fa-check-circle"></i> Claim Approved
-                        </button>
-                        <button class="btn-close-modal" onclick="closeModal()">Close</button>
-                    `;
-                } else if (item.status === 'rejected') {
-                    actionsHtml = `
-                        <div class="status-message error">
-                            <i class="fas fa-times-circle"></i> Your claim was rejected
-                        </div>
-                        <button class="btn-close-modal" onclick="closeModal()">Close</button>
-                    `;
-                } else if (item.status === 'resolved') {
-                    actionsHtml = `
-                        <div class="status-message success">
-                            <i class="fas fa-check-circle"></i> This item has been resolved
-                        </div>
-                        <button class="btn-resolved" disabled>
-                            <i class="fas fa-check-circle"></i> Resolved
-                        </button>
-                        <button class="btn-close-modal" onclick="closeModal()">Close</button>
-                    `;
-                }
-
-            } else if (currentUserRole === 'manager') {
-                // ===== MANAGER =====
-                if (item.status === 'lost') {
-                    actionsHtml = `
-                        <button class="btn-lost" disabled>
-                            <i class="fas fa-search"></i> Item is Still Lost
-                        </button>
-                        <button class="btn-close-modal" onclick="closeModal()">Close</button>
-                    `;
-                } else if (item.status === 'found') {
-                    actionsHtml = `
-                        <button class="btn-claim" onclick="handleClaim('${item.title}')">
-                            <i class="fas fa-handshake"></i> Claim This Item
-                        </button>
-                        <button class="btn-close-modal" onclick="closeModal()">Close</button>
-                    `;
-                } else if (item.status === 'pending') {
-                    actionsHtml = `
-                        <div class="status-message warning">
-                            <i class="fas fa-clock"></i> Pending Review - Please verify ownership evidence
-                        </div>
-                        <div class="btn-group">
-                            <button class="btn-approve" onclick="handleApprove('${item.title}')">
-                                <i class="fas fa-check"></i> Approve
-                            </button>
-                            <button class="btn-reject" onclick="handleReject('${item.title}')">
-                                <i class="fas fa-times"></i> Reject
-                            </button>
-                        </div>
-                        <button class="btn-close-modal" onclick="closeModal()">Close</button>
-                    `;
-                } else if (item.status === 'approved') {
-                    actionsHtml = `
-                        <div class="status-message success">
-                            <i class="fas fa-check-circle"></i> Claim Approved
-                        </div>
-                        <button class="btn-resolve-manager" onclick="handleResolve('${item.title}')">
-                            <i class="fas fa-check-double"></i> Mark as Resolved
-                        </button>
-                        <button class="btn-close-modal" onclick="closeModal()">Close</button>
-                    `;
-                } else if (item.status === 'rejected') {
-                    actionsHtml = `
-                        <div class="status-message error">
-                            <i class="fas fa-times-circle"></i> Claim Rejected
-                        </div>
-                        <button class="btn-close-modal" onclick="closeModal()">Close</button>
-                    `;
-                } else if (item.status === 'resolved') {
-                    actionsHtml = `
-                        <div class="status-message success">
-                            <i class="fas fa-check-circle"></i> Item Resolved
-                        </div>
-                        <button class="btn-resolved" disabled>
-                            <i class="fas fa-check-circle"></i> Resolved
-                        </button>
-                        <button class="btn-close-modal" onclick="closeModal()">Close</button>
-                    `;
-                }
-
-            } else if (currentUserRole === 'admin') {
-                // ===== ADMIN =====
-                // Admin CANNOT claim items - only manage and delete
-                if (item.status === 'lost') {
-                    actionsHtml = `
-                        <div class="status-message admin-info">
-                            <i class="fas fa-shield-alt"></i> Admin view - You cannot claim items
-                        </div>
-                        <button class="btn-lost" disabled>
-                            <i class="fas fa-search"></i> Item is Still Lost
-                        </button>
-                        <button class="btn-delete" onclick="handleDelete('${item.title}')">
-                            <i class="fas fa-trash"></i> Delete Item
-                        </button>
-                        <button class="btn-close-modal" onclick="closeModal()">Close</button>
-                    `;
-                } else if (item.status === 'found') {
-                    actionsHtml = `
-                        <div class="status-message admin-info">
-                            <i class="fas fa-shield-alt"></i> Admin view - You cannot claim items
-                        </div>
-                        <button class="btn-delete" onclick="handleDelete('${item.title}')">
-                            <i class="fas fa-trash"></i> Delete Item
-                        </button>
-                        <button class="btn-close-modal" onclick="closeModal()">Close</button>
-                    `;
-                } else if (item.status === 'pending') {
-                    actionsHtml = `
-                        <div class="status-message warning">
-                            <i class="fas fa-clock"></i> Pending Review
-                        </div>
-                        <div class="btn-group">
-                            <button class="btn-approve" onclick="handleApprove('${item.title}')">
-                                <i class="fas fa-check"></i> Approve
-                            </button>
-                            <button class="btn-reject" onclick="handleReject('${item.title}')">
-                                <i class="fas fa-times"></i> Reject
-                            </button>
-                        </div>
-                        <button class="btn-delete" onclick="handleDelete('${item.title}')">
-                            <i class="fas fa-trash"></i> Delete Item
-                        </button>
-                        <button class="btn-close-modal" onclick="closeModal()">Close</button>
-                    `;
-                } else if (item.status === 'approved') {
-                    actionsHtml = `
-                        <div class="status-message success">
-                            <i class="fas fa-check-circle"></i> Claim Approved
-                        </div>
-                        <button class="btn-resolve-manager" onclick="handleResolve('${item.title}')">
-                            <i class="fas fa-check-double"></i> Mark as Resolved
-                        </button>
-                        <button class="btn-delete" onclick="handleDelete('${item.title}')">
-                            <i class="fas fa-trash"></i> Delete Item
-                        </button>
-                        <button class="btn-close-modal" onclick="closeModal()">Close</button>
-                    `;
-                } else if (item.status === 'rejected') {
-                    actionsHtml = `
-                        <div class="status-message error">
-                            <i class="fas fa-times-circle"></i> Claim Rejected
-                        </div>
-                        <button class="btn-delete" onclick="handleDelete('${item.title}')">
-                            <i class="fas fa-trash"></i> Delete Item
-                        </button>
-                        <button class="btn-close-modal" onclick="closeModal()">Close</button>
-                    `;
-                } else if (item.status === 'resolved') {
-                    actionsHtml = `
-                        <div class="status-message success">
-                            <i class="fas fa-check-circle"></i> Item Resolved
-                        </div>
-                        <button class="btn-resolved" disabled>
-                            <i class="fas fa-check-circle"></i> Resolved
-                        </button>
-                        <button class="btn-delete" onclick="handleDelete('${item.title}')">
-                            <i class="fas fa-trash"></i> Delete Item
-                        </button>
-                        <button class="btn-close-modal" onclick="closeModal()">Close</button>
-                    `;
-                }
-            }
-
-            modalActions.innerHTML = actionsHtml;
-
-            // Show modal
-            document.getElementById('itemModal').classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-
-        // ==========================================
-        // MODAL FUNCTIONS
-        // ==========================================
-        function closeModal() {
-            document.getElementById('itemModal').classList.remove('active');
-            document.body.style.overflow = '';
-        }
-
-        document.getElementById('closeModal').onclick = closeModal;
-        document.getElementById('itemModal').onclick = function(e) {
-            if (e.target === this) closeModal();
-        };
-
-        // ==========================================
-        // ACTION HANDLERS
-        // ==========================================
-        function handleClaim(title) {
-            alert('✅ Claim request sent for "' + title + '"!');
-            closeModal();
-        }
-
-        function handleApprove(title) {
-            if (confirm('Approve claim for "' + title + '"? This will share contact details.')) {
-                alert('✅ Claim for "' + title + '" has been approved!');
-                closeModal();
-            }
-        }
-
-        function handleReject(title) {
-            const reason = prompt('Please provide a reason for rejecting this claim:');
-            if (reason !== null) {
-                alert('❌ Claim for "' + title + '" has been rejected.\nReason: ' + reason);
-                closeModal();
-            }
-        }
-
-        function handleResolve(title) {
-            if (confirm('Mark "' + title + '" as resolved?')) {
-                alert('✅ "' + title + '" marked as resolved!');
-                closeModal();
-            }
-        }
-
-        function handleDelete(title) {
-            if (confirm('⚠️ Are you sure you want to delete "' + title + '"? This action cannot be undone.')) {
-                alert('🗑️ "' + title + '" has been deleted.');
-                closeModal();
-            }
         }
 
         // ==========================================
@@ -1771,18 +1172,18 @@
             if (activeFilters.category) chips.push({ label: `Category: ${activeFilters.category}`, key: 'category' });
             if (activeFilters.location) chips.push({ label: `Location: ${activeFilters.location}`, key: 'location' });
             if (activeFilters.status !== 'all') chips.push({ label: `Status: ${activeFilters.status}`, key: 'status' });
-            if (activeFilters.dateFrom) chips.push({ label: `From: ${new Date(activeFilters.dateFrom).toLocaleDateString()}`,
-                key: 'dateFrom' });
-            if (activeFilters.dateTo) chips.push({ label: `To: ${new Date(activeFilters.dateTo).toLocaleDateString()}`,
-                key: 'dateTo' });
+
+            const container = document.getElementById('chipsContainer');
+            const clearBtn = document.getElementById('clearAllFilters');
 
             if (chips.length === 0) {
-                chipsContainer.innerHTML =
-                `<span style="color:#94a3b8; font-size:0.8rem;">No active filters</span>`;
+                container.innerHTML = `<span style="color:#94a3b8; font-size:0.8rem;">No active filters</span>`;
+                clearBtn.style.display = 'none';
                 return;
             }
 
-            chipsContainer.innerHTML = chips.map(chip => `
+            clearBtn.style.display = 'inline-block';
+            container.innerHTML = chips.map(chip => `
                 <span class="chip">
                     ${chip.label}
                     <span class="remove" onclick="removeChip('${chip.key}')">&times;</span>
@@ -1795,8 +1196,6 @@
             if (key === 'search') document.getElementById('searchInput').value = '';
             if (key === 'category') document.getElementById('categoryFilter').value = '';
             if (key === 'location') document.getElementById('locationFilter').value = '';
-            if (key === 'dateFrom') document.getElementById('dateFrom').value = '';
-            if (key === 'dateTo') document.getElementById('dateTo').value = '';
             if (key === 'status') {
                 document.querySelectorAll('.status-toggles .toggle-btn').forEach(btn => {
                     btn.classList.toggle('active', btn.dataset.status === 'all');
@@ -1806,8 +1205,7 @@
         }
 
         function clearAllFilters() {
-            activeFilters = { search: '', category: '', location: '', status: 'all', dateFrom: '', dateTo: '',
-                sort: 'newest' };
+            activeFilters = { search: '', category: '', location: '', status: 'all', dateFrom: '', dateTo: '' };
             document.getElementById('searchInput').value = '';
             document.getElementById('categoryFilter').value = '';
             document.getElementById('locationFilter').value = '';
@@ -1816,20 +1214,15 @@
             document.querySelectorAll('.status-toggles .toggle-btn').forEach(btn => {
                 btn.classList.toggle('active', btn.dataset.status === 'all');
             });
-            document.getElementById('sortSelect').value = 'newest';
             applyFilters();
         }
 
         // ==========================================
         // EVENT LISTENERS
         // ==========================================
-        let searchTimeout;
         document.getElementById('searchInput').addEventListener('input', function() {
-            clearTimeout(searchTimeout);
-            searchTimeout = setTimeout(() => {
-                activeFilters.search = this.value.trim();
-                applyFilters();
-            }, 300);
+            activeFilters.search = this.value.trim();
+            applyFilters();
         });
 
         document.getElementById('categoryFilter').addEventListener('change', function() {
@@ -1852,11 +1245,6 @@
             applyFilters();
         });
 
-        document.getElementById('sortSelect').addEventListener('change', function() {
-            activeFilters.sort = this.value;
-            applyFilters();
-        });
-
         document.getElementById('clearAllFilters').addEventListener('click', clearAllFilters);
 
         // ==========================================
@@ -1864,15 +1252,13 @@
         // ==========================================
         document.querySelectorAll('.nav-links a, .nav-actions a').forEach(link => {
             link.addEventListener('click', function(e) {
-                const allowedPages = ['auth/login.html', 'auth/register.html', 'auth/forgotpassword.html', 
-                    'pub/reportitem.html', 'pub/itemfound.html', 'pub/home.html', 'pub/search.html'
+                const allowedPages = ['../auth/login.html', '../auth/register.html', 
+                    'reportitem.html', 'itemfound.html', 'home.html', 'search.html'
                 ];
 
                 if (this.href) {
                     const shouldNavigate = allowedPages.some(page => this.href.includes(page));
-                    if (shouldNavigate) {
-                        return;
-                    }
+                    if (shouldNavigate) return;
                 }
 
                 e.preventDefault();
@@ -1885,22 +1271,23 @@
         });
 
         // ==========================================
-        // KEYBOARD SHORTCUT
-        // ==========================================
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') {
-                closeModal();
-            }
-        });
-
-        // ==========================================
         // INIT
         // ==========================================
         buildStatusToggles();
         applyFilters();
 
-        console.log('👤 Current Role:', currentUserRole);
-        console.log('📋 Visible Statuses:', roleStatusConfig[currentUserRole]?.visibleStatuses || ['lost', 'found']);
+        // ==========================================
+        // LOG PERMISSIONS (Console Only)
+        // ==========================================
+        console.log('✅ Search page loaded with Role-Based Logic');
+        console.log('📋 Current Role:', currentUserRole);
+        console.log('📊 Permissions:');
+        console.log('   ├─ Can Claim:', permissions.canClaim);
+        console.log('   ├─ Can Approve:', permissions.canApprove);
+        console.log('   ├─ Can Reject:', permissions.canReject);
+        console.log('   ├─ Can Resolve:', permissions.canResolve);
+        console.log('   └─ Can Delete:', permissions.canDelete);
+        console.log('📋 Visible Statuses:', permissions.visibleStatuses);
     </script>
 
 </body>

@@ -180,55 +180,115 @@
         }
 
         .hero-search {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            max-width: 780px;
-            margin: 0 auto 2rem;
-            background: white;
-            border-radius: 60px;
-            padding: 0.4rem;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
-        }
-        .hero-search input,
-        .hero-search select {
-            border: none;
-            padding: 0.8rem 1.2rem;
-            font-size: 0.9rem;
-            outline: none;
-            background: transparent;
-            flex: 1;
-            min-width: 120px;
-            color: #1a1a2e;
-            font-weight: 500;
-        }
-        .hero-search select {
-            cursor: pointer;
-            appearance: auto;
-            -webkit-appearance: auto;
-            color: #2C2C2A;
-        }
-        .hero-search input::placeholder {
-            color: #9a9a96;
-            font-weight: 400;
-        }
-        .hero-search .search-btn {
-            background: #0D9488;
-            color: white;
-            border: none;
-            border-radius: 60px;
-            padding: 0.8rem 2.2rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            white-space: nowrap;
-            font-size: 0.9rem;
-        }
-        .hero-search .search-btn:hover {
-            background: #0F766E;
-            transform: scale(1.02);
-            box-shadow: 0 8px 25px rgba(13, 148, 136, 0.4);
-        }
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+    max-width: 780px;
+    margin: 0 auto 2rem;
+    background: white;
+    border-radius: 60px;
+    padding: 0.3rem;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(13, 148, 136, 0.08);
+}
+
+.hero-search input,
+.hero-search select {
+    border: none;
+    padding: 0.8rem 1.2rem;
+    font-size: 0.9rem;
+    outline: none;
+    background: #f8fafc; /* Light gray input background */
+    flex: 1;
+    min-width: 120px;
+    color: #1a1a2e;
+    font-weight: 500;
+    border-radius: 60px;
+    transition: all 0.3s ease;
+}
+
+.hero-search input:focus,
+.hero-search select:focus {
+    background: white;
+    box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.1);
+}
+
+/* Remove browser autofill styling */
+.hero-search input:-webkit-autofill,
+.hero-search input:-webkit-autofill:hover,
+.hero-search input:-webkit-autofill:focus,
+.hero-search input:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 30px #f8fafc inset !important;
+    -webkit-text-fill-color: #1a1a2e !important;
+}
+
+.hero-search select {
+    cursor: pointer;
+    appearance: auto;
+    -webkit-appearance: auto;
+    color: #2C2C2A;
+    background: #f8fafc;
+}
+
+.hero-search input::placeholder {
+    color: #9a9a96;
+    font-weight: 400;
+}
+
+.hero-search .search-btn {
+    background: #0D9488;
+    color: white;
+    border: none;
+    border-radius: 60px;
+    padding: 0.8rem 2.2rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    white-space: nowrap;
+    font-size: 0.9rem;
+}
+
+.hero-search .search-btn:hover {
+    background: #0F766E;
+    transform: scale(1.02);
+    box-shadow: 0 8px 25px rgba(13, 148, 136, 0.4);
+}
+        /* ===== SEARCH RESULTS COUNT ===== */
+.search-results-count {
+    display: none;
+    padding: 0.5rem 1.5rem;
+    background: #e6f5f2;
+    border-radius: 60px;
+    font-size: 0.85rem;
+    color: #0F766E;
+    font-weight: 600;
+    margin: 0.5rem auto 1.5rem;
+    max-width: fit-content;
+    align-items: center;
+    gap: 0.8rem;
+    box-shadow: 0 2px 10px rgba(13, 148, 136, 0.08);
+}
+
+.search-results-count.show {
+    display: flex;
+}
+
+.clear-search {
+    background: #0D9488;
+    color: white;
+    border: none;
+    padding: 0.3rem 1.2rem;
+    border-radius: 60px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.clear-search:hover {
+    background: #0F766E;
+    transform: scale(1.05);
+}
 
         .hero-btns {
             display: flex;
@@ -972,8 +1032,13 @@
                     <option value="parking">Parking</option>
                     <option value="auditorium">Auditorium</option>
                 </select>
-                <button class="search-btn"><i class="fas fa-search"></i> Search</button>
+                 <button class="search-btn" id="searchBtn"><i class="fas fa-search"></i> Search</button>
             </div>
+
+            <div class="search-results-count" id="searchResultsCount">
+    <span id="resultCount">0</span> items found
+    <button class="clear-search" id="clearSearch">Clear Filters</button>
+</div>
 
             <div class="hero-btns">
                 <a href="reportitem.html" class="btn-primary"><i class="fas fa-triangle-exclamation"></i> Report Lost</a>
@@ -1010,7 +1075,7 @@
     <section class="recent-section">
         <div class="section-header">
             <h2 class="section-title">Recent <span>Activity</span></h2>
-            <a class="view-all" id="viewAllLink">View all →</a>
+            <a href="search.html" class="view-all" id="viewAllLink">View all →</a>
         </div>
         <div class="recent-grid">
             <!-- Lost Items -->
@@ -1200,41 +1265,274 @@
 
     <!-- ===== JAVASCRIPT ===== -->
     <script>
-        // ===== STICKY NAVBAR =====
-        const navbar = document.getElementById('navbar');
+    // ============================================
+    // COMPLETE JAVASCRIPT FOR LOST & FOUND
+    // ============================================
+    
+    console.log('🚀 Page loading...');
+    
+    // ============================================
+    // 1. SEARCH FUNCTIONALITY (FULLY WORKING)
+    // ============================================
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('📄 DOM ready');
+        initSearch();
+    });
+    
+    function initSearch() {
+        console.log('🔧 Initializing search...');
+        
+        // Get all elements
+        const searchBtn = document.getElementById('searchBtn');
+        const searchInput = document.getElementById('searchInput');
+        const categoryFilter = document.getElementById('categoryFilter');
+        const locationFilter = document.getElementById('locationFilter');
+        const resultsCount = document.getElementById('searchResultsCount');
+        const resultCountSpan = document.getElementById('resultCount');
+        const clearBtn = document.getElementById('clearSearch');
+        const statsSection = document.getElementById('statsSection');
+        
+        // Check if elements exist
+        if (!searchBtn) {
+            console.error('❌ Search button not found! Make sure it has id="searchBtn"');
+            return;
+        }
+        
+        console.log('✅ All search elements found');
+        
+        // ===== MAIN SEARCH FUNCTION =====
+        function performSearch() {
+            console.log('🔍 Performing search...');
+            
+            // Get values
+            const query = searchInput.value.toLowerCase().trim();
+            const category = categoryFilter.value.toLowerCase();
+            const location = locationFilter.value.toLowerCase();
+            
+            console.log(`  Search: "${query}" | Category: "${category}" | Location: "${location}"`);
+            
+            // Get all item cards
+            const cards = document.querySelectorAll('.item-card');
+            console.log(`  Found ${cards.length} items to filter`);
+            
+            let visibleCount = 0;
+            
+            // Filter each card
+            cards.forEach(function(card) {
+                const title = card.dataset.title?.toLowerCase() || '';
+                const cardCategory = card.dataset.category?.toLowerCase() || '';
+                const cardLocation = card.dataset.location?.toLowerCase() || '';
+                
+                let show = true;
+                
+                // Check search query
+                if (query && !title.includes(query)) {
+                    show = false;
+                }
+                
+                // Check category
+                if (category && cardCategory !== category) {
+                    show = false;
+                }
+                
+                // Check location
+                if (location && cardLocation !== location) {
+                    show = false;
+                }
+                
+                // Show or hide
+                if (show) {
+                    card.style.display = 'flex';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+            
+            console.log(`  ✅ Showing ${visibleCount} items`);
+            
+            // ===== HIDE STATS WHEN SEARCHING =====
+            const hasSearch = query || category || location;
+            
+            if (statsSection) {
+                if (hasSearch) {
+                    statsSection.style.display = 'none';
+                    console.log('  📊 Stats hidden');
+                } else {
+                    statsSection.style.display = 'grid';
+                    console.log('  📊 Stats shown');
+                }
+            }
+            
+            // Update results count
+            if (resultsCount) {
+                if (!hasSearch) {
+                    resultsCount.classList.remove('show');
+                } else {
+                    resultsCount.classList.add('show');
+                    if (resultCountSpan) {
+                        resultCountSpan.textContent = visibleCount;
+                    }
+                }
+            }
+            
+            // Show/hide no results message
+            let noResultsMsg = document.getElementById('noResultsMessage');
+            const grid = document.querySelector('.recent-grid');
+            
+            if (visibleCount === 0 && hasSearch) {
+                if (!noResultsMsg) {
+                    noResultsMsg = document.createElement('div');
+                    noResultsMsg.id = 'noResultsMessage';
+                    noResultsMsg.style.cssText = 'text-align:center;padding:3rem 2rem;color:#64748b;grid-column:1/-1;';
+                    noResultsMsg.innerHTML = `
+                        <i class="fas fa-search" style="font-size:3rem;display:block;margin-bottom:1rem;color:#0D9488;"></i>
+                        <h3 style="color:#0F766E;margin-bottom:0.5rem;">No items found</h3>
+                        <p>Try adjusting your search terms or filters</p>
+                        <button onclick="document.getElementById('clearSearch').click()" 
+                                style="margin-top:1rem;background:#0D9488;color:white;border:none;padding:0.5rem 2rem;border-radius:60px;cursor:pointer;font-size:0.9rem;">
+                            Clear Filters
+                        </button>
+                    `;
+                    grid.appendChild(noResultsMsg);
+                }
+            } else if (noResultsMsg) {
+                noResultsMsg.remove();
+            }
+        }
+        
+        // ===== RESET SEARCH =====
+        function resetSearch() {
+            console.log('🔄 Resetting search...');
+            searchInput.value = '';
+            categoryFilter.value = '';
+            locationFilter.value = '';
+            
+            // Show all items
+            const cards = document.querySelectorAll('.item-card');
+            cards.forEach(function(card) {
+                card.style.display = 'flex';
+            });
+            
+            // Show stats again
+            if (statsSection) {
+                statsSection.style.display = 'grid';
+            }
+            
+            // Hide results count
+            if (resultsCount) {
+                resultsCount.classList.remove('show');
+            }
+            
+            // Remove no results message
+            const noResultsMsg = document.getElementById('noResultsMessage');
+            if (noResultsMsg) {
+                noResultsMsg.remove();
+            }
+            
+            // Focus on search input
+            searchInput.focus();
+        }
+        
+        // ===== ATTACH EVENT LISTENERS =====
+        
+        // 1. Search Button Click
+        searchBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            console.log('👆 Search button clicked');
+            performSearch();
+        });
+        
+        // 2. Enter Key on Search Input
+        searchInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                console.log('⌨️ Enter key pressed');
+                performSearch();
+            }
+        });
+        
+        // 3. Auto-search on dropdown change
+        categoryFilter.addEventListener('change', function() {
+            console.log('📂 Category changed to:', this.value);
+            performSearch();
+        });
+        
+        locationFilter.addEventListener('change', function() {
+            console.log('📍 Location changed to:', this.value);
+            performSearch();
+        });
+        
+        // 4. Auto-search as you type (after 2 characters)
+        searchInput.addEventListener('input', function() {
+            const val = this.value.trim();
+            if (val.length >= 2) {
+                performSearch();
+            } else if (val.length === 0) {
+                // Only reset if no other filters are active
+                if (!categoryFilter.value && !locationFilter.value) {
+                    resetSearch();
+                } else {
+                    performSearch();
+                }
+            }
+        });
+        
+        // 5. Clear button
+        if (clearBtn) {
+            clearBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                resetSearch();
+            });
+        }
+        
+        console.log('✅ Search functionality ready!');
+        console.log('📝 Type a search term and click Search or press Enter');
+        console.log('📂 Category and Location changes will auto-search');
+    }
+    
+    // ============================================
+    // 2. STICKY NAVBAR
+    // ============================================
+    
+    const navbar = document.getElementById('navbar');
+    if (navbar) {
         window.addEventListener('scroll', function() {
             navbar.classList.toggle('scrolled', window.scrollY > 80);
         });
-
-        // ===== STATS COUNTER =====
-        function animateCounters() {
-            const statNumbers = document.querySelectorAll('.stat-card .number');
+    }
+    
+    // ============================================
+    // 3. STATS COUNTER
+    // ============================================
+    
+    function animateCounters() {
+        const statNumbers = document.querySelectorAll('.stat-card .number');
+        statNumbers.forEach(el => {
+            const target = parseInt(el.getAttribute('data-target'));
+            const duration = 2000;
+            const startTime = performance.now();
             
-            statNumbers.forEach(el => {
-                const target = parseInt(el.getAttribute('data-target'));
-                const duration = 2000;
-                const startTime = performance.now();
-                
-                function updateCounter(currentTime) {
-                    const elapsed = currentTime - startTime;
-                    const progress = Math.min(elapsed / duration, 1);
-                    const eased = 1 - Math.pow(1 - progress, 3);
-                    const current = Math.floor(eased * target);
-                    el.textContent = current.toLocaleString();
-                    
-                    if (progress < 1) {
-                        requestAnimationFrame(updateCounter);
-                    } else {
-                        el.textContent = target.toLocaleString();
-                    }
+            function updateCounter(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const eased = 1 - Math.pow(1 - progress, 3);
+                const current = Math.floor(eased * target);
+                el.textContent = current.toLocaleString();
+                if (progress < 1) {
+                    requestAnimationFrame(updateCounter);
+                } else {
+                    el.textContent = target.toLocaleString();
                 }
-                requestAnimationFrame(updateCounter);
-            });
-        }
-
-        const statsSection = document.getElementById('statsSection');
-        let hasAnimated = false;
-
+            }
+            requestAnimationFrame(updateCounter);
+        });
+    }
+    
+    const statsSection = document.getElementById('statsSection');
+    let hasAnimated = false;
+    if (statsSection) {
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting && !hasAnimated) {
@@ -1242,173 +1540,199 @@
                     animateCounters();
                 }
             });
-        }, { 
-            threshold: 0.2,
-            rootMargin: '0px 0px -50px 0px'
-        });
-
+        }, { threshold: 0.2 });
         observer.observe(statsSection);
+    }
+    
+    // ============================================
+    // 4. ITEM DETAIL MODAL
+    // ============================================
+    
+    const modalOverlay = document.getElementById('itemModal');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalLocation = document.getElementById('modalLocation');
+    const modalDate = document.getElementById('modalDate');
+    const modalCategory = document.getElementById('modalCategory');
+    const modalDescription = document.getElementById('modalDescription');
+    const modalIcon = document.getElementById('modalIcon');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    const closeModalX = document.getElementById('closeModal');
+    const claimBtn = document.getElementById('claimBtn');
 
-        // ===== SEARCH =====
-        document.querySelector('.hero-search .search-btn').addEventListener('click', function() {
-            const query = document.getElementById('searchInput').value || 'all items';
-            const category = document.getElementById('categoryFilter').value || 'All';
-            const location = document.getElementById('locationFilter').value || 'All';
-            alert('🔍 Searching: "' + query + '"\nCategory: ' + category + '\nLocation: ' + location);
+    const iconMap = {
+        'Mobile': 'fa-mobile-screen-button',
+        'Wallet': 'fa-wallet',
+        'ID': 'fa-id-card',
+        'Keys': 'fa-key',
+        'Earbuds': 'fa-headphones',
+        'Book': 'fa-book',
+        'Laptop': 'fa-laptop',
+        'Charger': 'fa-plug',
+        'Bag': 'fa-bag-shopping',
+        'Watch': 'fa-clock'
+    };
+
+    function getIconForTitle(title) {
+        const t = title.toLowerCase();
+        if (t.includes('samsung') || t.includes('phone')) return iconMap['Mobile'];
+        if (t.includes('wallet')) return iconMap['Wallet'];
+        if (t.includes('id')) return iconMap['ID'];
+        if (t.includes('key')) return iconMap['Keys'];
+        if (t.includes('earbud') || t.includes('airpod')) return iconMap['Earbuds'];
+        if (t.includes('book') || t.includes('textbook')) return iconMap['Book'];
+        if (t.includes('laptop')) return iconMap['Laptop'];
+        if (t.includes('charger')) return iconMap['Charger'];
+        if (t.includes('bag')) return iconMap['Bag'];
+        if (t.includes('watch')) return iconMap['Watch'];
+        return 'fa-box';
+    }
+
+    function openModal(card) {
+        const title = card.dataset.title || 'Unknown Item';
+        const location = card.dataset.location || 'Unknown Location';
+        const date = card.dataset.date || 'Unknown Date';
+        const category = card.dataset.category || 'Other';
+        const description = card.dataset.description || 'No description available.';
+        const iconClass = getIconForTitle(title);
+
+        modalTitle.textContent = title;
+        modalLocation.innerHTML = `<i class="fas fa-location-dot"></i> ${location}`;
+        modalDate.innerHTML = `<i class="fas fa-calendar-day"></i> ${date}`;
+        modalCategory.innerHTML = `<i class="fas fa-tag"></i> ${category}`;
+        modalDescription.textContent = description;
+        modalIcon.innerHTML = `<i class="fas ${iconClass}"></i>`;
+        
+        modalOverlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+        modalOverlay.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    // View buttons on cards
+    document.querySelectorAll('.item-card .view-btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const card = this.closest('.item-card');
+            openModal(card);
         });
+    });
 
-        // ===== ITEM MODAL - FIXED =====
-        const modalOverlay = document.getElementById('itemModal');
-        const modalTitle = document.getElementById('modalTitle');
-        const modalLocation = document.getElementById('modalLocation');
-        const modalDate = document.getElementById('modalDate');
-        const modalCategory = document.getElementById('modalCategory');
-        const modalDescription = document.getElementById('modalDescription');
-        const modalIcon = document.getElementById('modalIcon');
-        const closeModalBtn = document.getElementById('closeModalBtn');
-        const closeModalX = document.getElementById('closeModal');
-        const claimBtn = document.getElementById('claimBtn');
-
-        // Map icons to item types
-        const iconMap = {
-            'Mobile': 'fa-mobile-screen-button',
-            'Wallet': 'fa-wallet',
-            'ID': 'fa-id-card',
-            'Keys': 'fa-key',
-            'Earbuds': 'fa-headphones',
-            'Book': 'fa-book',
-            'Laptop': 'fa-laptop',
-            'Charger': 'fa-plug',
-            'Bag': 'fa-bag-shopping',
-            'Watch': 'fa-clock'
-        };
-
-        function getIconForTitle(title) {
-            if (title.toLowerCase().includes('samsung') || title.toLowerCase().includes('phone')) return iconMap['Mobile'];
-            if (title.toLowerCase().includes('wallet')) return iconMap['Wallet'];
-            if (title.toLowerCase().includes('id')) return iconMap['ID'];
-            if (title.toLowerCase().includes('key')) return iconMap['Keys'];
-            if (title.toLowerCase().includes('earbud') || title.toLowerCase().includes('airpod')) return iconMap['Earbuds'];
-            if (title.toLowerCase().includes('book') || title.toLowerCase().includes('textbook')) return iconMap['Book'];
-            if (title.toLowerCase().includes('laptop')) return iconMap['Laptop'];
-            if (title.toLowerCase().includes('charger')) return iconMap['Charger'];
-            if (title.toLowerCase().includes('bag')) return iconMap['Bag'];
-            if (title.toLowerCase().includes('watch')) return iconMap['Watch'];
-            return 'fa-box';
-        }
-
-        function openModal(card) {
-            const title = card.dataset.title || 'Unknown Item';
-            const location = card.dataset.location || 'Unknown Location';
-            const date = card.dataset.date || 'Unknown Date';
-            const category = card.dataset.category || 'Other';
-            const description = card.dataset.description || 'No description available.';
-            const iconClass = getIconForTitle(title);
-
-            modalTitle.textContent = title;
-            modalLocation.innerHTML = `<i class="fas fa-location-dot"></i> ${location}`;
-            modalDate.innerHTML = `<i class="fas fa-calendar-day"></i> ${date}`;
-            modalCategory.innerHTML = `<i class="fas fa-tag"></i> ${category}`;
-            modalDescription.textContent = description;
-            modalIcon.innerHTML = `<i class="fas ${iconClass}"></i>`;
-            
-            modalOverlay.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeModal() {
-            modalOverlay.classList.remove('active');
-            document.body.style.overflow = '';
-        }
-
-        // View buttons
-        document.querySelectorAll('.item-card .view-btn').forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                e.stopPropagation();
-                const card = this.closest('.item-card');
-                openModal(card);
-            });
+    // Click on card opens modal
+    document.querySelectorAll('.item-card').forEach(card => {
+        card.addEventListener('click', function(e) {
+            if (e.target.classList.contains('view-btn')) return;
+            openModal(this);
         });
+    });
 
-        // Click on card also opens modal
-        document.querySelectorAll('.item-card').forEach(card => {
-            card.addEventListener('click', function(e) {
-                // Don't open if clicking the button (already handled)
-                if (e.target.classList.contains('view-btn')) return;
-                openModal(this);
-            });
-        });
-
-        // Close modal
-        closeModalBtn.addEventListener('click', closeModal);
-        closeModalX.addEventListener('click', closeModal);
+    // Close modal events
+    if (closeModalBtn) closeModalBtn.addEventListener('click', closeModal);
+    if (closeModalX) closeModalX.addEventListener('click', closeModal);
+    if (modalOverlay) {
         modalOverlay.addEventListener('click', function(e) {
             if (e.target === this) closeModal();
         });
+    }
 
-        // Claim button
+    // Claim button
+    if (claimBtn) {
         claimBtn.addEventListener('click', function() {
             const itemName = modalTitle.textContent;
-            alert('✅ Claim request sent for "' + itemName + '"!\n\nThe owner will be notified and contact you shortly.');
+            alert('✅ Claim request sent for "' + itemName + '"\n\nThe owner will be notified and contact you shortly.');
             closeModal();
         });
+    }
 
-        // ===== VIEW ALL - Navigate to browse page =====
-        document.getElementById('viewAllLink').addEventListener('click', function(e) {
-            e.preventDefault();
-            alert('📋 Browse all items page would open here.\n\nIn production, this would navigate to browse.html');
-            // window.location.href = 'browse.html';
+    // ============================================
+    // 5. VIEW ALL LINK
+    // ============================================
+    
+    const viewAllLink = document.getElementById('viewAllLink');
+    if (viewAllLink) {
+        viewAllLink.addEventListener('click', function(e) {
+            // Let the browser navigate
+            return;
         });
+    }
 
-        // ===== NAV LINKS =====
-         document.querySelectorAll('.nav-links a, .nav-actions a').forEach(link => {
-    link.addEventListener('click', function(e) {
-        // Pages that should navigate normally - USE YOUR ACTUAL FILE NAMES
-        const allowedPages = ['login.html', 'register.html', 'reportitem.html', 'itemfound.html', 'forgot-password.html', 'home.html' , 'search.html'];
-        
-        // Check if this link should navigate
-        if (this.href) {
-            const shouldNavigate = allowedPages.some(page => this.href.includes(page));
-            if (shouldNavigate) {
-                return; // Let the browser navigate
+    // ============================================
+    // 6. NAVIGATION LINKS
+    // ============================================
+    
+    document.querySelectorAll('.nav-links a, .nav-actions a').forEach(link => {
+        link.addEventListener('click', function(e) {
+            const allowedPages = ['login.html', 'register.html', 'reportitem.html', 'itemfound.html', 'forgot-password.html', 'home.html', 'search.html'];
+            
+            if (this.href) {
+                const shouldNavigate = allowedPages.some(page => this.href.includes(page));
+                if (shouldNavigate) {
+                    return;
+                }
             }
-        }
-        
-        // For demo links (Browse, #, etc.)
-        e.preventDefault();
-        if (!this.classList.contains('btn-outline') && !this.classList.contains('btn-login')) {
-            document.querySelectorAll('.nav-links a').forEach(l => l.classList.remove('active'));
-            this.classList.add('active');
-        }
-        alert('🔗 ' + this.textContent.trim() + ' page (demo)');
+            
+            e.preventDefault();
+            if (!this.classList.contains('btn-outline') && !this.classList.contains('btn-login')) {
+                document.querySelectorAll('.nav-links a').forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+            }
+            alert('🔗 ' + this.textContent.trim() + ' page (demo)');
+        });
     });
-});
 
-        // ===== CTA BUTTONS =====
-        document.querySelectorAll('.hero-btns a, .cta-banner .btn-white').forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                e.preventDefault();
-                alert('📝 ' + this.textContent.trim() + ' (demo)');
-            });
+    // ============================================
+    // 7. HERO BUTTONS
+    // ============================================
+    
+    document.querySelectorAll('.hero-btns a').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            // Let the browser navigate
+            return;
         });
+    });
 
-        // ===== FOOTER LINKS =====
-        document.querySelectorAll('.footer-grid a').forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                alert('🔗 ' + this.textContent.trim() + ' page (demo)');
-            });
+    // ============================================
+    // 8. CTA BANNER BUTTON
+    // ============================================
+    
+    const ctaBtn = document.querySelector('.cta-banner .btn-white');
+    if (ctaBtn) {
+        ctaBtn.addEventListener('click', function(e) {
+            // Let the browser navigate
+            return;
         });
+    }
 
-        // ===== SEARCH AUTO-SUGGEST =====
-        const searchInput = document.getElementById('searchInput');
+    // ============================================
+    // 9. FOOTER LINKS
+    // ============================================
+    
+    document.querySelectorAll('.footer-grid a').forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            alert('🔗 ' + this.textContent.trim() + ' page (demo)');
+        });
+    });
+
+    // ============================================
+    // 10. SEARCH AUTO-SUGGEST EFFECT
+    // ============================================
+    
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput) {
         searchInput.addEventListener('input', function() {
             if (this.value.length > 1) {
                 this.style.background = '#f0f7ff';
                 setTimeout(() => this.style.background = '', 600);
             }
         });
-    </script>
+    }
+
+    console.log('✅ All scripts loaded successfully!');
+    console.log('🔍 Search functionality is ready to use!');
+</script>
 
 </body>
 </html>

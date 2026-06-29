@@ -399,6 +399,34 @@
             border-color: #0D9488;
         }
 
+        /* ========================================== */
+        /* ===== DISABLE BROWSER AUTOFILL STYLING ===== */
+        /* ========================================== */
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover,
+        input:-webkit-autofill:focus,
+        input:-webkit-autofill:active,
+        textarea:-webkit-autofill,
+        textarea:-webkit-autofill:hover,
+        textarea:-webkit-autofill:focus,
+        textarea:-webkit-autofill:active,
+        select:-webkit-autofill,
+        select:-webkit-autofill:hover,
+        select:-webkit-autofill:focus,
+        select:-webkit-autofill:active {
+            -webkit-box-shadow: 0 0 0 30px white inset !important;
+            -webkit-text-fill-color: #1a1a2e !important;
+            box-shadow: 0 0 0 30px white inset !important;
+            background-color: white !important;
+        }
+
+        input:autofill,
+        textarea:autofill,
+        select:autofill {
+            background: white !important;
+            box-shadow: 0 0 0 30px white inset !important;
+        }
+
         /* Image Upload */
         .upload-area {
             border: 2px dashed #e2e8f0;
@@ -1453,51 +1481,63 @@
             });
 
             window.addEventListener('load', function() {
-                titleInput.focus();
-                const saved = localStorage.getItem('foundItemDraft');
-                if (saved) {
-                    try {
-                        const data = JSON.parse(saved);
-                        titleInput.value = data.title || '';
-                        categorySelect.value = data.category || '';
-                        descInput.value = data.description || '';
-                        locationInput.value = data.location || '';
-                        dateInput.value = data.date || '';
-                        custodySelect.value = data.custody || '';
-                        notesInput.value = data.notes || '';
-                        if (data.condition) {
-                            conditionRadios.forEach(r => {
-                                if (r.value === data.condition) r.checked = true;
-                            });
-                        }
-                        if (data.meet) {
-                            meetButtons.forEach(b => {
-                                b.classList.toggle('active', b.dataset.value === data.meet);
-                            });
-                            meetValue = data.meet;
-                        }
-                        validateStep1();
-                        validateStep2();
-                    } catch (e) {}
-                }
-            });
+                localStorage.removeItem('foundItemDraft');
 
-            document.querySelectorAll('.form-control').forEach(input => {
-                input.addEventListener('input', function() {
-                    const draft = {
-                        title: titleInput.value,
-                        category: categorySelect.value,
-                        description: descInput.value,
-                        location: locationInput.value,
-                        date: dateInput.value,
-                        custody: custodySelect.value,
-                        notes: notesInput.value,
-                        condition: document.querySelector('input[name="condition"]:checked')?.value || '',
-                        meet: meetValue
-                    };
-                    localStorage.setItem('foundItemDraft', JSON.stringify(draft));
-                });
-            });
+                 // Reset all form fields to empty
+    titleInput.value = '';
+    categorySelect.value = '';
+    descInput.value = '';
+    locationInput.value = '';
+    dateInput.value = '';
+    custodySelect.value = '';
+    notesInput.value = '';
+    fileName.textContent = '';
+    uploadArea.classList.remove('has-file', 'required');
+    charCount.textContent = '0 / 500 characters';
+    notesCharCount.textContent = '0 / 300 characters';
+    
+    // Reset condition radios
+    conditionRadios.forEach(r => r.checked = false);
+    
+    // Reset meet toggle
+    meetButtons.forEach(b => b.classList.remove('active'));
+    meetButtons[0].classList.add('active');
+    meetValue = 'Yes';
+    
+    // Reset image file
+    imageFile = null;
+    formData.image = null;
+    formData.imageName = '';
+    
+    // Clear any error states
+    document.querySelectorAll('.error-text').forEach(el => el.classList.remove('show'));
+    document.querySelectorAll('.form-control').forEach(el => el.classList.remove('error', 'success'));
+    
+    validateStep1();
+    validateStep2();
+    
+    titleInput.focus();
+});
+
+
+
+             // ===== AUTO-SAVE DRAFT - DISABLED =====
+// document.querySelectorAll('.form-control').forEach(input => {
+//     input.addEventListener('input', function() {
+//         const draft = {
+//             title: titleInput.value,
+//             category: categorySelect.value,
+//             description: descInput.value,
+//             location: locationInput.value,
+//             date: dateInput.value,
+//             custody: custodySelect.value,
+//             notes: notesInput.value,
+//             condition: document.querySelector('input[name="condition"]:checked')?.value || '',
+//             meet: meetValue
+//         };
+//         localStorage.setItem('foundItemDraft', JSON.stringify(draft));
+//     });
+// });
 
             stepItems.forEach((item, index) => {
                 item.addEventListener('click', function() {
