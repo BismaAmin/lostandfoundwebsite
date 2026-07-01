@@ -1,0 +1,1383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Item Detail · Lost & Found</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', 'Segoe UI', sans-serif; }
+        body { background: #f0f9f6; }
+
+        .navbar {
+            background: #0D9488;
+            padding: 0.8rem 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .navbar .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            color: white;
+            font-size: 1.4rem;
+            font-weight: 800;
+        }
+        .navbar .logo i {
+            font-size: 1.8rem;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 0.4rem;
+            border-radius: 12px;
+        }
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2.5rem;
+        }
+        .nav-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s;
+            position: relative;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: white;
+            transition: width 0.3s;
+        }
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 100%;
+        }
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: white;
+        }
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .nav-actions a {
+            color: white;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+        .nav-actions .btn-outline {
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            padding: 0.4rem 1.6rem;
+            border-radius: 60px;
+            transition: all 0.3s;
+            background: rgba(255, 255, 255, 0.05);
+        }
+        .nav-actions .btn-outline:hover {
+            background: white;
+            color: #0D9488;
+            border-color: white;
+            transform: translateY(-2px);
+        }
+
+        .breadcrumb {
+            max-width: 1200px;
+            margin: 1.2rem auto 0;
+            padding: 0 2rem;
+            font-size: 0.85rem;
+            color: #64748b;
+        }
+        .breadcrumb a {
+            color: #0D9488;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+        .breadcrumb a:hover {
+            color: #0F766E;
+            text-decoration: underline;
+        }
+        .breadcrumb span {
+            margin: 0 0.4rem;
+            color: #94a3b8;
+        }
+
+        .detail-container {
+            max-width: 1200px;
+            margin: 1.5rem auto;
+            padding: 0 2rem 3rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2.5rem;
+        }
+
+        .image-panel {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid #e6f0ed;
+            position: relative;
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.3s;
+        }
+        .image-panel .placeholder-icon {
+            font-size: 6rem;
+            color: #0D9488;
+            opacity: 0.3;
+        }
+
+        .detail-panel {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid #e6f0ed;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.3rem 1rem;
+            border-radius: 60px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.8rem;
+        }
+        .status-badge.lost { background: #fee2e2; color: #dc2626; }
+        .status-badge.found { background: #d1fae5; color: #059669; }
+        .status-badge.pending { background: #fef3c7; color: #92400e; }
+        .status-badge.approved { background: #dbeafe; color: #2563eb; }
+        .status-badge.rejected { background: #fee2e2; color: #b91c1c; }
+        .status-badge.resolved { background: #e0e7ff; color: #4338ca; }
+
+        .detail-panel h1 {
+            font-size: 1.8rem;
+            color: #0F766E;
+            font-weight: 800;
+            margin-bottom: 0.2rem;
+        }
+        .detail-panel .category-tag {
+            display: inline-block;
+            background: #e6f5f2;
+            color: #0D9488;
+            padding: 0.2rem 0.8rem;
+            border-radius: 60px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+        }
+        .detail-panel .description {
+            color: #334155;
+            font-size: 0.95rem;
+            line-height: 1.7;
+            margin-bottom: 1.2rem;
+        }
+        .detail-panel .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            color: #64748b;
+            font-size: 0.9rem;
+            margin-bottom: 0.4rem;
+        }
+        .detail-panel .meta-item i {
+            color: #0D9488;
+            width: 1.2rem;
+        }
+
+        .posted-by {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 0;
+            border-top: 1px solid #e6f0ed;
+            border-bottom: 1px solid #e6f0ed;
+            margin: 1rem 0;
+        }
+        .posted-by .avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: #0D9488;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1rem;
+        }
+        .posted-by .info .name {
+            font-weight: 600;
+            color: #0F766E;
+        }
+        .posted-by .info .date {
+            font-size: 0.8rem;
+            color: #64748b;
+        }
+
+        .info-box {
+            background: #e6f5f2;
+            border-radius: 12px;
+            padding: 0.8rem 1rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.6rem;
+            font-size: 0.8rem;
+            color: #115E59;
+            margin: 1rem 0;
+            border-left: 3px solid #0D9488;
+        }
+        .info-box i {
+            color: #0D9488;
+            font-size: 1rem;
+            margin-top: 0.05rem;
+            flex-shrink: 0;
+        }
+
+        .contact-details {
+            background: #d1fae5;
+            border-radius: 12px;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-left: 4px solid #059669;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        .contact-details.show {
+            display: block;
+        }
+        .contact-details h4 {
+            color: #065f46;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+        .contact-details .contact-row {
+            display: flex;
+            padding: 0.2rem 0;
+            font-size: 0.9rem;
+            color: #065f46;
+        }
+        .contact-details .contact-label {
+            font-weight: 600;
+            width: 80px;
+            flex-shrink: 0;
+        }
+        .contact-details .contact-value a {
+            color: #0D9488;
+            text-decoration: none;
+        }
+        .contact-details .contact-value a:hover {
+            text-decoration: underline;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .action-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            margin: 1.2rem 0;
+        }
+        .action-buttons .btn-primary {
+            background: #0D9488;
+            color: white;
+            border: none;
+            padding: 0.8rem;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+        }
+        .action-buttons .btn-primary:hover {
+            background: #0F766E;
+            transform: translateY(-2px);
+        }
+        .action-buttons .btn-primary:disabled {
+            background: #94a3b8;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .action-buttons .btn-secondary {
+            background: #e2e8f0;
+            color: #334155;
+            border: none;
+            padding: 0.8rem;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: default;
+        }
+        .action-buttons .btn-success {
+            background: #059669;
+            color: white;
+            border: none;
+            padding: 0.8rem;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: default;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+        }
+        .action-buttons .btn-approve {
+            background: #059669;
+            color: white;
+            border: none;
+            padding: 0.8rem;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .action-buttons .btn-approve:hover {
+            background: #047857;
+            transform: translateY(-2px);
+        }
+        .action-buttons .btn-reject {
+            background: #dc2626;
+            color: white;
+            border: none;
+            padding: 0.8rem;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .action-buttons .btn-reject:hover {
+            background: #b91c1c;
+            transform: translateY(-2px);
+        }
+        .action-buttons .btn-delete {
+            background: #E24B4A;
+            color: white;
+            border: none;
+            padding: 0.8rem;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .action-buttons .btn-delete:hover {
+            background: #dc2626;
+            transform: translateY(-2px);
+        }
+        .action-buttons .btn-resolve {
+            background: #0D9488;
+            color: white;
+            border: none;
+            padding: 0.8rem;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .action-buttons .btn-resolve:hover {
+            background: #0F766E;
+            transform: translateY(-2px);
+        }
+        .action-buttons .btn-login-prompt {
+            background: #0D9488;
+            color: white;
+            border: none;
+            padding: 0.8rem;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.3s;
+            text-decoration: none;
+            text-align: center;
+            display: block;
+        }
+        .action-buttons .btn-login-prompt:hover {
+            background: #0F766E;
+            transform: translateY(-2px);
+        }
+        .action-buttons .btn-group {
+            display: flex;
+            gap: 0.8rem;
+        }
+        .action-buttons .btn-group .btn-approve,
+        .action-buttons .btn-group .btn-reject {
+            flex: 1;
+        }
+
+        .status-message {
+            padding: 0.8rem 1rem;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin-bottom: 0.5rem;
+        }
+        .status-message.info { background: #dbeafe; color: #1e40af; }
+        .status-message.warning { background: #fef3c7; color: #92400e; }
+        .status-message.success { background: #d1fae5; color: #065f46; }
+        .status-message.error { background: #fee2e2; color: #991b1b; }
+        .status-message.admin-info { background: #e0e7ff; color: #4338ca; }
+
+        .privacy-notice {
+            background: #e6f5f2;
+            border-radius: 12px;
+            padding: 0.8rem 1rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.6rem;
+            font-size: 0.8rem;
+            color: #115E59;
+            margin: 1rem 0;
+            border-left: 3px solid #0D9488;
+        }
+        .privacy-notice i {
+            color: #0D9488;
+            font-size: 1rem;
+            margin-top: 0.05rem;
+            flex-shrink: 0;
+        }
+        .privacy-notice strong {
+            color: #0F766E;
+        }
+
+        .bottom-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 0.5rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .bottom-actions .share-btn {
+            background: none;
+            border: none;
+            color: #0D9488;
+            cursor: pointer;
+            font-weight: 500;
+            transition: 0.3s;
+            font-size: 0.85rem;
+        }
+        .bottom-actions .share-btn:hover {
+            color: #0F766E;
+        }
+
+        .matches-section {
+            max-width: 1200px;
+            margin: 0 auto 3rem;
+            padding: 0 2rem;
+        }
+        .matches-section .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.2rem;
+        }
+        .matches-section h2 {
+            font-size: 1.5rem;
+            color: #0F766E;
+            font-weight: 700;
+        }
+        .matches-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+        .match-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.2rem;
+            border: 1px solid #e6f0ed;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        .match-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(13, 148, 136, 0.08);
+            border-color: #0D9488;
+        }
+        .match-card .match-icon {
+            font-size: 2rem;
+            color: #0D9488;
+            margin-bottom: 0.3rem;
+        }
+        .match-card h5 {
+            font-size: 0.95rem;
+            color: #0F766E;
+            font-weight: 700;
+        }
+        .match-card .match-meta {
+            font-size: 0.75rem;
+            color: #64748b;
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+            margin: 0.2rem 0;
+        }
+        .match-card .match-meta i {
+            margin-right: 0.2rem;
+        }
+        .match-card .match-status {
+            font-size: 0.65rem;
+            font-weight: 600;
+            padding: 0.15rem 0.6rem;
+            border-radius: 60px;
+            display: inline-block;
+        }
+        .match-card .match-status.lost { background: #fee2e2; color: #dc2626; }
+        .match-card .match-status.found { background: #d1fae5; color: #059669; }
+        .match-card .match-status.pending { background: #fef3c7; color: #92400e; }
+        .match-card .match-status.approved { background: #dbeafe; color: #2563eb; }
+        .match-card .match-status.rejected { background: #fee2e2; color: #b91c1c; }
+        .match-card .match-status.resolved { background: #e0e7ff; color: #4338ca; }
+
+        .footer {
+            background: #0F2E2A;
+            color: white;
+            padding: 2.5rem 3rem 1.5rem;
+            margin-top: 2rem;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1.5fr;
+            gap: 2.5rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .footer-grid .brand h5 {
+            font-size: 1.2rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .footer-grid .brand p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.85rem;
+            line-height: 1.7;
+            margin-top: 0.5rem;
+        }
+        .footer-grid h5 {
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+            color: white;
+        }
+        .footer-grid a {
+            color: rgba(255, 255, 255, 0.6);
+            text-decoration: none;
+            font-size: 0.85rem;
+            display: block;
+            margin-bottom: 0.4rem;
+            transition: 0.3s;
+        }
+        .footer-grid a:hover {
+            color: white;
+            transform: translateX(4px);
+        }
+        .footer-grid .contact p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.85rem;
+            margin-bottom: 0.3rem;
+        }
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 0.8rem;
+        }
+        .social-icons a {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 1.2rem;
+            transition: 0.3s;
+            display: inline-block;
+            margin: 0;
+        }
+        .social-icons a:hover {
+            color: white;
+            transform: translateY(-3px);
+        }
+        .footer-bottom {
+            text-align: center;
+            padding-top: 1.5rem;
+            margin-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        @media (max-width: 900px) {
+            .detail-container { grid-template-columns: 1fr; gap: 1.5rem; padding: 0 1rem; }
+            .image-panel { min-height: 250px; }
+            .matches-grid { grid-template-columns: repeat(2, 1fr); }
+            .navbar { padding: 0.6rem 1.5rem; flex-wrap: wrap; }
+            .nav-links { gap: 1.2rem; }
+            .nav-links a { font-size: 0.8rem; }
+            .footer-grid { grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+            .footer { padding: 2rem 1.5rem 1rem; }
+            .action-buttons .btn-group { flex-direction: column; }
+        }
+
+        @media (max-width: 600px) {
+            .navbar { padding: 0.5rem 1rem; }
+            .nav-links { gap: 0.8rem; flex-wrap: wrap; justify-content: center; }
+            .nav-links a { font-size: 0.7rem; }
+            .nav-actions a { font-size: 0.7rem; }
+            .nav-actions .btn-outline { padding: 0.2rem 1rem; }
+            .breadcrumb { padding: 0 1rem; font-size: 0.75rem; }
+            .detail-panel { padding: 1.2rem; }
+            .detail-panel h1 { font-size: 1.4rem; }
+            .matches-grid { grid-template-columns: 1fr; }
+            .matches-section { padding: 0 1rem; }
+            .footer-grid { grid-template-columns: 1fr; gap: 1rem; }
+            .footer { padding: 1.5rem 1rem 1rem; }
+            .bottom-actions { flex-direction: column; align-items: flex-start; }
+            .action-buttons .btn-group { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== NAVBAR ===== -->
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-magnifying-glass-location"></i>
+            <span>Lost&Found</span>
+        </div>
+        <div class="nav-links">
+            <a href="../pub/home.html">Home</a>
+            <a href="../pub/reportitem.html">Report Lost</a>
+            <a href="../pub/itemfound.html">Report Found</a>
+            <a href="../pub/search.html">Browse</a>
+        </div>
+        <div class="nav-actions">
+            <a href="../auth/login.html">Login</a>
+            <a href="../auth/register.html" class="btn-outline">Register</a>
+        </div>
+    </nav>
+
+    <!-- ===== BREADCRUMB ===== -->
+    <div class="breadcrumb">
+        <a href="../pub/home.html">Home</a>
+        <span>›</span>
+        <a href="../pub/search.html">Browse</a>
+        <span>›</span>
+        <span id="breadcrumbTitle">Item Detail</span>
+    </div>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <div class="detail-container">
+        <div class="image-panel">
+            <i class="fas fa-mobile-screen-button placeholder-icon" id="placeholderIcon"></i>
+        </div>
+
+        <div class="detail-panel">
+            <span class="status-badge found" id="statusBadge">Found</span>
+            <h1 id="itemTitle">Loading...</h1>
+            <span class="category-tag" id="itemCategory">📱 Electronics</span>
+
+            <p class="description" id="itemDescription">Loading description...</p>
+
+            <div class="meta-item">
+                <i class="fas fa-location-dot"></i>
+                <span id="itemLocation">Loading...</span>
+            </div>
+            <div class="meta-item">
+                <i class="fas fa-calendar-day"></i>
+                <span id="itemDate">Loading...</span>
+            </div>
+
+            <div class="posted-by">
+                <div class="avatar" id="userAvatar">AK</div>
+                <div class="info">
+                    <div class="name" id="userName">Loading...</div>
+                    <div class="date" id="postDate">Loading...</div>
+                </div>
+            </div>
+
+            <!-- ===== CONTACT DETAILS (Revealed on Approval) ===== -->
+            <div class="contact-details" id="contactDetails">
+                <h4><i class="fas fa-address-card"></i> Contact Information</h4>
+                <div class="contact-row">
+                    <span class="contact-label">Name:</span>
+                    <span class="contact-value" id="contactName">-</span>
+                </div>
+                <div class="contact-row">
+                    <span class="contact-label">Phone:</span>
+                    <span class="contact-value"><a href="#" id="contactPhone">-</a></span>
+                </div>
+                <div class="contact-row">
+                    <span class="contact-label">Email:</span>
+                    <span class="contact-value"><a href="#" id="contactEmail">-</a></span>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <i class="fas fa-info-circle"></i>
+                <p>Your claim will be reviewed by a Manager who will verify ownership evidence before approval.</p>
+            </div>
+
+            <!-- ===== ACTION BUTTONS (Rendered by JavaScript) ===== -->
+            <div class="action-buttons" id="actionButtons">
+                <!-- Dynamically rendered -->
+            </div>
+
+            <div class="privacy-notice">
+                <i class="fas fa-shield-alt"></i>
+                <p><strong>Personal contact details are only shared after a Manager approves your claim.</strong></p>
+            </div>
+
+            <div class="bottom-actions">
+                <button class="share-btn" id="shareBtn">
+                    <i class="fas fa-share-alt"></i> Share
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== POTENTIAL MATCHES ===== -->
+    <section class="matches-section">
+        <div class="section-header">
+            <h2>🔍 Possible Matches Found</h2>
+            <span id="matchCount">0 matches</span>
+        </div>
+        <div class="matches-grid" id="matchesGrid">
+            <!-- Rendered by JavaScript -->
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <div class="footer-grid">
+            <div class="brand">
+                <h5><i class="fas fa-magnifying-glass-location"></i> Lost&Found</h5>
+                <p>Reuniting people with their belongings since 2024.</p>
+            </div>
+            <div>
+                <h5>Quick Links</h5>
+                <a href="../pub/reportitem.html">Report Lost</a>
+                <a href="../pub/itemfound.html">Report Found</a>
+                <a href="../pub/search.html">Browse Items</a>
+            </div>
+            <div>
+                <h5>Categories</h5>
+                <a href="#">Electronics</a>
+                <a href="#">Documents</a>
+                <a href="#">Accessories</a>
+                <a href="#">Books</a>
+            </div>
+            <div class="contact">
+                <h5>Contact</h5>
+                <p><i class="fas fa-envelope"></i> support@lostfound.com</p>
+                <p><i class="fas fa-phone"></i> +92 319 0153045</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">&copy; 2026 Lost & Found Portal. All rights reserved.</div>
+    </footer>
+
+    <script>
+        // ==========================================
+        // USER ROLE - RECEIVED FROM SEARCH PAGE
+        // ==========================================
+        // This gets the role from sessionStorage (set by search page)
+        const currentUserRole = sessionStorage.getItem('userRole') || 'guest';
+        console.log('👤 Current User Role:', currentUserRole);
+
+        // ==========================================
+        // ALL ITEMS DATABASE (SAME AS SEARCH PAGE)
+        // ==========================================
+        const allItems = [
+            { id: 1, title: 'Black Samsung A54', category: 'Electronics', location: 'Library', date: '2026-06-10',
+                status: 'found', description: 'Samsung A54 with blue silicone cover, screen has small scratch.',
+                icon: 'fa-mobile-screen-button', postedBy: 'Ahmed Khan', postedDate: '2026-06-08',
+                contact: { name: 'Ahmed Khan', phone: '+92 319 0153045', email: 'ahmed@example.com' } },
+            { id: 2, title: 'Brown Leather Wallet', category: 'Accessories', location: 'Parking Lot',
+                date: '2026-06-08', status: 'lost', description: 'Brown leather wallet with ID card and bank cards.',
+                icon: 'fa-wallet', postedBy: 'Sara Ali', postedDate: '2026-06-07',
+                contact: { name: 'Sara Ali', phone: '+92 300 1234567', email: 'sara@example.com' } },
+            { id: 3, title: 'Student ID Card', category: 'Documents', location: 'Cafeteria', date: '2026-06-07',
+                status: 'pending', description: 'University ID card - Ahmad Rizwan, Faculty of Engineering.',
+                icon: 'fa-id-card', postedBy: 'Omar Hassan', postedDate: '2026-06-06',
+                contact: { name: 'Ahmad Rizwan', phone: '+92 319 0153045', email: 'ahmad.rizwan@example.com' } },
+            { id: 4, title: 'Bunch of Keys', category: 'Accessories', location: 'Sports Hall', date: '2026-06-09',
+                status: 'approved', description: '3 keys with a small silver keychain. One key has a red tag.',
+                icon: 'fa-key', postedBy: 'Zara Malik', postedDate: '2026-06-08',
+                contact: { name: 'Zara Malik', phone: '+92 321 9876543', email: 'zara@example.com' } },
+            { id: 5, title: 'White Earbuds', category: 'Electronics', location: 'Main Hall', date: '2026-06-08',
+                status: 'rejected', description: 'Apple AirPods in white charging case.', icon: 'fa-headphones',
+                postedBy: 'Rayan Ahmed', postedDate: '2026-06-07',
+                contact: { name: 'Rayan Ahmed', phone: '+92 300 5555555', email: 'rayan@example.com' } },
+            { id: 6, title: 'Data Structures Textbook', category: 'Books', location: 'CS Lab', date: '2026-06-07',
+                status: 'resolved', description: 'Data Structures & Algorithms textbook with sticky notes.',
+                icon: 'fa-book', postedBy: 'Fatima Noor', postedDate: '2026-06-05',
+                contact: { name: 'Fatima Noor', phone: '+92 322 4444444', email: 'fatima@example.com' } },
+            { id: 7, title: 'Black Laptop Bag', category: 'Bag', location: 'Auditorium', date: '2026-06-12',
+                status: 'lost', description: 'Black laptop bag with a small tear on the side.', icon: 'fa-bag-shopping',
+                postedBy: 'Hassan Raza', postedDate: '2026-06-11',
+                contact: { name: 'Hassan Raza', phone: '+92 333 3333333', email: 'hassan@example.com' } },
+            { id: 8, title: 'Silver Watch', category: 'Watch', location: 'Library', date: '2026-06-11',
+                status: 'found', description: 'Silver analog watch with leather strap.', icon: 'fa-clock',
+                postedBy: 'Mona Khan', postedDate: '2026-06-10',
+                contact: { name: 'Mona Khan', phone: '+92 344 2222222', email: 'mona@example.com' } },
+            { id: 9, title: 'Gold Ring', category: 'Jewelry', location: 'Cafeteria', date: '2026-06-10',
+                status: 'pending', description: 'Gold ring with a small diamond.', icon: 'fa-gem', postedBy: 'Ali Ahmed',
+                postedDate: '2026-06-09',
+                contact: { name: 'Ali Ahmed', phone: '+92 355 1111111', email: 'ali@example.com' } },
+            { id: 10, title: 'Physics Textbook', category: 'Books', location: 'Library', date: '2026-06-09',
+                status: 'approved', description: 'University Physics textbook - 12th edition.', icon: 'fa-book',
+                postedBy: 'Nadia Shah', postedDate: '2026-06-08',
+                contact: { name: 'Nadia Shah', phone: '+92 366 0000000', email: 'nadia@example.com' } },
+            { id: 11, title: 'Phone Charger', category: 'Electronics', location: 'CS Lab', date: '2026-06-13',
+                status: 'lost', description: 'USB-C fast charger for Samsung phone.', icon: 'fa-plug',
+                postedBy: 'Usman Farooq', postedDate: '2026-06-12',
+                contact: { name: 'Usman Farooq', phone: '+92 377 9999999', email: 'usman@example.com' } },
+            { id: 12, title: 'Blue Water Bottle', category: 'Accessories', location: 'Sports Hall', date: '2026-06-12',
+                status: 'rejected', description: 'Blue stainless steel water bottle.', icon: 'fa-bottle-water',
+                postedBy: 'Ayesha Khan', postedDate: '2026-06-10',
+                contact: { name: 'Ayesha Khan', phone: '+92 388 8888888', email: 'ayesha@example.com' } },
+            { id: 13, title: 'MacBook Pro', category: 'Electronics', location: 'Library', date: '2026-06-14',
+                status: 'found', description: 'Space gray MacBook Pro 14-inch with stickers on the lid.',
+                icon: 'fa-laptop', postedBy: 'Bilal Ahmed', postedDate: '2026-06-13',
+                contact: { name: 'Bilal Ahmed', phone: '+92 399 7777777', email: 'bilal@example.com' } },
+            { id: 14, title: 'Library Card', category: 'Documents', location: 'Library', date: '2026-06-13',
+                status: 'resolved', description: 'University library card for Sarah Ahmed.', icon: 'fa-id-card',
+                postedBy: 'Omar Farooq', postedDate: '2026-06-12',
+                contact: { name: 'Sarah Ahmed', phone: '+92 300 6666666', email: 'sarah.ahmed@example.com' } },
+            { id: 15, title: 'Gym Bag', category: 'Bag', location: 'Sports Hall', date: '2026-06-14',
+                status: 'found', description: 'Nike gym bag with gym clothes and shoes.', icon: 'fa-bag-shopping',
+                postedBy: 'Hira Khan', postedDate: '2026-06-13',
+                contact: { name: 'Hira Khan', phone: '+92 311 5555555', email: 'hira@example.com' } }
+        ];
+
+        let currentItem = null;
+        let currentContact = null;
+
+        // ==========================================
+        // LOAD ITEM FROM SESSION STORAGE
+        // ==========================================
+        function loadItem() {
+            const itemId = sessionStorage.getItem('viewItemId');
+            if (!itemId) {
+                alert('No item selected. Redirecting to browse.');
+                window.location.href = '../pub/search.html';
+                return;
+            }
+
+            const item = allItems.find(i => i.id === parseInt(itemId));
+            if (!item) {
+                alert('Item not found. Redirecting to browse.');
+                window.location.href = '../pub/search.html';
+                return;
+            }
+
+            currentItem = item;
+            currentContact = item.contact || null;
+            populatePage(item);
+        }
+
+        // ==========================================
+        // POPULATE PAGE
+        // ==========================================
+        function populatePage(item) {
+            // Status badge
+            const statusBadge = document.getElementById('statusBadge');
+            statusBadge.textContent = item.status.charAt(0).toUpperCase() + item.status.slice(1);
+            statusBadge.className = `status-badge ${item.status}`;
+
+            // Item details
+            document.getElementById('itemTitle').textContent = item.title;
+            document.getElementById('breadcrumbTitle').textContent = item.title;
+            document.getElementById('itemCategory').textContent = getCategoryIcon(item.category) + ' ' + item.category;
+            document.getElementById('itemDescription').textContent = item.description;
+            document.getElementById('itemLocation').textContent = item.location;
+            document.getElementById('itemDate').textContent = new Date(item.date).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+
+            // Icon
+            document.getElementById('placeholderIcon').className = `fas ${item.icon} placeholder-icon`;
+
+            // Posted by
+            const userAvatar = document.getElementById('userAvatar');
+            const userName = document.getElementById('userName');
+            const postDate = document.getElementById('postDate');
+            const initials = item.postedBy.split(' ').map(n => n[0]).join('');
+            userAvatar.textContent = initials;
+
+            const nameParts = item.postedBy.split(' ');
+            const blurredName = nameParts.map((part, i) => {
+                if (i === 0) return part[0] + '***';
+                return part[0] + '***';
+            }).join(' ');
+            userName.textContent = blurredName;
+
+            const now = new Date();
+            const posted = new Date(item.postedDate);
+            const diffDays = Math.floor((now - posted) / (1000 * 60 * 60 * 24));
+            postDate.textContent = `Posted ${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
+
+            // ==========================================
+            // CONTACT DETAILS - Show only for APPROVED or RESOLVED
+            // ==========================================
+            const contactDetails = document.getElementById('contactDetails');
+            if (item.status === 'approved' || item.status === 'resolved') {
+                if (item.contact) {
+                    contactDetails.classList.add('show');
+                    document.getElementById('contactName').textContent = item.contact.name || 'N/A';
+                    document.getElementById('contactPhone').textContent = item.contact.phone || 'N/A';
+                    document.getElementById('contactPhone').href = 'tel:' + item.contact.phone;
+                    document.getElementById('contactEmail').textContent = item.contact.email || 'N/A';
+                    document.getElementById('contactEmail').href = 'mailto:' + item.contact.email;
+                }
+            } else {
+                contactDetails.classList.remove('show');
+            }
+
+            // ==========================================
+            // ACTION BUTTONS - ROLE BASED
+            // ==========================================
+            const actionButtons = document.getElementById('actionButtons');
+            let html = '';
+
+            // ===== GUEST =====
+            if (currentUserRole === 'guest') {
+                if (item.status === 'lost' || item.status === 'found') {
+                    html = `
+                        <div class="status-message info">
+                            <i class="fas fa-info-circle"></i> Login to claim this item
+                        </div>
+                        <a href="../auth/login.html" class="btn-login-prompt">
+                            <i class="fas fa-sign-in-alt"></i> Login to Claim
+                        </a>
+                    `;
+                }
+
+            // ===== USER =====
+            } else if (currentUserRole === 'user') {
+                if (item.status === 'lost') {
+                    html = `
+                        <div class="status-message warning">
+                            <i class="fas fa-search"></i> This item is still lost
+                        </div>
+                        <button class="btn-secondary" disabled>
+                            <i class="fas fa-search"></i> Item is Still Lost
+                        </button>
+                    `;
+                } else if (item.status === 'found') {
+                    html = `
+                        <button class="btn-primary" onclick="goToClaim()">
+                            <i class="fas fa-handshake"></i> Claim This Item
+                        </button>
+                    `;
+                } else if (item.status === 'pending') {
+                    html = `
+                        <div class="status-message warning">
+                            <i class="fas fa-clock"></i> Your claim is pending review
+                        </div>
+                        <button class="btn-secondary" disabled>
+                            <i class="fas fa-clock"></i> Pending Review
+                        </button>
+                    `;
+                } else if (item.status === 'approved') {
+                    html = `
+                        <div class="status-message success">
+                            <i class="fas fa-check-circle"></i> Claim Approved! Contact details revealed.
+                        </div>
+                        <button class="btn-success" disabled>
+                            <i class="fas fa-check-circle"></i> Claim Approved
+                        </button>
+                    `;
+                } else if (item.status === 'rejected') {
+                    html = `
+                        <div class="status-message error">
+                            <i class="fas fa-times-circle"></i> Your claim was rejected
+                        </div>
+                        <button class="btn-secondary" disabled>
+                            <i class="fas fa-times-circle"></i> Claim Rejected
+                        </button>
+                    `;
+                } else if (item.status === 'resolved') {
+                    html = `
+                        <div class="status-message success">
+                            <i class="fas fa-check-circle"></i> This item has been resolved
+                        </div>
+                        <button class="btn-success" disabled>
+                            <i class="fas fa-check-double"></i> Item Resolved
+                        </button>
+                    `;
+                }
+
+            // ===== MANAGER =====
+            } else if (currentUserRole === 'manager') {
+                if (item.status === 'lost') {
+                    html = `
+                        <div class="status-message warning">
+                            <i class="fas fa-search"></i> This item is still lost
+                        </div>
+                        <button class="btn-secondary" disabled>
+                            <i class="fas fa-search"></i> Item is Still Lost
+                        </button>
+                    `;
+                } else if (item.status === 'found') {
+                    html = `
+                        <button class="btn-primary" onclick="goToClaim()">
+                            <i class="fas fa-handshake"></i> Claim This Item
+                        </button>
+                    `;
+                } else if (item.status === 'pending') {
+                    html = `
+                        <div class="status-message warning">
+                            <i class="fas fa-clock"></i> Pending Review - Verify ownership evidence
+                        </div>
+                        <div class="btn-group">
+                            <button class="btn-approve" onclick="handleApprove()">
+                                <i class="fas fa-check"></i> Approve
+                            </button>
+                            <button class="btn-reject" onclick="handleReject()">
+                                <i class="fas fa-times"></i> Reject
+                            </button>
+                        </div>
+                    `;
+                } else if (item.status === 'approved') {
+                    html = `
+                        <div class="status-message success">
+                            <i class="fas fa-check-circle"></i> Claim Approved
+                        </div>
+                        <button class="btn-resolve" onclick="handleResolve()">
+                            <i class="fas fa-check-double"></i> Mark as Resolved
+                        </button>
+                    `;
+                } else if (item.status === 'rejected') {
+                    html = `
+                        <div class="status-message error">
+                            <i class="fas fa-times-circle"></i> Claim Rejected
+                        </div>
+                        <button class="btn-secondary" disabled>
+                            <i class="fas fa-times-circle"></i> Claim Rejected
+                        </button>
+                    `;
+                } else if (item.status === 'resolved') {
+                    html = `
+                        <div class="status-message success">
+                            <i class="fas fa-check-circle"></i> Item Resolved
+                        </div>
+                        <button class="btn-success" disabled>
+                            <i class="fas fa-check-double"></i> Item Resolved
+                        </button>
+                    `;
+                }
+
+            // ===== ADMIN =====
+            } else if (currentUserRole === 'admin') {
+                // Admin CANNOT claim items
+                if (item.status === 'lost') {
+                    html = `
+                        <div class="status-message admin-info">
+                            <i class="fas fa-shield-alt"></i> Admin view - You cannot claim items
+                        </div>
+                        <button class="btn-secondary" disabled>
+                            <i class="fas fa-search"></i> Item is Still Lost
+                        </button>
+                        <button class="btn-delete" onclick="handleDelete()">
+                            <i class="fas fa-trash"></i> Delete Item
+                        </button>
+                    `;
+                } else if (item.status === 'found') {
+                    html = `
+                        <div class="status-message admin-info">
+                            <i class="fas fa-shield-alt"></i> Admin view - You cannot claim items
+                        </div>
+                        <button class="btn-delete" onclick="handleDelete()">
+                            <i class="fas fa-trash"></i> Delete Item
+                        </button>
+                    `;
+                } else if (item.status === 'pending') {
+                    html = `
+                        <div class="status-message warning">
+                            <i class="fas fa-clock"></i> Pending Review
+                        </div>
+                        <div class="btn-group">
+                            <button class="btn-approve" onclick="handleApprove()">
+                                <i class="fas fa-check"></i> Approve
+                            </button>
+                            <button class="btn-reject" onclick="handleReject()">
+                                <i class="fas fa-times"></i> Reject
+                            </button>
+                        </div>
+                        <button class="btn-delete" onclick="handleDelete()">
+                            <i class="fas fa-trash"></i> Delete Item
+                        </button>
+                    `;
+                } else if (item.status === 'approved') {
+                    html = `
+                        <div class="status-message success">
+                            <i class="fas fa-check-circle"></i> Claim Approved
+                        </div>
+                        <button class="btn-resolve" onclick="handleResolve()">
+                            <i class="fas fa-check-double"></i> Mark as Resolved
+                        </button>
+                        <button class="btn-delete" onclick="handleDelete()">
+                            <i class="fas fa-trash"></i> Delete Item
+                        </button>
+                    `;
+                } else if (item.status === 'rejected') {
+                    html = `
+                        <div class="status-message error">
+                            <i class="fas fa-times-circle"></i> Claim Rejected
+                        </div>
+                        <button class="btn-delete" onclick="handleDelete()">
+                            <i class="fas fa-trash"></i> Delete Item
+                        </button>
+                    `;
+                } else if (item.status === 'resolved') {
+                    html = `
+                        <div class="status-message success">
+                            <i class="fas fa-check-circle"></i> Item Resolved
+                        </div>
+                        <button class="btn-success" disabled>
+                            <i class="fas fa-check-double"></i> Item Resolved
+                        </button>
+                        <button class="btn-delete" onclick="handleDelete()">
+                            <i class="fas fa-trash"></i> Delete Item
+                        </button>
+                    `;
+                }
+            }
+
+            actionButtons.innerHTML = html;
+
+            // ==========================================
+            // FIND AND RENDER MATCHES
+            // ==========================================
+            const matches = findMatches(item, allItems);
+            renderMatches(matches);
+            document.getElementById('matchCount').textContent = `${matches.length} match${matches.length > 1 ? 'es' : ''}`;
+        }
+
+        // ==========================================
+        // ACTION HANDLERS
+        // ==========================================
+        function goToClaim() {
+            if (!currentItem) return;
+            
+            sessionStorage.setItem('claimItem', JSON.stringify({
+                id: currentItem.id,
+                title: currentItem.title,
+                category: currentItem.category,
+                location: currentItem.location,
+                description: currentItem.description,
+                status: currentItem.status,
+                icon: currentItem.icon
+            }));
+            
+            window.location.href = 'claimrequest.html';
+        }
+
+        function handleApprove() {
+            if (confirm('Approve claim for "' + currentItem.title + '"? This will share contact details.')) {
+                alert('✅ Claim for "' + currentItem.title + '" has been approved!');
+                location.reload();
+            }
+        }
+
+        function handleReject() {
+            const reason = prompt('Please provide a reason for rejecting this claim:');
+            if (reason !== null) {
+                alert('❌ Claim for "' + currentItem.title + '" has been rejected.\nReason: ' + reason);
+                location.reload();
+            }
+        }
+
+        function handleResolve() {
+            if (confirm('Mark "' + currentItem.title + '" as resolved?')) {
+                alert('✅ "' + currentItem.title + '" marked as resolved!');
+                location.reload();
+            }
+        }
+
+        function handleDelete() {
+            if (confirm('⚠️ Are you sure you want to delete "' + currentItem.title + '"? This action cannot be undone.')) {
+                alert('🗑️ "' + currentItem.title + '" has been deleted.');
+                window.location.href = '../pub/search.html';
+            }
+        }
+
+        // ==========================================
+        // HELPER FUNCTIONS
+        // ==========================================
+        function getCategoryIcon(category) {
+            const icons = {
+                'Electronics': '📱',
+                'Documents': '📄',
+                'Accessories': '🔑',
+                'Books': '📚',
+                'Clothing': '👕',
+                'Bag': '👜',
+                'Watch': '⌚',
+                'Jewelry': '💍',
+                'Others': '📦'
+            };
+            return icons[category] || '📦';
+        }
+
+        function findMatches(currentItem, allItems) {
+            return allItems
+                .filter(item => {
+                    if (item.id === currentItem.id) return false;
+                    let matchScore = 0;
+                    if (item.category === currentItem.category) matchScore += 30;
+                    if (item.location === currentItem.location) matchScore += 20;
+                    if ((item.status === 'lost' && currentItem.status === 'found') ||
+                        (item.status === 'found' && currentItem.status === 'lost')) matchScore += 25;
+                    const keywords = currentItem.title.toLowerCase().split(' ');
+                    let keywordScore = 0;
+                    keywords.forEach(word => {
+                        if (word.length > 2) {
+                            if (item.title.toLowerCase().includes(word)) keywordScore += 5;
+                            if (item.description.toLowerCase().includes(word)) keywordScore += 3;
+                        }
+                    });
+                    matchScore += Math.min(keywordScore, 25);
+                    return matchScore >= 40;
+                })
+                .map(item => {
+                    let score = 0;
+                    if (item.category === currentItem.category) score += 30;
+                    if (item.location === currentItem.location) score += 20;
+                    if ((item.status === 'lost' && currentItem.status === 'found') ||
+                        (item.status === 'found' && currentItem.status === 'lost')) score += 25;
+                    const keywords = currentItem.title.toLowerCase().split(' ');
+                    let kwScore = 0;
+                    keywords.forEach(word => {
+                        if (word.length > 2) {
+                            if (item.title.toLowerCase().includes(word)) kwScore += 5;
+                            if (item.description.toLowerCase().includes(word)) kwScore += 3;
+                        }
+                    });
+                    score += Math.min(kwScore, 25);
+                    return { ...item, matchScore: score };
+                })
+                .sort((a, b) => b.matchScore - a.matchScore)
+                .slice(0, 3);
+        }
+
+        function renderMatches(matches) {
+            const matchesGrid = document.getElementById('matchesGrid');
+
+            if (!matches || matches.length === 0) {
+                matchesGrid.innerHTML = `
+                    <div style="grid-column:1/-1; text-align:center; padding:2rem; color:#94a3b8;">
+                        <i class="fas fa-search" style="font-size:2rem; display:block; margin-bottom:0.5rem;"></i>
+                        No potential matches found
+                    </div>
+                `;
+                return;
+            }
+
+            matchesGrid.innerHTML = matches.map(match => `
+                <div class="match-card" onclick="viewMatch(${match.id})">
+                    <div class="match-icon"><i class="fas ${match.icon}"></i></div>
+                    <h5>${match.title}</h5>
+                    <div class="match-meta">
+                        <span><i class="fas fa-location-dot"></i> ${match.location}</span>
+                        <span><i class="fas fa-calendar-day"></i> ${new Date(match.date).toLocaleDateString()}</span>
+                    </div>
+                    <span class="match-status ${match.status}">${match.status}</span>
+                </div>
+            `).join('');
+        }
+
+        function viewMatch(id) {
+            const item = allItems.find(i => i.id === id);
+            if (item) {
+                sessionStorage.setItem('viewItemId', id);
+                window.location.reload();
+            }
+        }
+
+        // ==========================================
+        // SHARE BUTTON
+        // ==========================================
+        document.getElementById('shareBtn').addEventListener('click', function() {
+            const url = window.location.href;
+            const title = currentItem ? currentItem.title : 'Lost & Found Item';
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Lost & Found: ' + title,
+                    text: 'Check out this item on Lost & Found: ' + title,
+                    url: url
+                }).catch(() => {});
+            } else {
+                navigator.clipboard.writeText(url).then(() => {
+                    alert('📋 Link copied to clipboard!');
+                }).catch(() => {
+                    prompt('Copy this link to share:', url);
+                });
+            }
+        });
+
+        // ==========================================
+        // NAV LINKS
+        // ==========================================
+        document.querySelectorAll('.nav-links a, .nav-actions a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                const allowedPages = ['../auth/login.html', '../auth/register.html', 
+                    '../pub/reportitem.html', '../pub/itemfound.html', '../pub/home.html', '../pub/search.html'
+                ];
+
+                if (this.href) {
+                    const shouldNavigate = allowedPages.some(page => this.href.includes(page));
+                    if (shouldNavigate) return;
+                }
+
+                e.preventDefault();
+                if (!this.classList.contains('btn-outline') && !this.classList.contains('btn-login')) {
+                    document.querySelectorAll('.nav-links a').forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                }
+                alert('🔗 ' + this.textContent.trim() + ' page (demo)');
+            });
+        });
+
+        // ==========================================
+        // INIT
+        // ==========================================
+        loadItem();
+        console.log('✅ Item Detail page loaded with role:', currentUserRole);
+        console.log('📋 Available roles: guest, user, manager, admin');
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Claim Request · Lost & Found</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+        }
+
+        body {
+            background: #f0f9f6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 1.5rem;
+        }
+
+        .modal-overlay {
+            display: flex;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            z-index: 999;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+        }
+
+        .modal-content {
+            background: white;
+            max-width: 520px;
+            width: 100%;
+            border-radius: 20px;
+            padding: 2rem;
+            position: relative;
+            animation: modalSlideIn 0.3s ease;
+            max-height: 95vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                transform: translateY(30px) scale(0.98);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1.2rem;
+            font-size: 1.5rem;
+            color: #94a3b8;
+            cursor: pointer;
+            background: none;
+            border: none;
+            transition: 0.3s;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .close-modal:hover {
+            color: #0F766E;
+            background: #f0f9f6;
+            transform: rotate(90deg);
+        }
+
+        .modal-icon {
+            text-align: center;
+            font-size: 3rem;
+            color: #0D9488;
+            margin-bottom: 0.3rem;
+        }
+
+        .modal-content h3 {
+            font-size: 1.4rem;
+            color: #0F766E;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 0.3rem;
+        }
+        .modal-content .subtitle {
+            text-align: center;
+            color: #64748b;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .item-preview {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid #e6f0ed;
+        }
+        .item-preview .preview-row {
+            display: flex;
+            padding: 0.2rem 0;
+            font-size: 0.85rem;
+        }
+        .item-preview .preview-label {
+            font-weight: 600;
+            color: #64748b;
+            width: 80px;
+        }
+        .item-preview .preview-value {
+            color: #0F766E;
+            font-weight: 500;
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #2C2C2A;
+            margin-bottom: 0.2rem;
+        }
+        .form-group label .required {
+            color: #E24B4A;
+            margin-left: 0.2rem;
+        }
+        .form-group .hint {
+            font-size: 0.7rem;
+            color: #94a3b8;
+            margin-top: 0.1rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.7rem 1rem;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            transition: 0.3s;
+            background: #f8fafc;
+            outline: none;
+            color: #1a1a2e;
+            font-family: inherit;
+        }
+        .form-control:focus {
+            border-color: #0D9488;
+            box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.1);
+            background: white;
+        }
+        .form-control.error {
+            border-color: #E24B4A;
+            box-shadow: 0 0 0 3px rgba(226, 75, 74, 0.1);
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .upload-area {
+            border: 2px dashed #e2e8f0;
+            border-radius: 12px;
+            padding: 1.2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s;
+            background: #f8fafc;
+        }
+        .upload-area:hover {
+            border-color: #0D9488;
+            background: #f0f9f6;
+        }
+        .upload-area i {
+            font-size: 2rem;
+            color: #94a3b8;
+        }
+        .upload-area p {
+            color: #64748b;
+            font-size: 0.85rem;
+            margin-top: 0.2rem;
+        }
+        .upload-area .file-name {
+            color: #0D9488;
+            font-weight: 500;
+            margin-top: 0.2rem;
+            font-size: 0.85rem;
+        }
+        .upload-area.has-file {
+            border-color: #0D9488;
+            background: #f0f9f6;
+        }
+
+        .privacy-warning {
+            background: #e6f5f2;
+            border-radius: 12px;
+            padding: 0.8rem 1rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.6rem;
+            font-size: 0.82rem;
+            color: #115E59;
+            margin: 1.2rem 0;
+            border-left: 3px solid #0D9488;
+        }
+        .privacy-warning i {
+            color: #0D9488;
+            font-size: 1.1rem;
+            margin-top: 0.05rem;
+            flex-shrink: 0;
+        }
+        .privacy-warning strong {
+            color: #0F766E;
+        }
+
+        .btn-send-claim {
+            background: #0D9488;
+            color: white;
+            border: none;
+            padding: 0.75rem;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.3s;
+            width: 100%;
+            margin-top: 0.5rem;
+        }
+        .btn-send-claim:hover {
+            background: #0F766E;
+            transform: translateY(-2px);
+        }
+        .btn-send-claim:disabled {
+            background: #94a3b8;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .btn-send-claim .spinner {
+            display: none;
+            width: 1rem;
+            height: 1rem;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-top: 2px solid white;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto;
+        }
+        .btn-send-claim.loading .spinner {
+            display: inline-block;
+        }
+        .btn-send-claim.loading .btn-text {
+            display: none;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .btn-cancel {
+            background: transparent;
+            color: #64748b;
+            border: none;
+            padding: 0.6rem;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: 0.3s;
+            width: 100%;
+            margin-top: 0.3rem;
+        }
+        .btn-cancel:hover {
+            background: #f1f5f9;
+            color: #334155;
+        }
+
+        .success-state {
+            display: none;
+            text-align: center;
+            padding: 1rem 0;
+        }
+        .success-state.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .success-state .success-icon {
+            font-size: 4rem;
+            color: #0D9488;
+            margin-bottom: 0.5rem;
+        }
+        .success-state h4 {
+            font-size: 1.3rem;
+            color: #0F766E;
+            margin-bottom: 0.2rem;
+        }
+        .success-state .success-sub {
+            color: #64748b;
+            font-size: 0.95rem;
+        }
+        .success-state .status-badge-pending {
+            display: inline-block;
+            background: #fef3c7;
+            color: #92400e;
+            padding: 0.3rem 1.2rem;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+        }
+        .success-state .timeline-note {
+            margin-top: 0.8rem;
+            padding: 0.8rem 1rem;
+            background: #f8fafc;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            color: #64748b;
+            text-align: left;
+        }
+        .success-state .timeline-note .step {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.3rem 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .success-state .timeline-note .step:last-child {
+            border-bottom: none;
+        }
+        .success-state .timeline-note .step .step-num {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #e6f5f2;
+            color: #0D9488;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.6rem;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+        .success-state .timeline-note .step .step-text {
+            font-size: 0.8rem;
+            color: #334155;
+        }
+        .success-state .timeline-note .step .step-status {
+            margin-left: auto;
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: #0D9488;
+        }
+
+        .btn-close-success {
+            background: #e2e8f0;
+            color: #334155;
+            border: none;
+            padding: 0.6rem 2rem;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 1rem;
+        }
+        .btn-close-success:hover {
+            background: #cbd5e1;
+        }
+
+        .form-state {
+            display: block;
+        }
+        .form-state.hidden {
+            display: none;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 600px) {
+            .modal-content {
+                padding: 1.5rem;
+                margin: 0.5rem;
+                border-radius: 16px;
+            }
+            .modal-content h3 {
+                font-size: 1.2rem;
+            }
+            .privacy-warning {
+                font-size: 0.75rem;
+                padding: 0.6rem 0.8rem;
+            }
+            .success-state .success-icon {
+                font-size: 3rem;
+            }
+            .modal-icon {
+                font-size: 2.5rem;
+            }
+            .upload-area {
+                padding: 1rem;
+            }
+            .upload-area i {
+                font-size: 1.5rem;
+            }
+            .btn-send-claim {
+                font-size: 0.9rem;
+                padding: 0.65rem;
+            }
+        }
+
+        /* ===== SCROLLBAR ===== */
+        .modal-content::-webkit-scrollbar {
+            width: 4px;
+        }
+        .modal-content::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 4px;
+        }
+        .modal-content::-webkit-scrollbar-thumb {
+            background: #0D9488;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== CLAIM MODAL ===== -->
+    <div class="modal-overlay" id="claimModalOverlay">
+        <div class="modal-content">
+
+            <!-- ===== CLOSE BUTTON ===== -->
+            <button class="close-modal" id="closeModal">&times;</button>
+
+            <!-- ===== FORM STATE ===== -->
+            <div class="form-state" id="formState">
+
+                <div class="modal-icon"><i class="fas fa-handshake"></i></div>
+                <h3>Claim This Item</h3>
+                <p class="subtitle">Verify ownership to claim this item</p>
+
+                <!-- ===== ITEM PREVIEW ===== -->
+                <div class="item-preview">
+                    <div class="preview-row">
+                        <span class="preview-label">Item:</span>
+                        <span class="preview-value" id="previewTitle">Loading...</span>
+                    </div>
+                    <div class="preview-row">
+                        <span class="preview-label">Category:</span>
+                        <span class="preview-value" id="previewCategory">-</span>
+                    </div>
+                    <div class="preview-row">
+                        <span class="preview-label">Location:</span>
+                        <span class="preview-value" id="previewLocation">-</span>
+                    </div>
+                </div>
+
+                <!-- Proof of Ownership -->
+                <div class="form-group">
+                    <label>
+                        Proof of Ownership
+                        <span class="required">*</span>
+                    </label>
+                    <textarea class="form-control" id="proofText" placeholder="Describe something specific only the true owner would know..."></textarea>
+                    <span class="hint">Be specific — include details about color, brand, unique marks, etc.</span>
+                </div>
+
+                <!-- Proof Image Upload (Optional) -->
+                <div class="form-group">
+                    <label>Proof Image <span class="hint">(optional)</span></label>
+                    <div class="upload-area" id="uploadArea">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <p>Click to upload receipt, photo, or ID scan</p>
+                        <span class="hint">PNG, JPG up to 5MB</span>
+                        <div class="file-name" id="fileName"></div>
+                    </div>
+                    <input type="file" id="imageInput" accept=".jpg,.jpeg,.png" style="display:none;" />
+                </div>
+
+                <!-- Additional Notes (Optional) -->
+                <div class="form-group">
+                    <label>Additional Notes <span class="hint">(optional)</span></label>
+                    <textarea class="form-control" id="additionalNotes" placeholder="Any extra information for the Manager..." maxlength="300"></textarea>
+                    <span class="hint" id="notesCharCount">0 / 300 characters</span>
+                </div>
+
+                <!-- Privacy Warning -->
+                <div class="privacy-warning">
+                    <i class="fas fa-shield-alt"></i>
+                    <p>
+                        <strong>Your contact info stays private</strong> until a Manager approves your claim.
+                        The Manager will verify your ownership evidence before any contact details are shared.
+                    </p>
+                </div>
+
+                <!-- Action Buttons -->
+                <button class="btn-send-claim" id="sendClaimBtn">
+                    <span class="btn-text"><i class="fas fa-paper-plane"></i> Send Claim Request</span>
+                    <span class="spinner"></span>
+                </button>
+                <button class="btn-cancel" id="cancelBtn">Cancel</button>
+
+            </div>
+
+            <!-- ===== SUCCESS STATE ===== -->
+            <div class="success-state" id="successState">
+
+                <div class="success-icon"><i class="fas fa-check-circle"></i></div>
+                <h4>Claim Submitted! 🎉</h4>
+                <p class="success-sub">Your claim has been submitted for Manager review</p>
+                <span class="status-badge-pending">⏳ Pending Review</span>
+
+                <div class="timeline-note">
+                    <div class="step">
+                        <span class="step-num">1</span>
+                        <span class="step-text">Claim submitted</span>
+                        <span class="step-status">✅ Done</span>
+                    </div>
+                    <div class="step">
+                        <span class="step-num">2</span>
+                        <span class="step-text">Manager reviews evidence</span>
+                        <span class="step-status">⏳ In Progress</span>
+                    </div>
+                    <div class="step">
+                        <span class="step-num">3</span>
+                        <span class="step-text">Manager approves/rejects</span>
+                        <span class="step-status">⏳ Pending</span>
+                    </div>
+                    <div class="step">
+                        <span class="step-num">4</span>
+                        <span class="step-text">Contact details shared (if approved)</span>
+                        <span class="step-status">⏳ Pending</span>
+                    </div>
+                </div>
+
+                <p style="margin-top: 0.5rem; font-size: 0.8rem; color: #64748b;">
+                    <i class="fas fa-bell"></i> You will be notified once a Manager reviews your claim
+                </p>
+
+                <!-- ===== BACK TO SEARCH / DETAIL ===== -->
+                <div style="display: flex; gap: 0.8rem; margin-top: 1rem; flex-wrap: wrap; justify-content: center;">
+                    <button class="btn-close-success" id="closeSuccessBtn">Close</button>
+                    <button class="btn-close-success" id="backToDetailBtn" style="background: #0D9488; color: white;">
+                        <i class="fas fa-arrow-left"></i> Back to Item
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+            // ==========================================
+            // DOM REFS
+            // ==========================================
+            const modalOverlay = document.getElementById('claimModalOverlay');
+            const formState = document.getElementById('formState');
+            const successState = document.getElementById('successState');
+            const closeModal = document.getElementById('closeModal');
+            const cancelBtn = document.getElementById('cancelBtn');
+            const closeSuccessBtn = document.getElementById('closeSuccessBtn');
+            const backToDetailBtn = document.getElementById('backToDetailBtn');
+            const sendClaimBtn = document.getElementById('sendClaimBtn');
+            const proofText = document.getElementById('proofText');
+            const additionalNotes = document.getElementById('additionalNotes');
+            const notesCharCount = document.getElementById('notesCharCount');
+            const uploadArea = document.getElementById('uploadArea');
+            const imageInput = document.getElementById('imageInput');
+            const fileName = document.getElementById('fileName');
+
+            let imageFile = null;
+            let itemData = null;
+
+            // ==========================================
+            // LOAD ITEM DATA FROM SESSION STORAGE
+            // ==========================================
+            function loadItemData() {
+                const data = sessionStorage.getItem('claimItem');
+                if (data) {
+                    try {
+                        itemData = JSON.parse(data);
+                        document.getElementById('previewTitle').textContent = itemData.title || 'Unknown Item';
+                        document.getElementById('previewCategory').textContent = itemData.category || '-';
+                        document.getElementById('previewLocation').textContent = itemData.location || '-';
+                    } catch (e) {
+                        console.error('Error parsing claim item data:', e);
+                    }
+                } else {
+                    document.getElementById('previewTitle').textContent = 'No item selected';
+                }
+                console.log('📦 Claim item loaded:', itemData);
+            }
+
+            // ==========================================
+            // CLOSE MODAL - Navigate back to Item Detail
+            // ==========================================
+            function closeModalFn() {
+                modalOverlay.style.display = 'none';
+                document.body.style.overflow = '';
+                // Reset form
+                formState.classList.remove('hidden');
+                successState.classList.remove('active');
+                proofText.value = '';
+                additionalNotes.value = '';
+                notesCharCount.textContent = '0 / 300 characters';
+                imageFile = null;
+                fileName.textContent = '';
+                uploadArea.classList.remove('has-file');
+                sendClaimBtn.classList.remove('loading');
+                sendClaimBtn.disabled = false;
+                proofText.classList.remove('error');
+
+                // Navigate back to item detail page
+                window.location.href = 'itemdetail.html';
+            }
+
+            // ==========================================
+            // GO BACK TO ITEM DETAIL
+            // ==========================================
+            function goBackToDetail() {
+                window.location.href = 'itemdetail.html';
+            }
+
+            // ==========================================
+            // EVENT LISTENERS
+            // ==========================================
+            closeModal.addEventListener('click', closeModalFn);
+            cancelBtn.addEventListener('click', closeModalFn);
+            closeSuccessBtn.addEventListener('click', closeModalFn);
+            backToDetailBtn.addEventListener('click', goBackToDetail);
+
+            modalOverlay.addEventListener('click', function(e) {
+                if (e.target === this) closeModalFn();
+            });
+
+            // ==========================================
+            // NOTES CHARACTER COUNT
+            // ==========================================
+            additionalNotes.addEventListener('input', function() {
+                const len = this.value.length;
+                notesCharCount.textContent = len + ' / 300 characters';
+                if (len > 300) {
+                    this.value = this.value.substring(0, 300);
+                    notesCharCount.textContent = '300 / 300 characters';
+                }
+            });
+
+            // ==========================================
+            // IMAGE UPLOAD
+            // ==========================================
+            uploadArea.addEventListener('click', function() {
+                imageInput.click();
+            });
+
+            imageInput.addEventListener('change', function(e) {
+                const file = this.files[0];
+                if (file) {
+                    const validTypes = ['image/jpeg', 'image/png'];
+                    if (!validTypes.includes(file.type)) {
+                        alert('Please upload a JPEG or PNG image.');
+                        return;
+                    }
+                    if (file.size > 5 * 1024 * 1024) {
+                        alert('File must be under 5MB.');
+                        return;
+                    }
+                    imageFile = file;
+                    fileName.textContent = '📎 ' + file.name;
+                    uploadArea.classList.add('has-file');
+                }
+            });
+
+            // Drag and drop
+            uploadArea.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                uploadArea.style.borderColor = '#0D9488';
+            });
+            uploadArea.addEventListener('dragleave', function() {
+                uploadArea.style.borderColor = '#e2e8f0';
+            });
+            uploadArea.addEventListener('drop', function(e) {
+                e.preventDefault();
+                uploadArea.style.borderColor = '#e2e8f0';
+                const file = e.dataTransfer.files[0];
+                if (file) {
+                    const validTypes = ['image/jpeg', 'image/png'];
+                    if (!validTypes.includes(file.type)) {
+                        alert('Please upload a JPEG or PNG image.');
+                        return;
+                    }
+                    if (file.size > 5 * 1024 * 1024) {
+                        alert('File must be under 5MB.');
+                        return;
+                    }
+                    imageFile = file;
+                    fileName.textContent = '📎 ' + file.name;
+                    uploadArea.classList.add('has-file');
+                }
+            });
+
+            // ==========================================
+            // SEND CLAIM
+            // ==========================================
+            sendClaimBtn.addEventListener('click', function() {
+                const proof = proofText.value.trim();
+
+                // Validate
+                if (!proof) {
+                    proofText.classList.add('error');
+                    proofText.focus();
+                    proofText.style.animation = 'shake 0.4s ease';
+                    setTimeout(() => {
+                        proofText.style.animation = '';
+                    }, 400);
+                    return;
+                }
+                proofText.classList.remove('error');
+
+                // Show loading
+                this.classList.add('loading');
+                this.disabled = true;
+
+                // Simulate API call
+                setTimeout(() => {
+                    this.classList.remove('loading');
+                    this.disabled = false;
+
+                    // Show success state
+                    formState.classList.add('hidden');
+                    successState.classList.add('active');
+
+                    // Store claim in localStorage
+                    const claim = {
+                        itemId: itemData ? itemData.id : null,
+                        itemTitle: itemData ? itemData.title : 'Unknown',
+                        proof: proof,
+                        notes: additionalNotes.value.trim(),
+                        image: imageFile ? imageFile.name : null,
+                        status: 'pending',
+                        submittedAt: new Date().toISOString()
+                    };
+
+                    let claims = JSON.parse(localStorage.getItem('claims') || '[]');
+                    claims.push(claim);
+                    localStorage.setItem('claims', JSON.stringify(claims));
+
+                    console.log('📝 Claim Submitted:', claim);
+                    console.log('🔔 Notification sent to Manager for review');
+
+                }, 1500);
+            });
+
+            // ==========================================
+            // ENTER KEY SUPPORT
+            // ==========================================
+            proofText.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' && e.shiftKey) {
+                    e.preventDefault();
+                    sendClaimBtn.click();
+                }
+            });
+
+            // ==========================================
+            // KEYBOARD SHORTCUT (ESC to close)
+            // ==========================================
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && modalOverlay.style.display !== 'none') {
+                    closeModalFn();
+                }
+            });
+
+            // ==========================================
+            // INIT
+            // ==========================================
+            loadItemData();
+
+            // Show the modal
+            modalOverlay.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+            proofText.focus();
+
+            console.log('✅ Claim Request Modal loaded');
+            console.log('📋 Workflow: Search → Item Detail → Claim Request');
+            console.log('📞 Contact details will be revealed after Manager approval');
+        });
+    </script>
+
+</body>
+</html>
