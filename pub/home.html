@@ -18,7 +18,21 @@
             background: #f0f9f6;
         }
 
-        /* ===== STICKY NAVBAR ===== */
+        /* ===== BODY CLASSES FOR ROLE-BASED HIDING ===== */
+        body.logged-in .guest-only {
+            display: none !important;
+        }
+        body.logged-in .user-only {
+            display: inline-flex !important;
+        }
+        body.guest .user-only {
+            display: none !important;
+        }
+        body.guest .guest-only {
+            display: block !important;
+        }
+
+        /* ===== NAVBAR ===== */
         .navbar {
             background: #0D9488;
             padding: 0.8rem 3rem;
@@ -43,6 +57,8 @@
             font-size: 1.4rem;
             font-weight: 800;
             letter-spacing: -0.5px;
+            text-decoration: none;
+            cursor: pointer;
         }
         .navbar .logo i {
             font-size: 1.8rem;
@@ -109,6 +125,122 @@
             transform: translateY(-2px);
         }
 
+        .nav-notif {
+            position: relative;
+            color: white;
+            font-size: 1.1rem;
+            cursor: pointer;
+            width: 38px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: 0.3s;
+        }
+        .nav-notif:hover {
+            background: rgba(255,255,255,0.12);
+        }
+        .nav-notif .dot {
+            position: absolute;
+            top: 4px;
+            right: 6px;
+            background: #FCD34D;
+            color: #0F2E2A;
+            font-size: 0.6rem;
+            font-weight: 800;
+            min-width: 16px;
+            height: 16px;
+            border-radius: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 3px;
+        }
+        .nav-notif-panel {
+            display: none;
+            position: absolute;
+            top: 120%;
+            right: 0;
+            background: white;
+            color: #1a1a2e;
+            width: 280px;
+            border-radius: 14px;
+            box-shadow: 0 16px 50px rgba(0,0,0,0.18);
+            padding: 0.6rem;
+            z-index: 200;
+        }
+        .nav-notif-panel.open { display: block; }
+        .nav-notif-panel .notif-item {
+            padding: 0.7rem 0.8rem;
+            border-radius: 10px;
+            font-size: 0.82rem;
+            color: #334155;
+            line-height: 1.4;
+            cursor: pointer;
+        }
+        .nav-notif-panel .notif-item:hover { background: #f0f9f6; }
+        .nav-notif-panel .notif-item strong { color: #0F766E; }
+        .nav-notif-panel .notif-item a {
+            color: #0D9488;
+            font-weight: 600;
+            font-size: 0.78rem;
+            display: inline-block;
+            margin-top: 0.2rem;
+        }
+
+        .nav-profile {
+            position: relative;
+        }
+        .nav-profile .profile-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            color: white;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 0.35rem 0.9rem;
+            border-radius: 60px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+        .nav-profile .profile-btn:hover {
+            background: rgba(255,255,255,0.18);
+        }
+        .nav-profile .profile-menu {
+            display: none;
+            position: absolute;
+            top: 120%;
+            right: 0;
+            background: white;
+            width: 180px;
+            border-radius: 14px;
+            box-shadow: 0 16px 50px rgba(0,0,0,0.18);
+            padding: 0.5rem;
+            z-index: 200;
+        }
+        .nav-profile .profile-menu.open { display: block; }
+        .nav-profile .profile-menu a {
+            display: block;
+            color: #334155;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            padding: 0.55rem 0.7rem;
+            border-radius: 8px;
+            transition: 0.2s;
+        }
+        .nav-profile .profile-menu a:hover {
+            background: #f0f9f6;
+            color: #0F766E;
+        }
+        .nav-profile .profile-menu a.danger:hover {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
         /* ===== HERO ===== */
         .hero {
             background: linear-gradient(135deg, #0D9488 0%, #0F766E 50%, #115E59 100%);
@@ -126,16 +258,6 @@
             width: 60%;
             height: 200%;
             background: radial-gradient(ellipse, rgba(255, 255, 255, 0.08) 0%, transparent 70%);
-            pointer-events: none;
-        }
-        .hero::after {
-            content: '';
-            position: absolute;
-            bottom: -30%;
-            left: -10%;
-            width: 50%;
-            height: 150%;
-            background: radial-gradient(ellipse, rgba(255, 255, 255, 0.05) 0%, transparent 70%);
             pointer-events: none;
         }
         .hero .content {
@@ -180,115 +302,93 @@
         }
 
         .hero-search {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.3rem;
-    max-width: 780px;
-    margin: 0 auto 2rem;
-    background: white;
-    border-radius: 60px;
-    padding: 0.3rem;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
-    border: 1px solid rgba(13, 148, 136, 0.08);
-}
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.3rem;
+            max-width: 780px;
+            margin: 0 auto 2rem;
+            background: white;
+            border-radius: 60px;
+            padding: 0.3rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(13, 148, 136, 0.08);
+        }
 
-.hero-search input,
-.hero-search select {
-    border: none;
-    padding: 0.8rem 1.2rem;
-    font-size: 0.9rem;
-    outline: none;
-    background: #f8fafc; /* Light gray input background */
-    flex: 1;
-    min-width: 120px;
-    color: #1a1a2e;
-    font-weight: 500;
-    border-radius: 60px;
-    transition: all 0.3s ease;
-}
+        .hero-search input,
+        .hero-search select {
+            border: none;
+            padding: 0.8rem 1.2rem;
+            font-size: 0.9rem;
+            outline: none;
+            background: #f8fafc;
+            flex: 1;
+            min-width: 120px;
+            color: #1a1a2e;
+            font-weight: 500;
+            border-radius: 60px;
+            transition: all 0.3s ease;
+        }
 
-.hero-search input:focus,
-.hero-search select:focus {
-    background: white;
-    box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.1);
-}
+        .hero-search input:focus,
+        .hero-search select:focus {
+            background: white;
+            box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.1);
+        }
 
-/* Remove browser autofill styling */
-.hero-search input:-webkit-autofill,
-.hero-search input:-webkit-autofill:hover,
-.hero-search input:-webkit-autofill:focus,
-.hero-search input:-webkit-autofill:active {
-    -webkit-box-shadow: 0 0 0 30px #f8fafc inset !important;
-    -webkit-text-fill-color: #1a1a2e !important;
-}
+        .hero-search .search-btn {
+            background: #0D9488;
+            color: white;
+            border: none;
+            border-radius: 60px;
+            padding: 0.8rem 2.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            white-space: nowrap;
+            font-size: 0.9rem;
+        }
 
-.hero-search select {
-    cursor: pointer;
-    appearance: auto;
-    -webkit-appearance: auto;
-    color: #2C2C2A;
-    background: #f8fafc;
-}
+        .hero-search .search-btn:hover {
+            background: #0F766E;
+            transform: scale(1.02);
+            box-shadow: 0 8px 25px rgba(13, 148, 136, 0.4);
+        }
 
-.hero-search input::placeholder {
-    color: #9a9a96;
-    font-weight: 400;
-}
+        .search-results-count {
+            display: none;
+            padding: 0.5rem 1.5rem;
+            background: #e6f5f2;
+            border-radius: 60px;
+            font-size: 0.85rem;
+            color: #0F766E;
+            font-weight: 600;
+            margin: 0.5rem auto 1.5rem;
+            max-width: fit-content;
+            align-items: center;
+            gap: 0.8rem;
+            box-shadow: 0 2px 10px rgba(13, 148, 136, 0.08);
+        }
 
-.hero-search .search-btn {
-    background: #0D9488;
-    color: white;
-    border: none;
-    border-radius: 60px;
-    padding: 0.8rem 2.2rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s;
-    white-space: nowrap;
-    font-size: 0.9rem;
-}
+        .search-results-count.show {
+            display: flex;
+        }
 
-.hero-search .search-btn:hover {
-    background: #0F766E;
-    transform: scale(1.02);
-    box-shadow: 0 8px 25px rgba(13, 148, 136, 0.4);
-}
-        /* ===== SEARCH RESULTS COUNT ===== */
-.search-results-count {
-    display: none;
-    padding: 0.5rem 1.5rem;
-    background: #e6f5f2;
-    border-radius: 60px;
-    font-size: 0.85rem;
-    color: #0F766E;
-    font-weight: 600;
-    margin: 0.5rem auto 1.5rem;
-    max-width: fit-content;
-    align-items: center;
-    gap: 0.8rem;
-    box-shadow: 0 2px 10px rgba(13, 148, 136, 0.08);
-}
+        .clear-search {
+            background: #0D9488;
+            color: white;
+            border: none;
+            padding: 0.3rem 1.2rem;
+            border-radius: 60px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
 
-.search-results-count.show {
-    display: flex;
-}
-
-.clear-search {
-    background: #0D9488;
-    color: white;
-    border: none;
-    padding: 0.3rem 1.2rem;
-    border-radius: 60px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s;
-}
-
-.clear-search:hover {
-    background: #0F766E;
-    transform: scale(1.05);
-}
+        .clear-search:hover {
+            background: #0F766E;
+            transform: scale(1.05);
+        }
 
         .hero-btns {
             display: flex;
@@ -335,6 +435,12 @@
             border-color: white;
             transform: translateY(-3px);
         }
+        .hero-note {
+            margin-top: 1rem;
+            font-size: 0.82rem;
+            color: rgba(255,255,255,0.8);
+        }
+        .hero-note i { margin-right: 0.3rem; }
 
         /* ===== STATS ===== */
         .stats {
@@ -377,6 +483,60 @@
             font-size: 0.85rem;
             font-weight: 500;
             margin-top: 0.2rem;
+        }
+
+        /* ===== YOUR ACTIVITY (logged-in only) ===== */
+        .activity-section {
+            display: none;
+            padding: 0 3rem;
+            max-width: 1200px;
+            margin: -1rem auto 0;
+        }
+        .activity-section.show { display: block; }
+        .activity-section h3 {
+            font-size: 1.1rem;
+            color: #0F766E;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+        .activity-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.2rem;
+        }
+        .activity-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.2rem;
+            border: 1px solid #e6f0ed;
+            box-shadow: 0 4px 20px rgba(13, 148, 136, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 0.9rem;
+        }
+        .activity-card .a-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: #e6f5f2;
+            color: #0D9488;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+        .activity-card .a-num {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #0F766E;
+            line-height: 1;
+        }
+        .activity-card .a-label {
+            font-size: 0.75rem;
+            color: #64748b;
+            font-weight: 500;
+            margin-top: 0.15rem;
         }
 
         /* ===== RECENT ITEMS ===== */
@@ -491,6 +651,17 @@
             margin-right: 0.2rem;
             color: #94a3b8;
         }
+        .item-card .item-info .login-hint {
+            font-size: 0.72rem;
+            color: #0D9488;
+            font-weight: 600;
+            margin-top: 0.25rem;
+        }
+        .item-card .item-actions {
+            display: flex;
+            gap: 0.4rem;
+            flex-shrink: 0;
+        }
         .item-card .view-btn {
             background: #0D9488;
             color: white;
@@ -506,6 +677,25 @@
         .item-card .view-btn:hover {
             background: #0F766E;
             transform: scale(1.04);
+        }
+        .item-card .save-btn {
+            background: #e6f5f2;
+            color: #0D9488;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.85rem;
+        }
+        .item-card .save-btn:hover {
+            background: #0D9488;
+            color: white;
+        }
+        .item-card .save-btn.saved {
+            background: #FCD34D;
+            color: #0F2E2A;
         }
 
         /* ===== ITEM DETAIL MODAL ===== */
@@ -590,35 +780,58 @@
             background: #f8fafc;
             border-radius: 12px;
         }
+        .modal-content .modal-login-note {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: #fff7ed;
+            border: 1px solid #fed7aa;
+            color: #9a5b13;
+            font-size: 0.82rem;
+            padding: 0.7rem 0.9rem;
+            border-radius: 12px;
+            margin-bottom: 1.2rem;
+        }
         .modal-content .modal-actions {
             display: flex;
             gap: 0.8rem;
+            flex-wrap: wrap;
         }
-        .modal-content .modal-actions .btn-claim {
+        .modal-content .modal-actions button,
+        .modal-content .modal-actions a {
+            border: none;
+            padding: 0.6rem 1.4rem;
+            border-radius: 60px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 0.88rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .modal-content .btn-claim {
             background: #0D9488;
             color: white;
-            border: none;
-            padding: 0.6rem 2rem;
-            border-radius: 60px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.3s;
             flex: 1;
+            justify-content: center;
         }
-        .modal-content .modal-actions .btn-claim:hover {
+        .modal-content .btn-claim:hover {
             background: #0F766E;
         }
-        .modal-content .modal-actions .btn-close-modal {
+        .modal-content .btn-secondary {
+            background: #e6f5f2;
+            color: #0D9488;
+        }
+        .modal-content .btn-secondary:hover {
+            background: #d1ede8;
+        }
+        .modal-content .btn-close-modal {
             background: #e2e8f0;
             color: #334155;
-            border: none;
-            padding: 0.6rem 1.5rem;
-            border-radius: 60px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.3s;
         }
-        .modal-content .modal-actions .btn-close-modal:hover {
+        .modal-content .btn-close-modal:hover {
             background: #cbd5e1;
         }
 
@@ -818,202 +1031,76 @@
 
         /* ===== RESPONSIVE ===== */
         @media (max-width: 1024px) {
-            .stats {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .steps {
-                grid-template-columns: repeat(2, 1fr);
-            }
+            .stats { grid-template-columns: repeat(2, 1fr); }
+            .steps { grid-template-columns: repeat(2, 1fr); }
+            .activity-grid { grid-template-columns: repeat(2, 1fr); }
         }
 
         @media (max-width: 900px) {
-            .navbar {
-                padding: 0.6rem 1.5rem;
-                flex-wrap: wrap;
-            }
-            .nav-links {
-                gap: 1.2rem;
-            }
-            .nav-links a {
-                font-size: 0.8rem;
-            }
-            .hero {
-                padding: 3rem 1.5rem 3.5rem;
-            }
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-            .recent-grid {
-                grid-template-columns: 1fr;
-                gap: 1.5rem;
-            }
-            .footer-grid {
-                grid-template-columns: 1fr 1fr;
-                gap: 1.5rem;
-            }
-            .footer {
-                padding: 2rem 1.5rem 1rem;
-            }
-            .stats {
-                padding: 2rem 1.5rem;
-                margin-top: -1rem;
-                gap: 1rem;
-            }
-            .recent-section {
-                padding: 2rem 1.5rem;
-            }
-            .how-it-works {
-                padding: 2.5rem 1.5rem;
-            }
+            .navbar { padding: 0.6rem 1.5rem; flex-wrap: wrap; }
+            .nav-links { gap: 1.2rem; }
+            .nav-links a { font-size: 0.8rem; }
+            .hero { padding: 3rem 1.5rem 3.5rem; }
+            .hero h1 { font-size: 2.5rem; }
+            .recent-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+            .footer-grid { grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+            .footer { padding: 2rem 1.5rem 1rem; }
+            .stats { padding: 2rem 1.5rem; margin-top: -1rem; gap: 1rem; }
+            .recent-section { padding: 2rem 1.5rem; }
+            .how-it-works { padding: 2.5rem 1.5rem; }
+            .activity-section { padding: 0 1.5rem; }
         }
 
         @media (max-width: 600px) {
-            .navbar {
-                padding: 0.5rem 1rem;
-            }
-            .nav-links {
-                gap: 0.8rem;
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-            .nav-links a {
-                font-size: 0.7rem;
-            }
-            .nav-actions a {
-                font-size: 0.7rem;
-            }
-            .nav-actions .btn-outline {
-                padding: 0.2rem 1rem;
-            }
-            .hero {
-                padding: 2rem 1rem 2.5rem;
-            }
-            .hero h1 {
-                font-size: 1.8rem;
-            }
-            .hero p {
-                font-size: 0.9rem;
-            }
-            .hero-search {
-                flex-wrap: wrap;
-                border-radius: 20px;
-                padding: 0.5rem;
-                gap: 0.4rem;
-            }
+            .navbar { padding: 0.5rem 1rem; }
+            .nav-links { gap: 0.8rem; flex-wrap: wrap; justify-content: center; }
+            .nav-links a { font-size: 0.7rem; }
+            .nav-actions a { font-size: 0.7rem; }
+            .nav-actions .btn-outline { padding: 0.2rem 1rem; }
+            .hero { padding: 2rem 1rem 2.5rem; }
+            .hero h1 { font-size: 1.8rem; }
+            .hero p { font-size: 0.9rem; }
+            .hero-search { flex-wrap: wrap; border-radius: 20px; padding: 0.5rem; gap: 0.4rem; }
             .hero-search input,
-            .hero-search select {
-                flex: 1 1 100%;
-                min-width: 100%;
-                padding: 0.5rem 0.8rem;
-                background: #f8fafc;
-                border-radius: 12px;
-                font-size: 0.8rem;
-            }
-            .hero-search .search-btn {
-                flex: 1 1 100%;
-                padding: 0.6rem;
-                font-size: 0.85rem;
-            }
-            .hero-btns {
-                flex-direction: column;
-                align-items: center;
-            }
+            .hero-search select { flex: 1 1 100%; min-width: 100%; padding: 0.5rem 0.8rem; background: #f8fafc; border-radius: 12px; font-size: 0.8rem; }
+            .hero-search .search-btn { flex: 1 1 100%; padding: 0.6rem; font-size: 0.85rem; }
+            .hero-btns { flex-direction: column; align-items: center; }
             .hero-btns .btn-primary,
-            .hero-btns .btn-outline-white {
-                width: 100%;
-                justify-content: center;
-                padding: 0.6rem;
-            }
-            .stats {
-                grid-template-columns: 1fr 1fr;
-                gap: 0.6rem;
-                padding: 1rem;
-                margin-top: -0.5rem;
-            }
-            .stat-card {
-                padding: 1rem;
-            }
-            .stat-card .number {
-                font-size: 1.8rem;
-            }
-            .stat-card .icon {
-                font-size: 1.3rem;
-            }
-            .recent-section .section-title {
-                font-size: 1.4rem;
-            }
-            .recent-section .section-header {
-                flex-direction: column;
-                gap: 0.5rem;
-                align-items: flex-start;
-            }
-            .steps {
-                grid-template-columns: 1fr 1fr;
-                gap: 0.8rem;
-            }
-            .step {
-                padding: 1.2rem;
-            }
-            .step .step-icon {
-                font-size: 1.6rem;
-            }
-            .cta-banner {
-                padding: 2rem 1rem;
-            }
-            .cta-banner h2 {
-                font-size: 1.5rem;
-            }
-            .footer-grid {
-                grid-template-columns: 1fr;
-                gap: 1rem;
-            }
-            .footer {
-                padding: 1.5rem 1rem 1rem;
-            }
-            .item-card {
-                padding: 0.8rem 1rem;
-            }
-            .item-card .item-icon {
-                width: 38px;
-                height: 38px;
-                font-size: 1rem;
-            }
-            .modal-content {
-                padding: 1.5rem;
-                margin: 1rem;
-            }
-            .modal-content .modal-actions {
-                flex-direction: column;
-            }
+            .hero-btns .btn-outline-white { width: 100%; justify-content: center; padding: 0.6rem; }
+            .stats { grid-template-columns: 1fr 1fr; gap: 0.6rem; padding: 1rem; margin-top: -0.5rem; }
+            .stat-card { padding: 1rem; }
+            .stat-card .number { font-size: 1.8rem; }
+            .stat-card .icon { font-size: 1.3rem; }
+            .recent-section .section-title { font-size: 1.4rem; }
+            .recent-section .section-header { flex-direction: column; gap: 0.5rem; align-items: flex-start; }
+            .steps { grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+            .step { padding: 1.2rem; }
+            .step .step-icon { font-size: 1.6rem; }
+            .cta-banner { padding: 2rem 1rem; }
+            .cta-banner h2 { font-size: 1.5rem; }
+            .footer-grid { grid-template-columns: 1fr; gap: 1rem; }
+            .footer { padding: 1.5rem 1rem 1rem; }
+            .item-card { padding: 0.8rem 1rem; flex-wrap: wrap; }
+            .item-card .item-icon { width: 38px; height: 38px; font-size: 1rem; }
+            .modal-content { padding: 1.5rem; margin: 1rem; }
+            .modal-content .modal-actions { flex-direction: column; }
+            .activity-grid { grid-template-columns: 1fr 1fr; }
         }
     </style>
 </head>
 <body>
 
-    <!-- ===== NAVBAR ===== -->
-    <nav class="navbar" id="navbar">
-        <div class="logo">
-            <i class="fas fa-magnifying-glass-location"></i>
-            <span>Lost&Found</span>
-        </div>
-        <div class="nav-links">
-            <a href="home.html" class="active">Home</a>
-            <a href="reportitem.html">Report Lost</a>
-            <a href="itemfound.html">Report Found</a>
-            <a href="search.html">Browse</a>
-        </div>
-        <div class="nav-actions">
-            <a href="login.html">Login</a>
-            <a href="register.html" class="btn-outline">Register</a>
-        </div>
-    </nav>
+    <!-- ============================================ -->
+    <!-- NAVBAR CONTAINER -->
+    <!-- ============================================ -->
+    <div id="navbarContainer"></div>
 
     <!-- ===== HERO ===== -->
     <section class="hero">
         <div class="content">
             <div class="badge"><i class="fas fa-heart" style="margin-right:0.4rem;"></i> 856 items reunited</div>
-            <h1>Lost something? <br /><span>We'll help you find it.</span></h1>
-            <p>Post lost or found items in seconds. Our smart matching system connects owners with finders.</p>
+            <h1 id="heroTitle">Lost something? <br /><span>We'll help you find it.</span></h1>
+            <p id="heroDesc">Post lost or found items in seconds. Our smart matching system connects owners with finders.</p>
 
             <div class="hero-search">
                 <input type="text" placeholder="Search for items..." id="searchInput" />
@@ -1032,18 +1119,16 @@
                     <option value="parking">Parking</option>
                     <option value="auditorium">Auditorium</option>
                 </select>
-                 <button class="search-btn" id="searchBtn"><i class="fas fa-search"></i> Search</button>
+                <button class="search-btn" id="searchBtn"><i class="fas fa-search"></i> Search</button>
             </div>
 
             <div class="search-results-count" id="searchResultsCount">
-    <span id="resultCount">0</span> items found
-    <button class="clear-search" id="clearSearch">Clear Filters</button>
-</div>
-
-            <div class="hero-btns">
-                <a href="reportitem.html" class="btn-primary"><i class="fas fa-triangle-exclamation"></i> Report Lost</a>
-                <a href="itemfound.html" class="btn-outline-white"><i class="fas fa-hand-peace"></i> Report Found</a>
+                <span id="resultCount">0</span> items found
+                <button class="clear-search" id="clearSearch">Clear Filters</button>
             </div>
+
+            <div class="hero-btns" id="heroBtns"></div>
+            <p class="hero-note" id="heroNote"><i class="fas fa-lock"></i> Login required to report an item</p>
         </div>
     </section>
 
@@ -1071,11 +1156,46 @@
         </div>
     </section>
 
+    <!-- ===== YOUR ACTIVITY (logged-in only) ===== -->
+    <section class="activity-section" id="activitySection">
+        <h3>Your Activity</h3>
+        <div class="activity-grid">
+            <div class="activity-card">
+                <div class="a-icon"><i class="fas fa-triangle-exclamation"></i></div>
+                <div>
+                    <div class="a-num">2</div>
+                    <div class="a-label">Lost Reports</div>
+                </div>
+            </div>
+            <div class="activity-card">
+                <div class="a-icon"><i class="fas fa-hand-peace"></i></div>
+                <div>
+                    <div class="a-num">1</div>
+                    <div class="a-label">Found Reports</div>
+                </div>
+            </div>
+            <div class="activity-card">
+                <div class="a-icon"><i class="fas fa-link"></i></div>
+                <div>
+                    <div class="a-num">3</div>
+                    <div class="a-label">Matches</div>
+                </div>
+            </div>
+            <div class="activity-card">
+                <div class="a-icon"><i class="fas fa-bell"></i></div>
+                <div>
+                    <div class="a-num">4</div>
+                    <div class="a-label">Notifications</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- ===== RECENT ITEMS ===== -->
     <section class="recent-section">
         <div class="section-header">
             <h2 class="section-title">Recent <span>Activity</span></h2>
-            <a href="search.html" class="view-all" id="viewAllLink">View all →</a>
+            <a href="../pub/search.html" class="view-all">View all →</a>
         </div>
         <div class="recent-grid">
             <!-- Lost Items -->
@@ -1083,6 +1203,7 @@
                 <div class="col-header">
                     <span class="badge lost">●</span> Recently Lost
                 </div>
+
                 <div class="item-card" data-title="Black Samsung A54" data-location="Library" data-date="2 days ago" data-category="Electronics" data-description="Samsung A54 with blue silicone cover, screen has small scratch. Last seen near the study area.">
                     <div class="item-icon"><i class="fas fa-mobile-screen-button"></i></div>
                     <div class="item-info">
@@ -1091,9 +1212,13 @@
                             <span><i class="fas fa-location-dot"></i> Library</span>
                             <span><i class="fas fa-calendar-day"></i> 2 days ago</span>
                         </div>
+                        <div class="login-hint guest-only">Login to contact owner</div>
                     </div>
-                    <button class="view-btn">View</button>
+                    <div class="item-actions">
+                        <button class="view-btn">View</button>
+                    </div>
                 </div>
+
                 <div class="item-card" data-title="Brown Leather Wallet" data-location="Parking Lot" data-date="3 days ago" data-category="Accessories" data-description="Brown leather wallet containing ID card, bank cards, and some cash. Initials 'A.K.' inside.">
                     <div class="item-icon"><i class="fas fa-wallet"></i></div>
                     <div class="item-info">
@@ -1102,9 +1227,13 @@
                             <span><i class="fas fa-location-dot"></i> Parking Lot</span>
                             <span><i class="fas fa-calendar-day"></i> 3 days ago</span>
                         </div>
+                        <div class="login-hint guest-only">Login to contact owner</div>
                     </div>
-                    <button class="view-btn">View</button>
+                    <div class="item-actions">
+                        <button class="view-btn">View</button>
+                    </div>
                 </div>
+
                 <div class="item-card" data-title="Student ID Card" data-location="Cafeteria" data-date="4 days ago" data-category="Documents" data-description="University ID card - Name: Ahmad Rizwan, Faculty of Engineering. Card number: 2024-0789.">
                     <div class="item-icon"><i class="fas fa-id-card"></i></div>
                     <div class="item-info">
@@ -1113,8 +1242,11 @@
                             <span><i class="fas fa-location-dot"></i> Cafeteria</span>
                             <span><i class="fas fa-calendar-day"></i> 4 days ago</span>
                         </div>
+                        <div class="login-hint guest-only">Login to contact owner</div>
                     </div>
-                    <button class="view-btn">View</button>
+                    <div class="item-actions">
+                        <button class="view-btn">View</button>
+                    </div>
                 </div>
             </div>
 
@@ -1123,6 +1255,7 @@
                 <div class="col-header">
                     <span class="badge found">●</span> Recently Found
                 </div>
+
                 <div class="item-card" data-title="Bunch of Keys" data-location="Sports Hall" data-date="1 day ago" data-category="Accessories" data-description="3 keys with a small silver keychain. One key has a red tag.">
                     <div class="item-icon"><i class="fas fa-key"></i></div>
                     <div class="item-info">
@@ -1131,9 +1264,13 @@
                             <span><i class="fas fa-location-dot"></i> Sports Hall</span>
                             <span><i class="fas fa-calendar-day"></i> 1 day ago</span>
                         </div>
+                        <div class="login-hint guest-only">Login to contact finder</div>
                     </div>
-                    <button class="view-btn">View</button>
+                    <div class="item-actions">
+                        <button class="view-btn">View</button>
+                    </div>
                 </div>
+
                 <div class="item-card" data-title="White Earbuds" data-location="Main Hall" data-date="2 days ago" data-category="Electronics" data-description="Apple AirPods in white charging case. Case has a small scratch on the back.">
                     <div class="item-icon"><i class="fas fa-headphones"></i></div>
                     <div class="item-info">
@@ -1142,9 +1279,13 @@
                             <span><i class="fas fa-location-dot"></i> Main Hall</span>
                             <span><i class="fas fa-calendar-day"></i> 2 days ago</span>
                         </div>
+                        <div class="login-hint guest-only">Login to contact finder</div>
                     </div>
-                    <button class="view-btn">View</button>
+                    <div class="item-actions">
+                        <button class="view-btn">View</button>
+                    </div>
                 </div>
+
                 <div class="item-card" data-title="Data Structures Textbook" data-location="CS Lab" data-date="3 days ago" data-category="Books" data-description="Data Structures & Algorithms textbook. Marked with sticky notes on chapter 5 and 7. Name written inside: 'M. Hassan'.">
                     <div class="item-icon"><i class="fas fa-book"></i></div>
                     <div class="item-info">
@@ -1153,15 +1294,18 @@
                             <span><i class="fas fa-location-dot"></i> CS Lab</span>
                             <span><i class="fas fa-calendar-day"></i> 3 days ago</span>
                         </div>
+                        <div class="login-hint guest-only">Login to contact finder</div>
                     </div>
-                    <button class="view-btn">View</button>
+                    <div class="item-actions">
+                        <button class="view-btn">View</button>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- ===== HOW IT WORKS ===== -->
-    <section class="how-it-works">
+    <section class="how-it-works" id="howitworks">
         <h2 class="section-title">How It Works</h2>
         <p class="subtitle">Four simple steps to reunite people with their belongings</p>
         <div class="steps">
@@ -1195,359 +1339,466 @@
     <!-- ===== CTA BANNER ===== -->
     <section class="cta-banner">
         <div class="content">
-            <h2>Lost something today? 🎯</h2>
-            <p>Don't wait — report it now and increase your chances of getting it back</p>
-            <a href="reportitem.html" class="btn-white"><i class="fas fa-triangle-exclamation"></i> Report Lost Item</a>
+            <div id="ctaGuest">
+                <h2>Join the community 🎯</h2>
+                <p>Create a free account to report items and unlock claiming</p>
+                <a href="../auth/register.html" class="btn-white"><i class="fas fa-user-plus"></i> Create a free account</a>
+            </div>
+            <div id="ctaUser" style="display:none;">
+                <h2>Lost something today? 🎯</h2>
+                <p>Don't wait — report it now and increase your chances of getting it back</p>
+                <a href="../pub/reportitem.html" class="btn-white"><i class="fas fa-triangle-exclamation"></i> Report Lost Item</a>
+            </div>
         </div>
     </section>
 
-    <!-- ===== FOOTER ===== -->
-    <footer class="footer">
-        <div class="footer-grid">
-            <div class="brand">
-                <h5><i class="fas fa-magnifying-glass-location"></i> Lost&Found</h5>
-                <p>Reuniting people with their belongings since 2024. A trusted community platform for schools, universities, and public spaces.</p>
-            </div>
-            <div>
-                <h5>Quick Links</h5>
-                <a href="reportitem.html">Report Lost</a>
-                <a href="itemfound.html">Report Found</a>
-                <a href="search.html">Browse Items</a>
-                <a href="#">How It Works</a>
-            </div>
-            <div>
-                <h5>Categories</h5>
-                <a href="#">Electronics</a>
-                <a href="#">Documents</a>
-                <a href="#">Accessories</a>
-                <a href="#">Books</a>
-                <a href="#">Clothing</a>
-            </div>
-            <div class="contact">
-                <h5>Contact</h5>
-                <p><i class="fas fa-envelope" style="margin-right:0.4rem;"></i> support@lostfound.com</p>
-                <p><i class="fas fa-phone" style="margin-right:0.4rem;"></i> +92 319 0153045</p>
-                <div class="social-icons">
-                    <a href="#"><i class="fab fa-facebook"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-linkedin"></i></a>
-                </div>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            &copy; 2026 Lost & Found Portal. All rights reserved.
-        </div>
-    </footer>
+    <!-- ============================================ -->
+    <!-- FOOTER CONTAINER -->
+    <!-- ============================================ -->
+    <div id="footerContainer"></div>
 
     <!-- ===== ITEM DETAIL MODAL ===== -->
-    <div class="modal-overlay" id="itemModal">
-        <div class="modal-content">
-            <button class="close-modal" id="closeModal">&times;</button>
-            <div class="modal-icon" id="modalIcon"><i class="fas fa-mobile-screen-button"></i></div>
-            <h3 id="modalTitle">Item Title</h3>
-            <div class="modal-meta">
-                <span id="modalLocation"><i class="fas fa-location-dot"></i> Location</span>
-                <span style="margin:0 0.8rem;">|</span>
-                <span id="modalDate"><i class="fas fa-calendar-day"></i> Date</span>
-                <span style="margin:0 0.8rem;">|</span>
-                <span id="modalCategory"><i class="fas fa-tag"></i> Category</span>
-            </div>
-            <div class="modal-description" id="modalDescription">
-                Item description goes here.
-            </div>
-            <div class="modal-actions">
-                <button class="btn-claim" id="claimBtn"><i class="fas fa-handshake"></i> Claim This Item</button>
-                <button class="btn-close-modal" id="closeModalBtn">Close</button>
-            </div>
+<div class="modal-overlay" id="itemModal">
+    <div class="modal-content">
+        <button class="close-modal" id="closeModal">&times;</button>
+        <div class="modal-icon" id="modalIcon"><i class="fas fa-mobile-screen-button"></i></div>
+        <h3 id="modalTitle">Item Title</h3>
+        <div class="modal-meta">
+            <span id="modalLocation"><i class="fas fa-location-dot"></i> Location</span>
+            <span style="margin:0 0.8rem;">|</span>
+            <span id="modalDate"><i class="fas fa-calendar-day"></i> Date</span>
+            <span style="margin:0 0.8rem;">|</span>
+            <span id="modalCategory"><i class="fas fa-tag"></i> Category</span>
+        </div>
+        <div class="modal-description" id="modalDescription">
+            Item description goes here.
+        </div>
+
+        <!-- Guest note -->
+        <div class="modal-login-note" id="modalGuestNote">
+            <i class="fas fa-lock"></i> You must login before submitting a claim.
+        </div>
+
+        <!-- Guest Actions -->
+        <div class="modal-actions" id="modalActionsGuest">
+            <a href="../auth/login.html" class="btn-claim"><i class="fas fa-right-to-bracket"></i> Login to Claim</a>
+            <button class="btn-close-modal" id="closeModalBtnGuest">Close</button>
+        </div>
+
+        <!-- Logged-in Actions - ONLY Claim & Close -->
+        <div class="modal-actions" id="modalActionsUser" style="display:none;">
+            <button class="btn-claim" id="claimBtn"><i class="fas fa-handshake"></i> Claim This Item</button>
+            <button class="btn-close-modal" id="closeModalBtnUser">Close</button>
         </div>
     </div>
+</div>
 
+    <!-- ============================================ -->
     <!-- ===== JAVASCRIPT ===== -->
+    <!-- ============================================ -->
     <script>
-    // ============================================
-    // COMPLETE JAVASCRIPT FOR LOST & FOUND
-    // ============================================
-    
-    console.log('🚀 Page loading...');
-    
-    // ============================================
-    // 1. SEARCH FUNCTIONALITY (FULLY WORKING)
-    // ============================================
-    
-    document.addEventListener('DOMContentLoaded', function() {
-        console.log('📄 DOM ready');
-        initSearch();
-    });
-    
-    function initSearch() {
-        console.log('🔧 Initializing search...');
-        
-        // Get all elements
-        const searchBtn = document.getElementById('searchBtn');
-        const searchInput = document.getElementById('searchInput');
-        const categoryFilter = document.getElementById('categoryFilter');
-        const locationFilter = document.getElementById('locationFilter');
-        const resultsCount = document.getElementById('searchResultsCount');
-        const resultCountSpan = document.getElementById('resultCount');
-        const clearBtn = document.getElementById('clearSearch');
-        const statsSection = document.getElementById('statsSection');
-        
-        // Check if elements exist
-        if (!searchBtn) {
-            console.error('❌ Search button not found! Make sure it has id="searchBtn"');
-            return;
+        // ============================================
+        // ROLE STATE - Controlled by Backend
+        // ============================================
+        // ⚠️ SET THIS FROM YOUR BACKEND ⚠️
+        // Example: window.userLoggedIn = true;  // Logged in
+        //          window.userLoggedIn = false; // Guest
+        const isLoggedIn = window.userLoggedIn || true;
+
+        // ===== ADD BODY CLASS FOR CSS CONTROL =====
+        if (isLoggedIn) {
+            document.body.classList.add('logged-in');
+            document.body.classList.remove('guest');
+        } else {
+            document.body.classList.add('guest');
+            document.body.classList.remove('logged-in');
         }
-        
-        console.log('✅ All search elements found');
-        
-        // ===== MAIN SEARCH FUNCTION =====
-        function performSearch() {
-            console.log('🔍 Performing search...');
-            
-            // Get values
-            const query = searchInput.value.toLowerCase().trim();
-            const category = categoryFilter.value.toLowerCase();
-            const location = locationFilter.value.toLowerCase();
-            
-            console.log(`  Search: "${query}" | Category: "${category}" | Location: "${location}"`);
-            
-            // Get all item cards
-            const cards = document.querySelectorAll('.item-card');
-            console.log(`  Found ${cards.length} items to filter`);
-            
-            let visibleCount = 0;
-            
-            // Filter each card
-            cards.forEach(function(card) {
-                const title = card.dataset.title?.toLowerCase() || '';
-                const cardCategory = card.dataset.category?.toLowerCase() || '';
-                const cardLocation = card.dataset.location?.toLowerCase() || '';
-                
-                let show = true;
-                
-                // Check search query
-                if (query && !title.includes(query)) {
-                    show = false;
-                }
-                
-                // Check category
-                if (category && cardCategory !== category) {
-                    show = false;
-                }
-                
-                // Check location
-                if (location && cardLocation !== location) {
-                    show = false;
-                }
-                
-                // Show or hide
-                if (show) {
-                    card.style.display = 'flex';
-                    visibleCount++;
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-            
-            console.log(`  ✅ Showing ${visibleCount} items`);
-            
-            // ===== HIDE STATS WHEN SEARCHING =====
-            const hasSearch = query || category || location;
-            
-            if (statsSection) {
-                if (hasSearch) {
-                    statsSection.style.display = 'none';
-                    console.log('  📊 Stats hidden');
-                } else {
-                    statsSection.style.display = 'grid';
-                    console.log('  📊 Stats shown');
-                }
+
+        // ============================================
+        // NAVBAR TEMPLATES
+        // ============================================
+        const guestNavbar = `
+            <nav class="navbar" id="navbar">
+                <a href="../pub/home.html" class="logo">
+                    <i class="fas fa-magnifying-glass-location"></i>
+                    <span>Lost&Found</span>
+                </a>
+                <div class="nav-links">
+                    <a href="../pub/home.html" class="active">Home</a>
+                    <a href="../pub/search.html">Browse Items</a>
+                    <a href="#howitworks">How it Works</a>
+                </div>
+                <div class="nav-actions">
+                    <a href="../auth/login.html">Login</a>
+                    <a href="../auth/register.html" class="btn-outline">Register</a>
+                </div>
+            </nav>
+        `;
+
+        const loggedInNavbar = `
+            <nav class="navbar" id="navbar">
+                <a href="../pub/home.html" class="logo">
+                    <i class="fas fa-magnifying-glass-location"></i>
+                    <span>Lost&Found</span>
+                </a>
+                <div class="nav-links">
+                    <a href="../pub/home.html" class="active">Home</a>
+                    <a href="../pub/reportitem.html">Report Lost</a>
+                    <a href="../pub/itemfound.html">Report Found</a>
+                    <a href="../pub/search.html">Browse</a>
+                </div>
+                <div class="nav-actions">
+    <!-- Notification Bell - Navigates to notification.html -->
+    <a href="../user/notification.html" class="nav-notif" title="Notifications" onclick="window.location.href='../user/notification.html'; return false;">
+        <i class="fas fa-bell"></i>
+        <span class="dot" id="notifCount">4</span>
+    </a>
+
+                    <div class="nav-profile">
+                        <button class="profile-btn" id="profileBtn">👤 Muhammad <i class="fas fa-chevron-down" style="font-size:0.6rem;"></i></button>
+                        <div class="profile-menu" id="profileMenu">
+                            <a href="../user/profile.html"><i class="fas fa-user" style="margin-right:0.5rem;"></i>Profile</a>
+                            <a href="../user/profile.html"><i class="fas fa-gear" style="margin-right:0.5rem;"></i>Settings</a>
+                            <a href="#" class="danger" id="logoutLink"><i class="fas fa-right-from-bracket" style="margin-right:0.5rem;"></i>Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        `;
+
+        // ============================================
+        // FOOTER TEMPLATES
+        // ============================================
+        const guestFooter = `
+            <footer class="footer">
+                <div class="footer-grid">
+                    <div class="brand">
+                        <h5><i class="fas fa-magnifying-glass-location"></i> Lost&Found</h5>
+                        <p>Reuniting people with their belongings since 2024. A trusted community platform for schools, universities, and public spaces.</p>
+                    </div>
+                    <div>
+                        <h5>Quick Links</h5>
+                        <a href="../pub/search.html">Browse Items</a>
+                        <a href="#howitworks">How It Works</a>
+                        <a href="../auth/login.html">Login</a>
+                        <a href="../auth/register.html">Register</a>
+                    </div>
+                    <div>
+                        <h5>Categories</h5>
+                        <a href="../pub/search.html?category=electronics">Electronics</a>
+                        <a href="../pub/search.html?category=documents">Documents</a>
+                        <a href="../pub/search.html?category=accessories">Accessories</a>
+                        <a href="../pub/search.html?category=books">Books</a>
+                        <a href="../pub/search.html?category=clothing">Clothing</a>
+                    </div>
+                    <div class="contact">
+                        <h5>Contact</h5>
+                        <p><i class="fas fa-envelope" style="margin-right:0.4rem;"></i> support@lostfound.com</p>
+                        <p><i class="fas fa-phone" style="margin-right:0.4rem;"></i> +92 319 0153045</p>
+                        <div class="social-icons">
+                            <a href="#"><i class="fab fa-facebook"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-linkedin"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    &copy; 2026 Lost & Found Portal. All rights reserved.
+                </div>
+            </footer>
+        `;
+
+        const loggedInFooter = `
+            <footer class="footer">
+                <div class="footer-grid">
+                    <div class="brand">
+                        <h5><i class="fas fa-magnifying-glass-location"></i> Lost&Found</h5>
+                        <p>Reuniting people with their belongings since 2024. A trusted community platform for schools, universities, and public spaces.</p>
+                    </div>
+                    <div>
+                        <h5>Quick Links</h5>
+                        <a href="../pub/reportitem.html">Report Lost</a>
+                        <a href="../pub/itemfound.html">Report Found</a>
+                        <a href="../pub/search.html">Browse Items</a>
+                        <a href="../user/userdashboard.html">Dashboard</a>
+                        <a href="../user/profile.html">Profile</a>
+                    </div>
+                    <div>
+                        <h5>Categories</h5>
+                        <a href="../pub/search.html?category=electronics">Electronics</a>
+                        <a href="../pub/search.html?category=documents">Documents</a>
+                        <a href="../pub/search.html?category=accessories">Accessories</a>
+                        <a href="../pub/search.html?category=books">Books</a>
+                        <a href="../pub/search.html?category=clothing">Clothing</a>
+                    </div>
+                    <div class="contact">
+                        <h5>Contact</h5>
+                        <p><i class="fas fa-envelope" style="margin-right:0.4rem;"></i> support@lostfound.com</p>
+                        <p><i class="fas fa-phone" style="margin-right:0.4rem;"></i> +92 319 0153045</p>
+                        <div class="social-icons">
+                            <a href="#"><i class="fab fa-facebook"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-linkedin"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    &copy; 2026 Lost & Found Portal. All rights reserved.
+                </div>
+            </footer>
+        `;
+
+        // ============================================
+        // LOAD COMPONENTS
+        // ============================================
+        function loadComponents() {
+            document.getElementById('navbarContainer').innerHTML = isLoggedIn ? loggedInNavbar : guestNavbar;
+            document.getElementById('footerContainer').innerHTML = isLoggedIn ? loggedInFooter : guestFooter;
+
+            if (isLoggedIn) initDropdowns();
+            initStickyNavbar();
+        }
+
+        // ============================================
+        // UPDATE HERO & UI
+        // ============================================
+        function updateUI() {
+            const heroTitle = document.getElementById('heroTitle');
+            const heroDesc = document.getElementById('heroDesc');
+            const heroBtns = document.getElementById('heroBtns');
+            const heroNote = document.getElementById('heroNote');
+            const activitySection = document.getElementById('activitySection');
+            const ctaGuest = document.getElementById('ctaGuest');
+            const ctaUser = document.getElementById('ctaUser');
+
+            if (isLoggedIn) {
+                heroTitle.innerHTML = 'Welcome back, <span>Muhammad 👋</span>';
+                heroDesc.textContent = 'Need help finding something today? Report an item or check your latest matches below.';
+                heroBtns.innerHTML = `
+                    <a href="../pub/reportitem.html" class="btn-primary"><i class="fas fa-plus"></i> Report Lost</a>
+                    <a href="../pub/itemfound.html" class="btn-outline-white"><i class="fas fa-plus"></i> Report Found</a>
+                `;
+                heroNote.style.display = 'none';
+                activitySection?.classList.add('show');
+                if (ctaGuest) ctaGuest.style.display = 'none';
+                if (ctaUser) ctaUser.style.display = 'block';
+            } else {
+                heroTitle.innerHTML = 'Lost something? <br /><span>We\'ll help you find it.</span>';
+                heroDesc.textContent = 'Post lost or found items in seconds. Our smart matching system connects owners with finders.';
+                heroBtns.innerHTML = `
+                    <a href="../auth/login.html" class="btn-primary"><i class="fas fa-triangle-exclamation"></i> Report Lost</a>
+                    <a href="../auth/login.html" class="btn-outline-white"><i class="fas fa-hand-peace"></i> Report Found</a>
+                `;
+                heroNote.style.display = 'block';
+                activitySection?.classList.remove('show');
+                if (ctaGuest) ctaGuest.style.display = 'block';
+                if (ctaUser) ctaUser.style.display = 'none';
             }
-            
-            // Update results count
-            if (resultsCount) {
-                if (!hasSearch) {
-                    resultsCount.classList.remove('show');
-                } else {
-                    resultsCount.classList.add('show');
-                    if (resultCountSpan) {
-                        resultCountSpan.textContent = visibleCount;
+        }
+
+        // ============================================
+        // INIT DROPDOWNS
+        // ============================================
+        function initDropdowns() {
+            const notifBell = document.getElementById('notifBell');
+            const notifPanel = document.getElementById('notifPanel');
+            if (notifBell && notifPanel) {
+                notifBell.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    notifPanel.classList.toggle('open');
+                    document.getElementById('profileMenu')?.classList.remove('open');
+                });
+            }
+
+            const profileBtn = document.getElementById('profileBtn');
+            const profileMenu = document.getElementById('profileMenu');
+            if (profileBtn && profileMenu) {
+                profileBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    profileMenu.classList.toggle('open');
+                    notifPanel?.classList.remove('open');
+                });
+            }
+
+            document.addEventListener('click', function() {
+                notifPanel?.classList.remove('open');
+                profileMenu?.classList.remove('open');
+            });
+
+            const logoutLink = document.getElementById('logoutLink');
+            if (logoutLink) {
+                logoutLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    if (confirm('Are you sure you want to logout?')) {
+                        window.location.href = '../auth/logout.php';
+                    }
+                });
+            }
+        }
+
+        // ============================================
+        // STICKY NAVBAR
+        // ============================================
+        function initStickyNavbar() {
+            const navbar = document.getElementById('navbar');
+            if (navbar) {
+                window.addEventListener('scroll', function() {
+                    navbar.classList.toggle('scrolled', window.scrollY > 80);
+                });
+            }
+        }
+
+        // ============================================
+        // STATS COUNTER
+        // ============================================
+        function initStatsCounter() {
+            const statsSection = document.getElementById('statsSection');
+            let hasAnimated = false;
+
+            function animateCounters() {
+                document.querySelectorAll('.stat-card .number').forEach(el => {
+                    const target = parseInt(el.getAttribute('data-target'));
+                    const duration = 2000;
+                    const startTime = performance.now();
+
+                    function updateCounter(currentTime) {
+                        const elapsed = currentTime - startTime;
+                        const progress = Math.min(elapsed / duration, 1);
+                        const eased = 1 - Math.pow(1 - progress, 3);
+                        const current = Math.floor(eased * target);
+                        el.textContent = current.toLocaleString();
+                        if (progress < 1) requestAnimationFrame(updateCounter);
+                        else el.textContent = target.toLocaleString();
+                    }
+                    requestAnimationFrame(updateCounter);
+                });
+            }
+
+            if (statsSection) {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting && !hasAnimated) {
+                            hasAnimated = true;
+                            animateCounters();
+                        }
+                    });
+                }, { threshold: 0.2 });
+                observer.observe(statsSection);
+            }
+        }
+
+        // ============================================
+        // SEARCH FUNCTIONALITY
+        // ============================================
+        function initSearch() {
+            const searchBtn = document.getElementById('searchBtn');
+            const searchInput = document.getElementById('searchInput');
+            const categoryFilter = document.getElementById('categoryFilter');
+            const locationFilter = document.getElementById('locationFilter');
+            const resultsCount = document.getElementById('searchResultsCount');
+            const resultCountSpan = document.getElementById('resultCount');
+            const clearBtn = document.getElementById('clearSearch');
+            const statsSection = document.getElementById('statsSection');
+            const activitySection = document.getElementById('activitySection');
+
+            if (!searchBtn) return;
+
+            function performSearch() {
+                const query = searchInput.value.toLowerCase().trim();
+                const category = categoryFilter.value.toLowerCase();
+                const location = locationFilter.value.toLowerCase();
+
+                const cards = document.querySelectorAll('.item-card');
+                let visibleCount = 0;
+
+                cards.forEach(function(card) {
+                    const title = card.dataset.title?.toLowerCase() || '';
+                    const cardCategory = card.dataset.category?.toLowerCase() || '';
+                    const cardLocation = card.dataset.location?.toLowerCase() || '';
+
+                    let show = true;
+                    if (query && !title.includes(query)) show = false;
+                    if (category && cardCategory !== category) show = false;
+                    if (location && cardLocation !== location) show = false;
+
+                    card.style.display = show ? 'flex' : 'none';
+                    if (show) visibleCount++;
+                });
+
+                const hasSearch = query || category || location;
+
+                if (statsSection) statsSection.style.display = hasSearch ? 'none' : 'grid';
+                if (activitySection && isLoggedIn) activitySection.style.display = hasSearch ? 'none' : 'block';
+
+                if (resultsCount) {
+                    if (!hasSearch) {
+                        resultsCount.classList.remove('show');
+                    } else {
+                        resultsCount.classList.add('show');
+                        if (resultCountSpan) resultCountSpan.textContent = visibleCount;
                     }
                 }
-            }
-            
-            // Show/hide no results message
-            let noResultsMsg = document.getElementById('noResultsMessage');
-            const grid = document.querySelector('.recent-grid');
-            
-            if (visibleCount === 0 && hasSearch) {
-                if (!noResultsMsg) {
-                    noResultsMsg = document.createElement('div');
-                    noResultsMsg.id = 'noResultsMessage';
-                    noResultsMsg.style.cssText = 'text-align:center;padding:3rem 2rem;color:#64748b;grid-column:1/-1;';
-                    noResultsMsg.innerHTML = `
-                        <i class="fas fa-search" style="font-size:3rem;display:block;margin-bottom:1rem;color:#0D9488;"></i>
-                        <h3 style="color:#0F766E;margin-bottom:0.5rem;">No items found</h3>
-                        <p>Try adjusting your search terms or filters</p>
-                        <button onclick="document.getElementById('clearSearch').click()" 
-                                style="margin-top:1rem;background:#0D9488;color:white;border:none;padding:0.5rem 2rem;border-radius:60px;cursor:pointer;font-size:0.9rem;">
-                            Clear Filters
-                        </button>
-                    `;
-                    grid.appendChild(noResultsMsg);
+
+                let noResultsMsg = document.getElementById('noResultsMessage');
+                const grid = document.querySelector('.recent-grid');
+
+                if (visibleCount === 0 && hasSearch) {
+                    if (!noResultsMsg) {
+                        noResultsMsg = document.createElement('div');
+                        noResultsMsg.id = 'noResultsMessage';
+                        noResultsMsg.style.cssText = 'text-align:center;padding:3rem 2rem;color:#64748b;grid-column:1/-1;';
+                        noResultsMsg.innerHTML = `
+                            <i class="fas fa-search" style="font-size:3rem;display:block;margin-bottom:1rem;color:#0D9488;"></i>
+                            <h3 style="color:#0F766E;margin-bottom:0.5rem;">No items found</h3>
+                            <p>Try adjusting your search terms or filters</p>
+                            <button onclick="document.getElementById('clearSearch').click()"
+                                    style="margin-top:1rem;background:#0D9488;color:white;border:none;padding:0.5rem 2rem;border-radius:60px;cursor:pointer;font-size:0.9rem;">
+                                Clear Filters
+                            </button>
+                        `;
+                        grid.appendChild(noResultsMsg);
+                    }
+                } else if (noResultsMsg) {
+                    noResultsMsg.remove();
                 }
-            } else if (noResultsMsg) {
-                noResultsMsg.remove();
+            }
+
+            function resetSearch() {
+                searchInput.value = '';
+                categoryFilter.value = '';
+                locationFilter.value = '';
+                document.querySelectorAll('.item-card').forEach(card => card.style.display = 'flex');
+                if (statsSection) statsSection.style.display = 'grid';
+                if (activitySection && isLoggedIn) activitySection.style.display = 'block';
+                if (resultsCount) resultsCount.classList.remove('show');
+                const noResultsMsg = document.getElementById('noResultsMessage');
+                if (noResultsMsg) noResultsMsg.remove();
+                searchInput.focus();
+            }
+
+            searchBtn.addEventListener('click', function(e) { e.preventDefault(); performSearch(); });
+            searchInput.addEventListener('keypress', function(e) { if (e.key === 'Enter') { e.preventDefault(); performSearch(); } });
+            categoryFilter.addEventListener('change', performSearch);
+            locationFilter.addEventListener('change', performSearch);
+
+            searchInput.addEventListener('input', function() {
+                const val = this.value.trim();
+                if (val.length >= 2) performSearch();
+                else if (val.length === 0 && !categoryFilter.value && !locationFilter.value) resetSearch();
+                else performSearch();
+            });
+
+            if (clearBtn) {
+                clearBtn.addEventListener('click', function(e) { e.preventDefault(); resetSearch(); });
             }
         }
-        
-        // ===== RESET SEARCH =====
-        function resetSearch() {
-            console.log('🔄 Resetting search...');
-            searchInput.value = '';
-            categoryFilter.value = '';
-            locationFilter.value = '';
-            
-            // Show all items
-            const cards = document.querySelectorAll('.item-card');
-            cards.forEach(function(card) {
-                card.style.display = 'flex';
-            });
-            
-            // Show stats again
-            if (statsSection) {
-                statsSection.style.display = 'grid';
-            }
-            
-            // Hide results count
-            if (resultsCount) {
-                resultsCount.classList.remove('show');
-            }
-            
-            // Remove no results message
-            const noResultsMsg = document.getElementById('noResultsMessage');
-            if (noResultsMsg) {
-                noResultsMsg.remove();
-            }
-            
-            // Focus on search input
-            searchInput.focus();
-        }
-        
-        // ===== ATTACH EVENT LISTENERS =====
-        
-        // 1. Search Button Click
-        searchBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            console.log('👆 Search button clicked');
-            performSearch();
-        });
-        
-        // 2. Enter Key on Search Input
-        searchInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-                console.log('⌨️ Enter key pressed');
-                performSearch();
-            }
-        });
-        
-        // 3. Auto-search on dropdown change
-        categoryFilter.addEventListener('change', function() {
-            console.log('📂 Category changed to:', this.value);
-            performSearch();
-        });
-        
-        locationFilter.addEventListener('change', function() {
-            console.log('📍 Location changed to:', this.value);
-            performSearch();
-        });
-        
-        // 4. Auto-search as you type (after 2 characters)
-        searchInput.addEventListener('input', function() {
-            const val = this.value.trim();
-            if (val.length >= 2) {
-                performSearch();
-            } else if (val.length === 0) {
-                // Only reset if no other filters are active
-                if (!categoryFilter.value && !locationFilter.value) {
-                    resetSearch();
-                } else {
-                    performSearch();
-                }
-            }
-        });
-        
-        // 5. Clear button
-        if (clearBtn) {
-            clearBtn.addEventListener('click', function(e) {
-                e.preventDefault();
-                resetSearch();
-            });
-        }
-        
-        console.log('✅ Search functionality ready!');
-        console.log('📝 Type a search term and click Search or press Enter');
-        console.log('📂 Category and Location changes will auto-search');
-    }
-    
-    // ============================================
-    // 2. STICKY NAVBAR
-    // ============================================
-    
-    const navbar = document.getElementById('navbar');
-    if (navbar) {
-        window.addEventListener('scroll', function() {
-            navbar.classList.toggle('scrolled', window.scrollY > 80);
-        });
-    }
-    
-    // ============================================
-    // 3. STATS COUNTER
-    // ============================================
-    
-    function animateCounters() {
-        const statNumbers = document.querySelectorAll('.stat-card .number');
-        statNumbers.forEach(el => {
-            const target = parseInt(el.getAttribute('data-target'));
-            const duration = 2000;
-            const startTime = performance.now();
-            
-            function updateCounter(currentTime) {
-                const elapsed = currentTime - startTime;
-                const progress = Math.min(elapsed / duration, 1);
-                const eased = 1 - Math.pow(1 - progress, 3);
-                const current = Math.floor(eased * target);
-                el.textContent = current.toLocaleString();
-                if (progress < 1) {
-                    requestAnimationFrame(updateCounter);
-                } else {
-                    el.textContent = target.toLocaleString();
-                }
-            }
-            requestAnimationFrame(updateCounter);
-        });
-    }
-    
-    const statsSection = document.getElementById('statsSection');
-    let hasAnimated = false;
-    if (statsSection) {
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting && !hasAnimated) {
-                    hasAnimated = true;
-                    animateCounters();
-                }
-            });
-        }, { threshold: 0.2 });
-        observer.observe(statsSection);
-    }
-    
-    // ============================================
-    // 4. ITEM DETAIL MODAL
-    // ============================================
-    
+
+        // ============================================
+// ITEM DETAIL MODAL
+// ============================================
+function initModal() {
     const modalOverlay = document.getElementById('itemModal');
     const modalTitle = document.getElementById('modalTitle');
     const modalLocation = document.getElementById('modalLocation');
@@ -1555,7 +1806,8 @@
     const modalCategory = document.getElementById('modalCategory');
     const modalDescription = document.getElementById('modalDescription');
     const modalIcon = document.getElementById('modalIcon');
-    const closeModalBtn = document.getElementById('closeModalBtn');
+    const closeModalBtnGuest = document.getElementById('closeModalBtnGuest');
+    const closeModalBtnUser = document.getElementById('closeModalBtnUser');
     const closeModalX = document.getElementById('closeModal');
     const claimBtn = document.getElementById('claimBtn');
 
@@ -1601,7 +1853,18 @@
         modalCategory.innerHTML = `<i class="fas fa-tag"></i> ${category}`;
         modalDescription.textContent = description;
         modalIcon.innerHTML = `<i class="fas ${iconClass}"></i>`;
+
+        // Show correct actions based on role
+        const modalActionsGuest = document.getElementById('modalActionsGuest');
+        const modalActionsUser = document.getElementById('modalActionsUser');
+        const modalGuestNote = document.getElementById('modalGuestNote');
         
+        if (modalActionsGuest && modalActionsUser && modalGuestNote) {
+            modalActionsGuest.style.display = isLoggedIn ? 'none' : 'flex';
+            modalActionsUser.style.display = isLoggedIn ? 'flex' : 'none';
+            modalGuestNote.style.display = isLoggedIn ? 'none' : 'flex';
+        }
+
         modalOverlay.classList.add('active');
         document.body.style.overflow = 'hidden';
     }
@@ -1611,26 +1874,38 @@
         document.body.style.overflow = '';
     }
 
-    // View buttons on cards
+    // View button click
     document.querySelectorAll('.item-card .view-btn').forEach(btn => {
         btn.addEventListener('click', function(e) {
             e.stopPropagation();
-            const card = this.closest('.item-card');
-            openModal(card);
+            openModal(this.closest('.item-card'));
         });
     });
 
-    // Click on card opens modal
+    // Card click
     document.querySelectorAll('.item-card').forEach(card => {
         card.addEventListener('click', function(e) {
-            if (e.target.classList.contains('view-btn')) return;
+            if (e.target.closest('.view-btn') || e.target.closest('.save-btn')) return;
             openModal(this);
         });
     });
 
-    // Close modal events
-    if (closeModalBtn) closeModalBtn.addEventListener('click', closeModal);
+    // Save button
+    document.querySelectorAll('.item-card .save-btn').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            this.classList.toggle('saved');
+            this.innerHTML = this.classList.contains('saved')
+                ? '<i class="fas fa-bookmark"></i>'
+                : '<i class="fas fa-bookmark"></i>';
+        });
+    });
+
+    // Close buttons
+    if (closeModalBtnGuest) closeModalBtnGuest.addEventListener('click', closeModal);
+    if (closeModalBtnUser) closeModalBtnUser.addEventListener('click', closeModal);
     if (closeModalX) closeModalX.addEventListener('click', closeModal);
+    
     if (modalOverlay) {
         modalOverlay.addEventListener('click', function(e) {
             if (e.target === this) closeModal();
@@ -1641,98 +1916,55 @@
     if (claimBtn) {
         claimBtn.addEventListener('click', function() {
             const itemName = modalTitle.textContent;
-            alert('✅ Claim request sent for "' + itemName + '"\n\nThe owner will be notified and contact you shortly.');
+            alert('✅ Claim request sent for "' + itemName + '"\n\nThe owner/finder will be notified and contact you shortly.');
             closeModal();
         });
     }
+}
 
-    // ============================================
-    // 5. VIEW ALL LINK
-    // ============================================
-    
-    const viewAllLink = document.getElementById('viewAllLink');
-    if (viewAllLink) {
-        viewAllLink.addEventListener('click', function(e) {
-            // Let the browser navigate
-            return;
+        // ============================================
+        // NAVIGATION LINKS
+        // ============================================
+        function initNavigation() {
+            document.querySelectorAll('.nav-links a, .nav-actions a, .footer-grid a').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    const href = this.getAttribute('href');
+                    if (href && href.startsWith('#')) return;
+
+                    const allowedPaths = [
+                        '../pub/home.html', '../pub/reportitem.html', '../pub/itemfound.html',
+                        '../pub/search.html', '../auth/login.html', '../auth/register.html',
+                        '../user/profile.html', '../user/claimrequest.html', '../user/userdashboard.html', '../user/notification.html'
+                    ];
+
+                    if (href) {
+                        const shouldNavigate = allowedPaths.some(path => href === path || href.includes(path));
+                        if (shouldNavigate) return;
+                    }
+
+                    e.preventDefault();
+                    if (this.textContent.trim() && !this.textContent.includes('👤')) {
+                        alert('🔗 ' + this.textContent.trim() + ' (demo)');
+                    }
+                });
+            });
+        }
+
+        // ============================================
+        // INIT ON PAGE LOAD
+        // ============================================
+        document.addEventListener('DOMContentLoaded', function() {
+            loadComponents();
+            updateUI();
+            initStatsCounter();
+            initSearch();
+            initModal();
+            initNavigation();
+
+            console.log('✅ Home page loaded');
+            console.log('📌 User logged in:', isLoggedIn);
         });
-    }
-
-    // ============================================
-    // 6. NAVIGATION LINKS
-    // ============================================
-    
-    document.querySelectorAll('.nav-links a, .nav-actions a').forEach(link => {
-        link.addEventListener('click', function(e) {
-            const allowedPages = ['login.html', 'register.html', 'reportitem.html', 'itemfound.html', 'forgot-password.html', 'home.html', 'search.html'];
-            
-            if (this.href) {
-                const shouldNavigate = allowedPages.some(page => this.href.includes(page));
-                if (shouldNavigate) {
-                    return;
-                }
-            }
-            
-            e.preventDefault();
-            if (!this.classList.contains('btn-outline') && !this.classList.contains('btn-login')) {
-                document.querySelectorAll('.nav-links a').forEach(l => l.classList.remove('active'));
-                this.classList.add('active');
-            }
-            alert('🔗 ' + this.textContent.trim() + ' page (demo)');
-        });
-    });
-
-    // ============================================
-    // 7. HERO BUTTONS
-    // ============================================
-    
-    document.querySelectorAll('.hero-btns a').forEach(btn => {
-        btn.addEventListener('click', function(e) {
-            // Let the browser navigate
-            return;
-        });
-    });
-
-    // ============================================
-    // 8. CTA BANNER BUTTON
-    // ============================================
-    
-    const ctaBtn = document.querySelector('.cta-banner .btn-white');
-    if (ctaBtn) {
-        ctaBtn.addEventListener('click', function(e) {
-            // Let the browser navigate
-            return;
-        });
-    }
-
-    // ============================================
-    // 9. FOOTER LINKS
-    // ============================================
-    
-    document.querySelectorAll('.footer-grid a').forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            alert('🔗 ' + this.textContent.trim() + ' page (demo)');
-        });
-    });
-
-    // ============================================
-    // 10. SEARCH AUTO-SUGGEST EFFECT
-    // ============================================
-    
-    const searchInput = document.getElementById('searchInput');
-    if (searchInput) {
-        searchInput.addEventListener('input', function() {
-            if (this.value.length > 1) {
-                this.style.background = '#f0f7ff';
-                setTimeout(() => this.style.background = '', 600);
-            }
-        });
-    }
-
-    console.log('✅ All scripts loaded successfully!');
-    console.log('🔍 Search functionality is ready to use!');
-</script>
+    </script>
 
 </body>
 </html>

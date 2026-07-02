@@ -161,51 +161,21 @@
             transform: translateY(-50%);
             color: #94a3b8;
         }
-
-        .select-wrapper {
-            position: relative;
-            display: inline-block;
-            min-width: 140px;
-        }
-
-        .select-wrapper select {
-            padding: 0.7rem 2.5rem 0.7rem 1.2rem;
-            border: 2px solid #e2e8f0;
+        .filters-bar select {
+            padding: 0.6rem 2.5rem 0.6rem 1rem;
+            border: 1.5px solid #e2e8f0;
             border-radius: 60px;
             font-size: 0.85rem;
             outline: none;
             background: #f8fafc;
             cursor: pointer;
-            transition: all 0.3s ease;
-            color: #1a1a2e;
-            appearance: none;
-            -webkit-appearance: none;
-            width: 100%;
+            transition: 0.3s;
+            min-width: 140px;
         }
-
-        .select-wrapper select:focus {
+        .filters-bar select:focus {
             border-color: #0D9488;
-            box-shadow: 0 0 0 4px rgba(13, 148, 136, 0.1);
-            background: white;
+            box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.1);
         }
-
-        .select-wrapper::after {
-            content: "▼";
-            position: absolute;
-            right: 1.2rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #94a3b8;
-            font-size: 0.6rem;
-            pointer-events: none;
-            font-weight: 700;
-            transition: all 0.3s ease;
-        }
-
-        .select-wrapper:hover::after {
-            color: #0D9488;
-        }
-
         .filters-bar .date-range {
             display: flex;
             align-items: center;
@@ -229,6 +199,7 @@
             font-size: 0.8rem;
         }
 
+        /* ===== STATUS TOGGLES ===== */
         .status-toggles {
             display: flex;
             gap: 0.4rem;
@@ -257,7 +228,11 @@
             color: white;
             box-shadow: 0 4px 12px rgba(13, 148, 136, 0.25);
         }
+        .status-toggles .toggle-btn.hidden {
+            display: none;
+        }
 
+        /* ===== FILTER CHIPS ===== */
         .filter-chips {
             padding: 0.8rem 2rem;
             background: white;
@@ -301,6 +276,37 @@
             text-decoration: underline;
         }
 
+        .filters-bar select {
+    padding: 0.6rem 2.8rem 0.6rem 1rem;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 60px;
+    font-size: 0.85rem;
+    outline: none;
+    background: #f8fafc;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 140px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%230D9488' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 12px;
+    color: #334155;
+}
+.filters-bar select:hover {
+    border-color: #0D9488;
+    background-color: white;
+    box-shadow: 0 2px 8px rgba(13, 148, 136, 0.1);
+}
+.filters-bar select:focus {
+    border-color: #0D9488;
+    box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.1);
+    background-color: white;
+}
+
+        /* ===== RESULTS HEADER ===== */
         .results-header {
             display: flex;
             justify-content: space-between;
@@ -316,50 +322,44 @@
         .results-header .count strong {
             color: #0F766E;
         }
-
-        /* ===== PERMISSION BADGE ON CARDS ===== */
-        .permission-badge {
-            font-size: 0.55rem;
-            padding: 0.1rem 0.6rem;
-            border-radius: 60px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
-            margin-left: 0.4rem;
+        .results-header .sort-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
-        .permission-badge.can-claim {
-            background: #d1fae5;
-            color: #059669;
-        }
-        .permission-badge.can-approve {
-            background: #dbeafe;
-            color: #2563eb;
-        }
-        .permission-badge.can-delete {
-            background: #fee2e2;
-            color: #dc2626;
-        }
-        .permission-badge.view-only {
-            background: #f1f5f9;
+        .results-header .sort-wrapper label {
+            font-size: 0.8rem;
             color: #64748b;
         }
-        .permission-badge.can-resolve {
-            background: #e0e7ff;
-            color: #4338ca;
-        }
-        .permission-badge.contact-visible {
-            background: #d1fae5;
-            color: #059669;
-        }
-        .permission-badge.pending-review {
-            background: #fef3c7;
-            color: #92400e;
-        }
-        .permission-badge.not-visible {
-            background: #fee2e2;
-            color: #dc2626;
-        }
+        .results-header .sort-wrapper select {
+    padding: 0.4rem 2.2rem 0.4rem 1rem;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 60px;
+    font-size: 0.8rem;
+    outline: none;
+    background: #f8fafc;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%230D9488' d='M5 8L1 3h8z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.8rem center;
+    background-size: 10px;
+    color: #334155;
+}
+.results-header .sort-wrapper select:hover {
+    border-color: #0D9488;
+    background-color: white;
+}
+.results-header .sort-wrapper select:focus {
+    border-color: #0D9488;
+    box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.1);
+    background-color: white;
+}
 
+        /* ===== RESULTS GRID ===== */
         .results-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -403,6 +403,8 @@
             text-transform: uppercase;
             letter-spacing: 0.3px;
         }
+
+        /* ===== ALL STATUS BADGE COLORS ===== */
         .status-badge.lost {
             background: #fee2e2;
             color: #dc2626;
@@ -474,6 +476,58 @@
             transform: scale(1.04);
         }
 
+        /* ===== EMPTY STATE ===== */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            grid-column: 1 / -1;
+        }
+        .empty-state .empty-icon {
+            font-size: 4rem;
+            color: #94a3b8;
+            margin-bottom: 1rem;
+        }
+        .empty-state h3 {
+            font-size: 1.3rem;
+            color: #0F766E;
+        }
+        .empty-state p {
+            color: #64748b;
+            margin-top: 0.3rem;
+        }
+        .empty-state .empty-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .empty-state .empty-actions .btn-empty {
+            padding: 0.5rem 1.8rem;
+            border-radius: 60px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .empty-state .empty-actions .btn-report {
+            background: #0D9488;
+            color: white;
+        }
+        .empty-state .empty-actions .btn-report:hover {
+            background: #0F766E;
+            transform: translateY(-2px);
+        }
+        .empty-state .empty-actions .btn-clear {
+            background: #e2e8f0;
+            color: #334155;
+        }
+        .empty-state .empty-actions .btn-clear:hover {
+            background: #cbd5e1;
+            transform: translateY(-2px);
+        }
+
+        /* ===== PAGINATION ===== */
         .pagination {
             display: flex;
             justify-content: center;
@@ -506,7 +560,12 @@
             opacity: 0.4;
             cursor: not-allowed;
         }
+        .pagination .dots {
+            color: #94a3b8;
+            padding: 0 0.3rem;
+        }
 
+        /* ===== FOOTER ===== */
         .footer {
             background: #0F2E2A;
             color: white;
@@ -581,6 +640,42 @@
             color: rgba(255, 255, 255, 0.4);
         }
 
+        /* ===== ROLE TESTER STYLES ===== */
+        .role-tester {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #0D9488;
+            padding: 8px 15px;
+            border-radius: 8px;
+            z-index: 9999;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .role-tester label {
+            color: white;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        .role-tester select {
+            padding: 4px 10px;
+            border-radius: 4px;
+            border: none;
+            font-size: 12px;
+            background: white;
+            color: #0D9488;
+            font-weight: 600;
+            cursor: pointer;
+            outline: none;
+        }
+        .role-tester select:focus {
+            box-shadow: 0 0 0 2px rgba(255,255,255,0.3);
+        }
+
+        /* ===== RESPONSIVE ===== */
         @media (max-width: 1024px) {
             .results-grid {
                 grid-template-columns: repeat(2, 1fr);
@@ -602,6 +697,9 @@
                 padding: 1rem 1.5rem;
                 top: 60px;
             }
+            .filters-bar .search-wrapper {
+                min-width: 150px;
+            }
             .browse-header {
                 padding: 2rem 1.5rem;
             }
@@ -614,6 +712,18 @@
             }
             .footer {
                 padding: 2rem 1.5rem 1rem;
+            }
+            .role-tester {
+                bottom: 10px;
+                right: 10px;
+                padding: 6px 12px;
+            }
+            .role-tester label {
+                font-size: 10px;
+            }
+            .role-tester select {
+                font-size: 11px;
+                padding: 3px 8px;
             }
         }
 
@@ -686,13 +796,25 @@
             .browse-header p {
                 font-size: 0.9rem;
             }
+            .role-tester {
+                bottom: 8px;
+                right: 8px;
+                padding: 4px 10px;
+            }
+            .role-tester label {
+                display: none;
+            }
+            .role-tester select {
+                font-size: 10px;
+                padding: 2px 6px;
+            }
         }
     </style>
 </head>
 <body>
 
     <!-- ===== NAVBAR ===== -->
-    <nav class="navbar">
+    <nav class="navbar" id="navbar">
         <div class="logo">
             <i class="fas fa-magnifying-glass-location"></i>
             <span>Lost&Found</span>
@@ -716,39 +838,35 @@
     </section>
 
     <!-- ===== FILTERS BAR ===== -->
-    <div class="filters-bar">
+    <div class="filters-bar" id="filtersBar">
         <div class="search-wrapper">
             <i class="fas fa-search"></i>
             <input type="text" id="searchInput" placeholder="Search items..." />
         </div>
-        
-        <div class="select-wrapper">
-            <select id="categoryFilter">
-                <option value="">All Categories</option>
-                <option value="Electronics">📱 Electronics</option>
-                <option value="Documents">📄 Documents</option>
-                <option value="Accessories">🔑 Accessories</option>
-                <option value="Books">📚 Books</option>
-                <option value="Clothing">👕 Clothing</option>
-                <option value="Bag">👜 Bag</option>
-                <option value="Watch">⌚ Watch</option>
-                <option value="Jewelry">💍 Jewelry</option>
-                <option value="Others">📦 Others</option>
-            </select>
-        </div>
 
-        <div class="select-wrapper">
-            <select id="locationFilter">
-                <option value="">All Locations</option>
-                <option value="Library">Library</option>
-                <option value="Cafeteria">Cafeteria</option>
-                <option value="Parking Lot">Parking Lot</option>
-                <option value="Auditorium">Auditorium</option>
-                <option value="Sports Hall">Sports Hall</option>
-                <option value="Main Hall">Main Hall</option>
-                <option value="CS Lab">CS Lab</option>
-            </select>
-        </div>
+        <select id="categoryFilter">
+            <option value="">All Categories</option>
+            <option value="Electronics">📱 Electronics</option>
+            <option value="Documents">📄 Documents</option>
+            <option value="Accessories">🔑 Accessories</option>
+            <option value="Books">📚 Books</option>
+            <option value="Clothing">👕 Clothing</option>
+            <option value="Bag">👜 Bag</option>
+            <option value="Watch">⌚ Watch</option>
+            <option value="Jewelry">💍 Jewelry</option>
+            <option value="Others">📦 Others</option>
+        </select>
+
+        <select id="locationFilter">
+            <option value="">All Locations</option>
+            <option value="Library">Library</option>
+            <option value="Cafeteria">Cafeteria</option>
+            <option value="Parking Lot">Parking Lot</option>
+            <option value="Auditorium">Auditorium</option>
+            <option value="Sports Hall">Sports Hall</option>
+            <option value="Main Hall">Main Hall</option>
+            <option value="CS Lab">CS Lab</option>
+        </select>
 
         <div class="date-range">
             <input type="date" id="dateFrom" />
@@ -756,48 +874,55 @@
             <input type="date" id="dateTo" />
         </div>
 
-        <!-- ===== STATUS TOGGLES - Dynamically rendered by JavaScript ===== -->
+        <!-- ===== STATUS TOGGLES ===== -->
         <div class="status-toggles" id="statusToggles">
-            <!-- Rendered by JavaScript based on role -->
+            <!-- All buttons will be shown/hidden by JavaScript -->
         </div>
     </div>
 
     <!-- ===== FILTER CHIPS ===== -->
-    <div class="filter-chips">
+    <div class="filter-chips" id="filterChips">
         <span style="font-size:0.75rem; color:#64748b; margin-right:0.3rem;">Active filters:</span>
-        <div id="chipsContainer" style="display:flex; flex-wrap:wrap; gap:0.5rem; align-items:center;">
-            <span style="color:#94a3b8; font-size:0.8rem;">No active filters</span>
-        </div>
-        <button class="clear-all" id="clearAllFilters" style="display:none;">Clear all</button>
+        <div id="chipsContainer" style="display:flex; flex-wrap:wrap; gap:0.5rem; align-items:center;"></div>
+        <button class="clear-all" id="clearAllFilters">Clear all</button>
     </div>
 
     <!-- ===== RESULTS HEADER ===== -->
     <div class="results-header">
-        <div class="count">
-            Showing <strong id="resultCount">0</strong> of <strong id="totalCount">0</strong> results
+        <div class="count">Showing <strong id="resultCount">0</strong> of <strong id="totalCount">0</strong> results</div>
+        <div class="sort-wrapper">
+            <label for="sortSelect">Sort by:</label>
+            <select id="sortSelect">
+                <option value="newest">Newest First</option>
+                <option value="oldest">Oldest First</option>
+                <option value="recent">Most Recent Activity</option>
+            </select>
         </div>
     </div>
 
     <!-- ===== RESULTS GRID ===== -->
     <div class="results-grid" id="resultsGrid">
-        <!-- Cards rendered by JavaScript -->
+        <!-- Cards will be rendered here by JavaScript -->
     </div>
 
     <!-- ===== PAGINATION ===== -->
-    <div class="pagination" id="pagination"></div>
+    <div class="pagination" id="pagination">
+        <!-- Rendered by JavaScript -->
+    </div>
 
     <!-- ===== FOOTER ===== -->
     <footer class="footer">
         <div class="footer-grid">
             <div class="brand">
                 <h5><i class="fas fa-magnifying-glass-location"></i> Lost&Found</h5>
-                <p>Reuniting people with their belongings since 2024.</p>
+                <p>Reuniting people with their belongings since 2024. A trusted community platform for schools, universities, and public spaces.</p>
             </div>
             <div>
                 <h5>Quick Links</h5>
                 <a href="reportitem.html">Report Lost</a>
                 <a href="itemfound.html">Report Found</a>
                 <a href="search.html">Browse Items</a>
+                <a href="#">How It Works</a>
             </div>
             <div>
                 <h5>Categories</h5>
@@ -805,175 +930,149 @@
                 <a href="#">Documents</a>
                 <a href="#">Accessories</a>
                 <a href="#">Books</a>
+                <a href="#">Clothing</a>
             </div>
             <div class="contact">
                 <h5>Contact</h5>
-                <p><i class="fas fa-envelope"></i> support@lostfound.com</p>
-                <p><i class="fas fa-phone"></i> +92 319 0153045</p>
+                <p><i class="fas fa-envelope" style="margin-right:0.4rem;"></i> support@lostfound.com</p>
+                <p><i class="fas fa-phone" style="margin-right:0.4rem;"></i> +92 319 0153045</p>
                 <div class="social-icons">
                     <a href="#"><i class="fab fa-facebook"></i></a>
                     <a href="#"><i class="fab fa-twitter"></i></a>
                     <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
                 </div>
             </div>
         </div>
-        <div class="footer-bottom">&copy; 2026 Lost & Found Portal. All rights reserved.</div>
+        <div class="footer-bottom">
+            &copy; 2026 Lost & Found Portal. All rights reserved.
+        </div>
     </footer>
 
+
+
+    <!-- ===== JAVASCRIPT ===== -->
     <script>
         // ==========================================
-        // USER ROLE CONFIGURATION
+        // ROLE CONFIGURATION - CHANGE THIS LINE TO TEST DIFFERENT ROLES
         // ==========================================
-        // 🔥 CHANGE THIS TO TEST DIFFERENT ROLES:
-        // 'guest', 'user', 'manager', 'admin'
-        const currentUserRole = 'admin';  // <-- CHANGE THIS TO TEST
-
-        console.log('👤 Current User Role:', currentUserRole);
+        let currentUserRole = 'guest'; // CHANGE THIS to: 'user', 'manager', or 'admin' to test
 
         // ==========================================
-        // ROLE-BASED PERMISSIONS (From Summary Table)
+        // ROLE-BASED STATUS CONFIGURATION
         // ==========================================
-        const rolePermissions = {
+        const roleStatusConfig = {
             guest: {
-                role: 'guest',
                 visibleStatuses: ['lost', 'found'],
-                toggles: ['All', 'Lost', 'Found'],
-                canClaim: false,
-                canApprove: false,
-                canReject: false,
-                canResolve: false,
-                canDelete: false,
-                canViewContact: false,
-                statusPermissions: {
-                    lost: { view: true, claim: false, contact: false, approve: false, reject: false, resolve: false, delete: false, badge: 'View Only' },
-                    found: { view: true, claim: false, contact: false, approve: false, reject: false, resolve: false, delete: false, badge: 'View Only' },
-                    pending: { view: false, claim: false, contact: false, approve: false, reject: false, resolve: false, delete: false, badge: 'Not Visible' },
-                    approved: { view: false, claim: false, contact: false, approve: false, reject: false, resolve: false, delete: false, badge: 'Not Visible' },
-                    rejected: { view: false, claim: false, contact: false, approve: false, reject: false, resolve: false, delete: false, badge: 'Not Visible' },
-                    resolved: { view: false, claim: false, contact: false, approve: false, reject: false, resolve: false, delete: false, badge: 'Not Visible' }
-                }
+                toggles: ['All', 'Lost', 'Found']
             },
             user: {
-                role: 'user',
                 visibleStatuses: ['lost', 'found', 'pending', 'approved', 'rejected', 'resolved'],
-                toggles: ['All', 'Lost', 'Found', 'Pending Review', 'Approved', 'Rejected', 'Resolved'],
-                canClaim: true,
-                canApprove: false,
-                canReject: false,
-                canResolve: false,
-                canDelete: false,
-                canViewContact: true,
-                statusPermissions: {
-                    lost: { view: true, claim: false, contact: false, approve: false, reject: false, resolve: false, delete: false, badge: 'View Only' },
-                    found: { view: true, claim: true, contact: false, approve: false, reject: false, resolve: false, delete: false, badge: 'Can Claim' },
-                    pending: { view: true, claim: false, contact: false, approve: false, reject: false, resolve: false, delete: false, badge: 'Pending Review' },
-                    approved: { view: true, claim: false, contact: true, approve: false, reject: false, resolve: false, delete: false, badge: 'Contact Visible' },
-                    rejected: { view: true, claim: false, contact: false, approve: false, reject: false, resolve: false, delete: false, badge: 'View Only' },
-                    resolved: { view: true, claim: false, contact: true, approve: false, reject: false, resolve: false, delete: false, badge: 'Contact Visible' }
-                }
+                toggles: ['All', 'Lost', 'Found', 'Pending Review', 'Approved', 'Rejected', 'Resolved']
             },
             manager: {
-                role: 'manager',
                 visibleStatuses: ['lost', 'found', 'pending', 'approved', 'rejected', 'resolved'],
-                toggles: ['All', 'Lost', 'Found', 'Pending Review', 'Approved', 'Rejected', 'Resolved'],
-                canClaim: true,
-                canApprove: true,
-                canReject: true,
-                canResolve: true,
-                canDelete: false,
-                canViewContact: true,
-                statusPermissions: {
-                    lost: { view: true, claim: false, contact: false, approve: false, reject: false, resolve: false, delete: false, badge: 'View Only' },
-                    found: { view: true, claim: true, contact: false, approve: false, reject: false, resolve: false, delete: false, badge: 'Can Claim' },
-                    pending: { view: true, claim: false, contact: false, approve: true, reject: true, resolve: false, delete: false, badge: 'Can Approve/Reject' },
-                    approved: { view: true, claim: false, contact: true, approve: false, reject: false, resolve: true, delete: false, badge: 'Can Resolve' },
-                    rejected: { view: true, claim: false, contact: false, approve: false, reject: false, resolve: false, delete: false, badge: 'View Only' },
-                    resolved: { view: true, claim: false, contact: true, approve: false, reject: false, resolve: false, delete: false, badge: 'Contact Visible' }
-                }
+                toggles: ['All', 'Lost', 'Found', 'Pending Review', 'Approved', 'Rejected', 'Resolved']
             },
             admin: {
-                role: 'admin',
                 visibleStatuses: ['lost', 'found', 'pending', 'approved', 'rejected', 'resolved'],
-                toggles: ['All', 'Lost', 'Found', 'Pending Review', 'Approved', 'Rejected', 'Resolved'],
-                canClaim: false,
-                canApprove: true,
-                canReject: true,
-                canResolve: true,
-                canDelete: true,
-                canViewContact: true,
-                statusPermissions: {
-                    lost: { view: true, claim: false, contact: false, approve: false, reject: false, resolve: false, delete: true, badge: 'Can Delete' },
-                    found: { view: true, claim: false, contact: false, approve: false, reject: false, resolve: false, delete: true, badge: 'Can Delete' },
-                    pending: { view: true, claim: false, contact: false, approve: true, reject: true, resolve: false, delete: true, badge: 'Can Approve/Reject/Delete' },
-                    approved: { view: true, claim: false, contact: true, approve: false, reject: false, resolve: true, delete: true, badge: 'Can Resolve/Delete' },
-                    rejected: { view: true, claim: false, contact: false, approve: false, reject: false, resolve: false, delete: true, badge: 'Can Delete' },
-                    resolved: { view: true, claim: false, contact: true, approve: false, reject: false, resolve: false, delete: true, badge: 'Can Delete' }
-                }
+                toggles: ['All', 'Lost', 'Found', 'Pending Review', 'Approved', 'Rejected', 'Resolved']
             }
         };
 
-        // Get current permissions
-        const permissions = rolePermissions[currentUserRole] || rolePermissions.guest;
-
         // ==========================================
-        // SAMPLE DATA
+        // SAMPLE DATA WITH ALL STATUSES
         // ==========================================
         const allItems = [
             { id: 1, title: 'Black Samsung A54', category: 'Electronics', location: 'Library', date: '2026-06-10',
                 status: 'found', description: 'Samsung A54 with blue silicone cover, screen has small scratch.',
-                icon: 'fa-mobile-screen-button', postedBy: 'Ahmed Khan' },
+                icon: 'fa-mobile-screen-button' },
             { id: 2, title: 'Brown Leather Wallet', category: 'Accessories', location: 'Parking Lot',
-                date: '2026-06-08', status: 'lost', description: 'Brown leather wallet with ID card and bank cards.',
-                icon: 'fa-wallet', postedBy: 'Sara Ali' },
+                date: '2026-06-08', status: 'lost', description: 'Brown leather wallet containing ID card and bank cards.',
+                icon: 'fa-wallet' },
             { id: 3, title: 'Student ID Card', category: 'Documents', location: 'Cafeteria', date: '2026-06-07',
                 status: 'pending', description: 'University ID card - Ahmad Rizwan, Faculty of Engineering.',
-                icon: 'fa-id-card', postedBy: 'Omar Hassan' },
+                icon: 'fa-id-card' },
             { id: 4, title: 'Bunch of Keys', category: 'Accessories', location: 'Sports Hall', date: '2026-06-09',
                 status: 'approved', description: '3 keys with a small silver keychain. One key has a red tag.',
-                icon: 'fa-key', postedBy: 'Zara Malik' },
+                icon: 'fa-key' },
             { id: 5, title: 'White Earbuds', category: 'Electronics', location: 'Main Hall', date: '2026-06-08',
-                status: 'rejected', description: 'Apple AirPods in white charging case.', icon: 'fa-headphones',
-                postedBy: 'Rayan Ahmed' },
+                status: 'rejected', description: 'Apple AirPods in white charging case.', icon: 'fa-headphones' },
             { id: 6, title: 'Data Structures Textbook', category: 'Books', location: 'CS Lab', date: '2026-06-07',
                 status: 'resolved', description: 'Data Structures & Algorithms textbook with sticky notes.',
-                icon: 'fa-book', postedBy: 'Fatima Noor' },
+                icon: 'fa-book' },
             { id: 7, title: 'Black Laptop Bag', category: 'Bag', location: 'Auditorium', date: '2026-06-12',
-                status: 'lost', description: 'Black laptop bag with a small tear on the side.', icon: 'fa-bag-shopping',
-                postedBy: 'Hassan Raza' },
+                status: 'lost', description: 'Black laptop bag with a small tear on the side.', icon: 'fa-bag-shopping' },
             { id: 8, title: 'Silver Watch', category: 'Watch', location: 'Library', date: '2026-06-11',
-                status: 'found', description: 'Silver analog watch with leather strap.', icon: 'fa-clock',
-                postedBy: 'Mona Khan' },
+                status: 'found', description: 'Silver analog watch with leather strap.', icon: 'fa-clock' },
             { id: 9, title: 'Gold Ring', category: 'Jewelry', location: 'Cafeteria', date: '2026-06-10',
-                status: 'pending', description: 'Gold ring with a small diamond.', icon: 'fa-gem', postedBy: 'Ali Ahmed' },
+                status: 'pending', description: 'Gold ring with a small diamond.', icon: 'fa-gem' },
             { id: 10, title: 'Physics Textbook', category: 'Books', location: 'Library', date: '2026-06-09',
-                status: 'approved', description: 'University Physics textbook - 12th edition.', icon: 'fa-book',
-                postedBy: 'Nadia Shah' },
+                status: 'approved', description: 'University Physics textbook - 12th edition.', icon: 'fa-book' },
             { id: 11, title: 'Phone Charger', category: 'Electronics', location: 'CS Lab', date: '2026-06-13',
-                status: 'lost', description: 'USB-C fast charger for Samsung phone.', icon: 'fa-plug',
-                postedBy: 'Usman Farooq' },
+                status: 'lost', description: 'USB-C fast charger for Samsung phone.', icon: 'fa-plug' },
             { id: 12, title: 'Blue Water Bottle', category: 'Accessories', location: 'Sports Hall', date: '2026-06-12',
-                status: 'rejected', description: 'Blue stainless steel water bottle.', icon: 'fa-bottle-water',
-                postedBy: 'Ayesha Khan' },
+                status: 'rejected', description: 'Blue stainless steel water bottle.', icon: 'fa-bottle-water' },
             { id: 13, title: 'MacBook Pro', category: 'Electronics', location: 'Library', date: '2026-06-14',
                 status: 'found', description: 'Space gray MacBook Pro 14-inch with stickers on the lid.',
-                icon: 'fa-laptop', postedBy: 'Bilal Ahmed' },
+                icon: 'fa-laptop' },
             { id: 14, title: 'Library Card', category: 'Documents', location: 'Library', date: '2026-06-13',
-                status: 'resolved', description: 'University library card for Sarah Ahmed.', icon: 'fa-id-card',
-                postedBy: 'Omar Farooq' },
+                status: 'resolved', description: 'University library card for Sarah Ahmed.', icon: 'fa-id-card' },
             { id: 15, title: 'Gym Bag', category: 'Bag', location: 'Sports Hall', date: '2026-06-14',
-                status: 'found', description: 'Nike gym bag with gym clothes and shoes.', icon: 'fa-bag-shopping',
-                postedBy: 'Hira Khan' }
+                status: 'found', description: 'Nike gym bag with gym clothes and shoes.', icon: 'fa-bag-shopping' },
         ];
 
+        // ==========================================
+        // STATE
+        // ==========================================
         let currentPage = 1;
-        const itemsPerPage = 9;
+        const itemsPerPage = 12;
         let filteredItems = [...allItems];
-        let activeFilters = { search: '', category: '', location: '', status: 'all', dateFrom: '', dateTo: '' };
+        let activeFilters = {
+            search: '',
+            category: '',
+            location: '',
+            status: 'all',
+            dateFrom: '',
+            dateTo: '',
+            sort: 'newest'
+        };
+
+        // ==========================================
+        // DOM REFS
+        // ==========================================
+        const resultsGrid = document.getElementById('resultsGrid');
+        const pagination = document.getElementById('pagination');
+        const resultCount = document.getElementById('resultCount');
+        const totalCount = document.getElementById('totalCount');
+        const chipsContainer = document.getElementById('chipsContainer');
+        const statusToggles = document.getElementById('statusToggles');
+        const roleTester = document.getElementById('roleTester');
+        const roleIndicator = document.getElementById('roleIndicator');
+
+        // ==========================================
+        // ROLE TESTER - Set initial value
+        // ==========================================
+        if (roleTester) {
+            roleTester.value = currentUserRole;
+        }
+        updateRoleIndicator();
+
+        // ==========================================
+        // UPDATE ROLE INDICATOR
+        // ==========================================
+        function updateRoleIndicator() {
+            if (roleIndicator) {
+                roleIndicator.textContent = '✓';
+                roleIndicator.style.color = '#00ff88';
+            }
+        }
 
         // ==========================================
         // BUILD STATUS TOGGLES BASED ON ROLE
         // ==========================================
         function buildStatusToggles() {
+            const config = roleStatusConfig[currentUserRole] || roleStatusConfig.guest;
             const toggleMap = {
                 'All': 'all',
                 'Lost': 'lost',
@@ -984,15 +1083,13 @@
                 'Resolved': 'resolved'
             };
 
-            const container = document.getElementById('statusToggles');
-            container.innerHTML = '';
-            
-            permissions.toggles.forEach(label => {
+            statusToggles.innerHTML = '';
+            config.toggles.forEach(label => {
                 const btn = document.createElement('button');
                 btn.className = 'toggle-btn' + (label === 'All' ? ' active' : '');
                 btn.dataset.status = toggleMap[label];
                 btn.textContent = label;
-                container.appendChild(btn);
+                statusToggles.appendChild(btn);
             });
 
             // Re-bind click events
@@ -1007,127 +1104,14 @@
         }
 
         // ==========================================
-        // RENDER RESULTS WITH ROLE-BASED PERMISSIONS
-        // ==========================================
-        function renderResults() {
-            const total = filteredItems.length;
-            const start = (currentPage - 1) * itemsPerPage;
-            const end = Math.min(start + itemsPerPage, total);
-            const pageItems = filteredItems.slice(start, end);
-
-            document.getElementById('resultCount').textContent = total;
-            document.getElementById('totalCount').textContent = allItems.length;
-
-            if (pageItems.length === 0) {
-                document.getElementById('resultsGrid').innerHTML = `
-                    <div style="grid-column:1/-1; text-align:center; padding:4rem 2rem;">
-                        <i class="fas fa-search" style="font-size:4rem; color:#94a3b8; margin-bottom:1rem;"></i>
-                        <h3 style="color:#0F766E;">No items found</h3>
-                        <p style="color:#64748b;">Try adjusting your filters or search terms</p>
-                    </div>
-                `;
-                document.getElementById('pagination').innerHTML = '';
-                return;
-            }
-
-            document.getElementById('resultsGrid').innerHTML = pageItems.map(item => {
-                // Get permissions for this specific status
-                const statusPerm = permissions.statusPermissions[item.status] || permissions.statusPermissions.lost;
-                
-                // Determine permission badge based on status and role
-                let badgeClass = 'view-only';
-                let badgeText = statusPerm.badge || 'View Only';
-                
-                if (statusPerm.delete) {
-                    badgeClass = 'can-delete';
-                } else if (statusPerm.approve || statusPerm.reject) {
-                    badgeClass = 'can-approve';
-                } else if (statusPerm.claim) {
-                    badgeClass = 'can-claim';
-                } else if (statusPerm.contact) {
-                    badgeClass = 'contact-visible';
-                } else if (!statusPerm.view) {
-                    badgeClass = 'not-visible';
-                }
-                
-                const permissionBadge = `<span class="permission-badge ${badgeClass}">${badgeText}</span>`;
-
-                return `
-                <div class="result-card" onclick="viewItem(${item.id})">
-                    <div class="card-image">
-                        <i class="fas ${item.icon}"></i>
-                        <span class="status-badge ${item.status}">${item.status}</span>
-                    </div>
-                    <div class="card-body">
-                        <h4>${item.title} ${permissionBadge}</h4>
-                        <div class="meta">
-                            <span><i class="fas fa-location-dot"></i> ${item.location}</span>
-                            <span><i class="fas fa-calendar-day"></i> ${new Date(item.date).toLocaleDateString()}</span>
-                            <span><i class="fas fa-tag"></i> ${item.category}</span>
-                        </div>
-                        <div class="description">${item.description}</div>
-                        <button class="view-btn">View Details</button>
-                    </div>
-                </div>
-            `}).join('');
-
-            renderPagination(total);
-        }
-
-        // ==========================================
-        // RENDER PAGINATION
-        // ==========================================
-        function renderPagination(total) {
-            const totalPages = Math.ceil(total / itemsPerPage);
-            if (totalPages <= 1) {
-                document.getElementById('pagination').innerHTML = '';
-                return;
-            }
-
-            let html = '';
-            html += `<button ${currentPage === 1 ? 'disabled' : ''} onclick="goToPage(${currentPage - 1})">
-                <i class="fas fa-chevron-left"></i>
-            </button>`;
-
-            for (let i = 1; i <= totalPages; i++) {
-                if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
-                    html += `<button class="${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>`;
-                } else if (i === currentPage - 2 || i === currentPage + 2) {
-                    html += `<span class="dots">…</span>`;
-                }
-            }
-
-            html += `<button ${currentPage === totalPages ? 'disabled' : ''} onclick="goToPage(${currentPage + 1})">
-                <i class="fas fa-chevron-right"></i>
-            </button>`;
-
-            document.getElementById('pagination').innerHTML = html;
-        }
-
-        function goToPage(page) {
-            const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
-            if (page < 1 || page > totalPages) return;
-            currentPage = page;
-            renderResults();
-            document.querySelector('.results-grid').scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-
-        // ==========================================
-        // VIEW ITEM - NAVIGATE TO DETAIL PAGE
-        // ==========================================
-        function viewItem(id) {
-            sessionStorage.setItem('viewItemId', id);
-            window.location.href = '../user/itemdetail.html';
-        }
-
-        // ==========================================
-        // APPLY FILTERS (WITH ROLE-BASED VISIBILITY)
+        // FILTER FUNCTIONS
         // ==========================================
         function applyFilters() {
             let items = [...allItems];
 
-            // ===== 🔥 ROLE-BASED FILTERING =====
-            items = items.filter(item => permissions.visibleStatuses.includes(item.status));
+            // Filter by role visibility (only show statuses the role can see)
+            const config = roleStatusConfig[currentUserRole] || roleStatusConfig.guest;
+            items = items.filter(item => config.visibleStatuses.includes(item.status));
 
             if (activeFilters.search) {
                 const search = activeFilters.search.toLowerCase();
@@ -1157,10 +1141,139 @@
                 items = items.filter(item => item.date <= activeFilters.dateTo);
             }
 
+            switch (activeFilters.sort) {
+                case 'newest':
+                    items.sort((a, b) => new Date(b.date) - new Date(a.date));
+                    break;
+                case 'oldest':
+                    items.sort((a, b) => new Date(a.date) - new Date(b.date));
+                    break;
+                case 'recent':
+                    items.sort((a, b) => new Date(b.date) - new Date(a.date));
+                    break;
+            }
+
             filteredItems = items;
             currentPage = 1;
             renderResults();
             updateChips();
+        }
+
+        // ==========================================
+        // RENDER RESULTS
+        // ==========================================
+        function renderResults() {
+            const total = filteredItems.length;
+            const start = (currentPage - 1) * itemsPerPage;
+            const end = Math.min(start + itemsPerPage, total);
+            const pageItems = filteredItems.slice(start, end);
+
+            resultCount.textContent = total;
+            totalCount.textContent = allItems.length;
+
+            if (pageItems.length === 0) {
+                resultsGrid.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon"><i class="fas fa-search"></i></div>
+                        <h3>No items found</h3>
+                        <p>Try adjusting your filters or search terms</p>
+                        <div class="empty-actions">
+                            <button class="btn-empty btn-report" onclick="window.location.href='reportitem.html'">
+                                <i class="fas fa-plus"></i> Report an Item
+                            </button>
+                            <button class="btn-empty btn-clear" onclick="clearAllFilters()">
+                                <i class="fas fa-undo"></i> Clear Filters
+                            </button>
+                        </div>
+                    </div>
+                `;
+                renderPagination(0);
+                return;
+            }
+
+            resultsGrid.innerHTML = pageItems.map(item => `
+                <div class="result-card" data-id="${item.id}">
+                    <div class="card-image">
+                        <i class="fas ${item.icon}"></i>
+                        <span class="status-badge ${item.status}">${item.status}</span>
+                    </div>
+                    <div class="card-body">
+                        <h4>${item.title}</h4>
+                        <div class="meta">
+                            <span><i class="fas fa-location-dot"></i> ${item.location}</span>
+                            <span><i class="fas fa-calendar-day"></i> ${new Date(item.date).toLocaleDateString()}</span>
+                            <span><i class="fas fa-tag"></i> ${item.category}</span>
+                        </div>
+                        <div class="description">${item.description}</div>
+                        <button class="view-btn" onclick="viewItem(${item.id})">View Details</button>
+                    </div>
+                </div>
+            `).join('');
+
+            renderPagination(total);
+        }
+
+        // ==========================================
+        // RENDER PAGINATION
+        // ==========================================
+        function renderPagination(total) {
+            const totalPages = Math.ceil(total / itemsPerPage);
+
+            if (totalPages <= 1) {
+                pagination.innerHTML = '';
+                return;
+            }
+
+            let html = '';
+            html += `<button ${currentPage === 1 ? 'disabled' : ''} onclick="goToPage(${currentPage - 1})">
+                <i class="fas fa-chevron-left"></i>
+            </button>`;
+
+            if (totalPages <= 7) {
+                for (let i = 1; i <= totalPages; i++) {
+                    html += `<button class="${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>`;
+                }
+            } else {
+                html += `<button class="${1 === currentPage ? 'active' : ''}" onclick="goToPage(1)">1</button>`;
+                if (currentPage > 3) {
+                    html += `<span class="dots">…</span>`;
+                }
+                for (let i = Math.max(2, currentPage - 1); i <= Math.min(totalPages - 1, currentPage + 1); i++) {
+                    html += `<button class="${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>`;
+                }
+                if (currentPage < totalPages - 2) {
+                    html += `<span class="dots">…</span>`;
+                }
+                html += `<button class="${totalPages === currentPage ? 'active' : ''}" onclick="goToPage(${totalPages})">${totalPages}</button>`;
+            }
+
+            html += `<button ${currentPage === totalPages ? 'disabled' : ''} onclick="goToPage(${currentPage + 1})">
+                <i class="fas fa-chevron-right"></i>
+            </button>`;
+
+            pagination.innerHTML = html;
+        }
+
+        function goToPage(page) {
+            const totalPages = Math.ceil(filteredItems.length / itemsPerPage);
+            if (page < 1 || page > totalPages) return;
+            currentPage = page;
+            renderResults();
+            document.querySelector('.results-grid').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // ==========================================
+        // VIEW ITEM - Navigate to Item Detail Page
+        // ==========================================
+        function viewItem(id) {
+            // Store item ID and role
+            sessionStorage.setItem('viewItemId', id);
+            sessionStorage.setItem('userRole', currentUserRole);
+            
+            console.log('🔍 Viewing item:', id, 'with role:', currentUserRole);
+            
+            // Navigate to item detail page
+            window.location.href = '../user/itemdetail.html';
         }
 
         // ==========================================
@@ -1172,18 +1285,18 @@
             if (activeFilters.category) chips.push({ label: `Category: ${activeFilters.category}`, key: 'category' });
             if (activeFilters.location) chips.push({ label: `Location: ${activeFilters.location}`, key: 'location' });
             if (activeFilters.status !== 'all') chips.push({ label: `Status: ${activeFilters.status}`, key: 'status' });
-
-            const container = document.getElementById('chipsContainer');
-            const clearBtn = document.getElementById('clearAllFilters');
+            if (activeFilters.dateFrom) chips.push({ label: `From: ${new Date(activeFilters.dateFrom).toLocaleDateString()}`,
+                key: 'dateFrom' });
+            if (activeFilters.dateTo) chips.push({ label: `To: ${new Date(activeFilters.dateTo).toLocaleDateString()}`,
+                key: 'dateTo' });
 
             if (chips.length === 0) {
-                container.innerHTML = `<span style="color:#94a3b8; font-size:0.8rem;">No active filters</span>`;
-                clearBtn.style.display = 'none';
+                chipsContainer.innerHTML =
+                `<span style="color:#94a3b8; font-size:0.8rem;">No active filters</span>`;
                 return;
             }
 
-            clearBtn.style.display = 'inline-block';
-            container.innerHTML = chips.map(chip => `
+            chipsContainer.innerHTML = chips.map(chip => `
                 <span class="chip">
                     ${chip.label}
                     <span class="remove" onclick="removeChip('${chip.key}')">&times;</span>
@@ -1196,6 +1309,8 @@
             if (key === 'search') document.getElementById('searchInput').value = '';
             if (key === 'category') document.getElementById('categoryFilter').value = '';
             if (key === 'location') document.getElementById('locationFilter').value = '';
+            if (key === 'dateFrom') document.getElementById('dateFrom').value = '';
+            if (key === 'dateTo') document.getElementById('dateTo').value = '';
             if (key === 'status') {
                 document.querySelectorAll('.status-toggles .toggle-btn').forEach(btn => {
                     btn.classList.toggle('active', btn.dataset.status === 'all');
@@ -1205,7 +1320,8 @@
         }
 
         function clearAllFilters() {
-            activeFilters = { search: '', category: '', location: '', status: 'all', dateFrom: '', dateTo: '' };
+            activeFilters = { search: '', category: '', location: '', status: 'all', dateFrom: '', dateTo: '',
+                sort: 'newest' };
             document.getElementById('searchInput').value = '';
             document.getElementById('categoryFilter').value = '';
             document.getElementById('locationFilter').value = '';
@@ -1214,15 +1330,20 @@
             document.querySelectorAll('.status-toggles .toggle-btn').forEach(btn => {
                 btn.classList.toggle('active', btn.dataset.status === 'all');
             });
+            document.getElementById('sortSelect').value = 'newest';
             applyFilters();
         }
 
         // ==========================================
         // EVENT LISTENERS
         // ==========================================
+        let searchTimeout;
         document.getElementById('searchInput').addEventListener('input', function() {
-            activeFilters.search = this.value.trim();
-            applyFilters();
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(() => {
+                activeFilters.search = this.value.trim();
+                applyFilters();
+            }, 300);
         });
 
         document.getElementById('categoryFilter').addEventListener('change', function() {
@@ -1245,20 +1366,41 @@
             applyFilters();
         });
 
+        document.getElementById('sortSelect').addEventListener('change', function() {
+            activeFilters.sort = this.value;
+            applyFilters();
+        });
+
         document.getElementById('clearAllFilters').addEventListener('click', clearAllFilters);
+
+        // ==========================================
+        // ROLE TESTER EVENT
+        // ==========================================
+        if (roleTester) {
+            roleTester.addEventListener('change', function() {
+                currentUserRole = this.value;
+                sessionStorage.setItem('userRole', currentUserRole);
+                buildStatusToggles();
+                applyFilters();
+                updateRoleIndicator();
+                console.log('🔄 Role changed to:', currentUserRole);
+            });
+        }
 
         // ==========================================
         // NAV LINKS
         // ==========================================
         document.querySelectorAll('.nav-links a, .nav-actions a').forEach(link => {
             link.addEventListener('click', function(e) {
-                const allowedPages = ['../auth/login.html', '../auth/register.html', 
+                const allowedPages = ['../auth/login.html', '../auth/register.html',
                     'reportitem.html', 'itemfound.html', 'home.html', 'search.html'
                 ];
 
                 if (this.href) {
                     const shouldNavigate = allowedPages.some(page => this.href.includes(page));
-                    if (shouldNavigate) return;
+                    if (shouldNavigate) {
+                        return;
+                    }
                 }
 
                 e.preventDefault();
@@ -1276,18 +1418,9 @@
         buildStatusToggles();
         applyFilters();
 
-        // ==========================================
-        // LOG PERMISSIONS (Console Only)
-        // ==========================================
-        console.log('✅ Search page loaded with Role-Based Logic');
-        console.log('📋 Current Role:', currentUserRole);
-        console.log('📊 Permissions:');
-        console.log('   ├─ Can Claim:', permissions.canClaim);
-        console.log('   ├─ Can Approve:', permissions.canApprove);
-        console.log('   ├─ Can Reject:', permissions.canReject);
-        console.log('   ├─ Can Resolve:', permissions.canResolve);
-        console.log('   └─ Can Delete:', permissions.canDelete);
-        console.log('📋 Visible Statuses:', permissions.visibleStatuses);
+        console.log('👤 Current Role:', currentUserRole);
+        console.log('📋 Visible Statuses:', roleStatusConfig[currentUserRole]?.visibleStatuses || ['lost', 'found']);
+        console.log('💡 Change role using the dropdown in the bottom-right corner, or edit line 554');
     </script>
 
 </body>
