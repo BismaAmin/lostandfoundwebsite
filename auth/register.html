@@ -1,14 +1,12 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Register · Lost & Found Portal</title>
-    <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <style>
-        
-        /* ----- RESET & BASE ----- */
         * {
             margin: 0;
             padding: 0;
@@ -17,39 +15,67 @@
         }
 
         body {
-            background: #F1EFE8;
+            background-image: url(WhatsApp\ Image\ 2026-07-02\ at\ 3.31.44\ PM.jpeg);
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 1.5rem;
+            padding: 1rem;
+            backface-visibility: visible;
         }
 
-        /* ----- REGISTER CARD (wider for horizontal layout) ----- */
         .register-wrapper {
             max-width: 720px;
             width: 100%;
-            background: #ffffff;
-            border-radius: 20px;
+            background-color: rgba(255, 255, 255, 0.70);
+            border-radius: 24px;
             box-shadow: 0 8px 30px rgba(12, 68, 124, 0.08);
             padding: 2rem 2.5rem 2rem;
             transition: all 0.2s;
         }
 
-        /* ----- FORM HEADER ----- */
         .form-header {
             text-align: center;
             margin-bottom: 1.5rem;
         }
-        .form-header .logo-icon {
-            font-size: 1.8rem;
-            color: #185FA5;
-            margin-bottom: 0.1rem;
+
+        /* ----- LOGO STYLES (bigger, circular) ----- */
+        .logo-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 0.6rem;
         }
-        .form-header h3 {
+
+        .logo-wrapper .logo-img {
+            max-height: 110px;
+            width: 110px;
+            height: 110px;
+            display: block;
+            border-radius: 50%;
+            object-fit: cover;
+            background: transparent;
+            box-shadow: 0 6px 20px rgba(24, 95, 165, 0.18);
+            transition: transform 0.2s;
+            border: none;
+        }
+
+        .logo-wrapper .logo-img:hover {
+            transform: scale(1.05);
+        }
+        /* ----- end logo styles ----- */
+
+        .form-header .logo-icon {
+            display: none;
+        }
+        .form-header h2 {
             font-size: 1.3rem;
             font-weight: 700;
-            color: #0C447C;
+            color: #0d9488;
         }
         .form-header p {
             color: #5F5E5A;
@@ -57,14 +83,12 @@
             margin-top: 0.1rem;
         }
 
-        /* ----- FORM - 2 COLUMN GRID ----- */
         .register-form {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 0.8rem 1.2rem;
         }
 
-        /* Full width items */
         .full-width {
             grid-column: 1 / -1;
         }
@@ -92,8 +116,8 @@
             min-height: 38px;
         }
         .input-field:focus-within {
-            border-color: #185FA5;
-            box-shadow: 0 0 0 3px rgba(24, 95, 165, 0.10);
+            border-color: #0d9488;
+            box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.10);
             background: white;
         }
         .input-field i {
@@ -121,7 +145,7 @@
             padding-right: 1.5rem;
         }
         .input-field input::placeholder {
-            color: #9a9a96;
+            color: #afafa2;
             font-size: 0.82rem;
         }
         .input-field .field-icon-right {
@@ -148,10 +172,9 @@
             transition: color 0.2s;
         }
         .input-field .toggle-pw:hover {
-            color: #185FA5;
+            color: #0d9488;
         }
 
-        /* error state */
         .input-field.error {
             border-color: #E24B4A;
             background: #fff6f5;
@@ -182,7 +205,6 @@
             margin-top: 0.05rem;
         }
 
-        /* ----- PASSWORD STRENGTH (inside its column) ----- */
         .strength-container {
             margin-top: 0.05rem;
             display: flex;
@@ -220,7 +242,6 @@
             color: #1D9E75;
         }
 
-        /* ----- TERMS CHECKBOX (full width) ----- */
         .checkbox-group {
             display: flex;
             align-items: flex-start;
@@ -228,7 +249,7 @@
             padding: 0.2rem 0;
         }
         .checkbox-group input[type="checkbox"] {
-            accent-color: #185FA5;
+            accent-color: #0d9488;
             width: 0.9rem;
             height: 0.9rem;
             margin-top: 0.15rem;
@@ -241,7 +262,7 @@
             cursor: pointer;
         }
         .checkbox-group label a {
-            color: #185FA5;
+            color: #0d9488;
             text-decoration: none;
             font-weight: 500;
         }
@@ -249,9 +270,9 @@
             text-decoration: underline;
         }
 
-        /* ----- REGISTER BUTTON (full width) ----- */
+        /* ----- BUTTON STYLES with #0d9488 ----- */
         .btn-register {
-            background: #B5D4F4;
+            background: #0d9488;
             color: white;
             border: none;
             border-radius: 60px;
@@ -262,16 +283,19 @@
             transition: background 0.2s, transform 0.1s;
             height: 40px;
             margin-top: 0.1rem;
+            opacity: 0.5;
         }
         .btn-register.active {
-            background: #185FA5;
+            background: #0d9488;
             cursor: pointer;
+            opacity: 1;
         }
         .btn-register.active:hover {
-            background: #0C447C;
+            background: #0a7a70;
+            transform: translateY(-1px);
         }
         .btn-register.active:active {
-            transform: scale(0.98);
+            transform: scale(0.97);
         }
         .btn-register .spinner {
             display: none;
@@ -289,15 +313,10 @@
             display: none;
         }
         @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
-        /* divider (full width) */
         .divider {
             display: flex;
             align-items: center;
@@ -309,17 +328,16 @@
         .divider hr {
             flex: 1;
             border: none;
-            border-top: 1px solid #B5D4F4;
+            border-top: 1px solid rgba(181, 212, 244, 0.4);
         }
 
-        /* login CTA (full width) */
         .login-cta {
             text-align: center;
             font-size: 0.82rem;
             color: #2C2C2A;
         }
         .login-cta a {
-            color: #185FA5;
+            color: #0d9488;
             font-weight: 600;
             text-decoration: none;
         }
@@ -327,7 +345,6 @@
             text-decoration: underline;
         }
 
-        /* ----- MODAL (Terms & Privacy) ----- */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -378,7 +395,6 @@
             line-height: 1.6;
         }
 
-        /* ----- RESPONSIVE - stack on mobile ----- */
         @media (max-width: 600px) {
             .register-wrapper {
                 padding: 1.5rem 1.2rem 1.5rem;
@@ -388,32 +404,34 @@
                 grid-template-columns: 1fr;
                 gap: 0.6rem;
             }
-            .form-header h3 {
+            .form-header h2 {
                 font-size: 1.1rem;
             }
             .modal-content {
                 padding: 1.5rem;
             }
+            .logo-wrapper .logo-img {
+                width: 90px;
+                height: 90px;
+                max-height: 90px;
+            }
         }
-   
     </style>
-
 </head>
 <body>
 
-    <!-- ===== REGISTER CARD ===== -->
     <div class="register-wrapper">
-        <!-- Header -->
         <div class="form-header">
-            <div class="logo-icon"><i class="fas fa-magnifying-glass-location"></i></div>
-            <h3>Create account</h3>
+            <!-- LOGO: bigger circular image -->
+            <div class="logo-wrapper">
+                <img src="cropped_circle_image.png" alt="Lost & Found Logo" class="logo-img" />
+            </div>
+            <h2 style="color: #0d9488;">Create account</h2>
             <p>Join the community and recover your belongings</p>
         </div>
 
-        <!-- Form - 2 Column Grid -->
         <form class="register-form" id="registerForm" novalidate>
 
-            <!-- Full Name - Left Column -->
             <div class="input-group">
                 <label for="fullName">Full Name</label>
                 <div class="input-field" id="nameField">
@@ -423,7 +441,6 @@
                 <div class="error-message" id="nameError"></div>
             </div>
 
-            <!-- Email - Right Column -->
             <div class="input-group">
                 <label for="email">Email</label>
                 <div class="input-field" id="emailField">
@@ -435,7 +452,6 @@
                 <div class="success-message" id="emailSuccess"></div>
             </div>
 
-            <!-- Password - Left Column -->
             <div class="input-group">
                 <label for="password">Password</label>
                 <div class="input-field" id="passwordField">
@@ -452,7 +468,6 @@
                 <div class="error-message" id="passwordError"></div>
             </div>
 
-            <!-- Confirm Password - Right Column -->
             <div class="input-group">
                 <label for="confirmPassword">Confirm Password</label>
                 <div class="input-field" id="confirmField">
@@ -463,7 +478,6 @@
                 <div class="error-message" id="confirmError"></div>
             </div>
 
-            <!-- Role Selector - Left Column -->
             <div class="input-group">
                 <label for="role">Role</label>
                 <div class="input-field" id="roleField">
@@ -478,10 +492,8 @@
                 <div class="error-message" id="roleError"></div>
             </div>
 
-            <!-- Empty cell for grid alignment (Right Column) -->
             <div></div>
 
-            <!-- Terms & Privacy - Full Width -->
             <div class="full-width checkbox-group">
                 <input type="checkbox" id="termsCheck" required />
                 <label for="termsCheck">
@@ -491,26 +503,22 @@
             </div>
             <div class="full-width error-message" id="termsError"></div>
 
-            <!-- Register Button - Full Width -->
             <button type="submit" class="full-width btn-register" id="registerBtn" disabled>
                 <span class="btn-text">Create account <i class="fas fa-arrow-right" style="margin-left:0.2rem;"></i></span>
                 <span class="spinner"></span>
             </button>
 
-            <!-- Divider - Full Width -->
             <div class="full-width divider">
                 <hr /><span>or</span><hr />
             </div>
 
-            <!-- Login CTA - Full Width -->
             <div class="full-width login-cta">
-                Already have an account? <a href="#">Log in</a>
+                Already have an account? <a href="login.html">Log in</a>
             </div>
 
         </form>
     </div>
 
-    <!-- ===== MODAL (Terms & Privacy) ===== -->
     <div class="modal-overlay" id="modalOverlay">
         <div class="modal-content">
             <button class="close-modal" id="closeModal">&times;</button>
@@ -531,9 +539,7 @@
     </div>
 
     <script>
-        
         (function() {
-            // DOM refs
             const form = document.getElementById('registerForm');
             const nameInput = document.getElementById('fullName');
             const nameField = document.getElementById('nameField');
@@ -566,7 +572,6 @@
             const registerBtn = document.getElementById('registerBtn');
             const togglePw = document.getElementById('togglePw');
 
-            // Modal
             const modalOverlay = document.getElementById('modalOverlay');
             const modalTitle = document.getElementById('modalTitle');
             const modalBody = document.getElementById('modalBody');
@@ -574,14 +579,12 @@
             const termsLink = document.getElementById('termsLink');
             const privacyLink = document.getElementById('privacyLink');
 
-            // ----- PASSWORD TOGGLE -----
             togglePw.addEventListener('click', function() {
                 const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
                 passwordInput.setAttribute('type', type);
                 this.innerHTML = type === 'password' ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
             });
 
-            // ----- NAME VALIDATION (2-50 chars) -----
             function validateName() {
                 const name = nameInput.value.trim();
                 if (name.length < 2) {
@@ -597,7 +600,6 @@
             }
             nameInput.addEventListener('input', validateName);
 
-            // ----- EMAIL VALIDATION + AJAX CHECK (debounced) -----
             let emailTimeout;
             const registeredEmails = ['test@demo.com', 'admin@demo.com', 'user@example.com'];
 
@@ -641,7 +643,6 @@
             emailInput.addEventListener('input', validateEmail);
             emailInput.addEventListener('blur', validateEmail);
 
-            // ----- PASSWORD STRENGTH -----
             function checkPasswordStrength(password) {
                 let score = 0;
                 if (password.length >= 6) score++;
@@ -673,7 +674,6 @@
             }
             passwordInput.addEventListener('input', updateStrength);
 
-            // ----- CONFIRM PASSWORD -----
             function validateConfirm() {
                 const password = passwordInput.value;
                 const confirm = confirmInput.value;
@@ -699,7 +699,6 @@
             }
             confirmInput.addEventListener('input', validateConfirm);
 
-            // ----- ROLE VALIDATION -----
             function validateRole() {
                 if (roleSelect.value === '') {
                     setError(roleField, roleError, 'Please select your role.');
@@ -711,7 +710,6 @@
             }
             roleSelect.addEventListener('change', validateRole);
 
-            // ----- TERMS VALIDATION -----
             function validateTerms() {
                 if (!termsCheck.checked) {
                     termsError.textContent = 'You must agree to the Terms and Privacy Policy.';
@@ -723,7 +721,6 @@
             }
             termsCheck.addEventListener('change', validateTerms);
 
-            // ----- HELPER FUNCTIONS -----
             function setError(field, errorEl, message) {
                 field.classList.add('error');
                 field.classList.remove('success');
@@ -743,7 +740,6 @@
                 el.textContent = '';
             }
 
-            // ----- ENABLE/DISABLE REGISTER BUTTON -----
             function checkFormValidity() {
                 const nameValid = nameInput.value.trim().length >= 2 && nameInput.value.trim().length <= 50;
                 const emailValid = emailInput.value.trim() && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput.value.trim()) &&
@@ -765,7 +761,6 @@
                 return allValid;
             }
 
-            // Attach check to all inputs
             [nameInput, emailInput, passwordInput, confirmInput, roleSelect, termsCheck].forEach(el => {
                 el.addEventListener('input', checkFormValidity);
                 el.addEventListener('change', checkFormValidity);
@@ -776,7 +771,6 @@
                 checkFormValidity();
             });
 
-            // ----- FORM SUBMIT -----
             form.addEventListener('submit', function(e) {
                 e.preventDefault();
 
@@ -803,12 +797,10 @@
                     registerBtn.classList.remove('loading');
                     registerBtn.disabled = false;
                     registerBtn.classList.add('active');
-                    alert('📧 Check your inbox to verify your email!\n\nDemo: verification email sent to ' + emailInput
-                        .value.trim());
+                    alert('📧 Check your inbox to verify your email!\n\nDemo: verification email sent to ' + emailInput.value.trim());
                 }, 1200);
             });
 
-            // ----- MODAL HANDLING -----
             function openModal(title, body) {
                 modalTitle.textContent = title;
                 modalBody.innerHTML = body;
@@ -840,14 +832,12 @@
                 if (e.target === this) closeModalFn();
             });
 
-            // ----- AUTO-CAPITALIZE NAME -----
             nameInput.addEventListener('blur', function() {
                 if (this.value) {
                     this.value = this.value.replace(/\b\w/g, l => l.toUpperCase());
                 }
             });
 
-            // ----- AUTO-FOCUS -----
             window.addEventListener('load', function() {
                 nameInput.focus();
             });
@@ -855,13 +845,11 @@
             checkFormValidity();
 
             document.querySelector('.login-cta a').addEventListener('click', function(e) {
-                e.preventDefault();
-                alert('🔐 Login page would open (demo).');
+                // Let the browser navigate
             });
 
         })();
-
-
     </script>
+
 </body>
 </html>
