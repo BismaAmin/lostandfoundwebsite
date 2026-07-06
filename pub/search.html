@@ -18,6 +18,20 @@
             background: #f0f9f6;
         }
 
+        /* ===== BODY CLASSES FOR ROLE-BASED HIDING ===== */
+        body.logged-in .guest-only {
+            display: none !important;
+        }
+        body.logged-in .user-only {
+            display: inline-flex !important;
+        }
+        body.guest .user-only {
+            display: none !important;
+        }
+        body.guest .guest-only {
+            display: block !important;
+        }
+
         /* ===== NAVBAR ===== */
         .navbar {
             background: #0D9488;
@@ -28,7 +42,13 @@
             position: sticky;
             top: 0;
             z-index: 100;
+            transition: all 0.3s ease;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 0;
+        }
+        .navbar.scrolled {
+            background: #0F766E;
+            box-shadow: 0 8px 40px rgba(13, 148, 136, 0.3);
         }
         .navbar .logo {
             display: flex;
@@ -38,6 +58,7 @@
             font-size: 1.4rem;
             font-weight: 800;
             letter-spacing: -0.5px;
+            text-decoration: none;
         }
         .navbar .logo i {
             font-size: 1.8rem;
@@ -102,6 +123,92 @@
             transform: translateY(-2px);
         }
 
+        .nav-notif {
+            position: relative;
+            color: white;
+            font-size: 1.1rem;
+            cursor: pointer;
+            width: 38px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: 0.3s;
+            text-decoration: none;
+        }
+        .nav-notif:hover {
+            background: rgba(255,255,255,0.12);
+        }
+        .nav-notif .dot {
+            position: absolute;
+            top: 4px;
+            right: 6px;
+            background: #FCD34D;
+            color: #0F2E2A;
+            font-size: 0.6rem;
+            font-weight: 800;
+            min-width: 16px;
+            height: 16px;
+            border-radius: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 3px;
+        }
+
+        .nav-profile {
+            position: relative;
+        }
+        .nav-profile .profile-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            color: white;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 0.35rem 0.9rem;
+            border-radius: 60px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+        .nav-profile .profile-btn:hover {
+            background: rgba(255,255,255,0.18);
+        }
+        .nav-profile .profile-menu {
+            display: none;
+            position: absolute;
+            top: 120%;
+            right: 0;
+            background: white;
+            width: 180px;
+            border-radius: 14px;
+            box-shadow: 0 16px 50px rgba(0,0,0,0.18);
+            padding: 0.5rem;
+            z-index: 200;
+        }
+        .nav-profile .profile-menu.open { display: block; }
+        .nav-profile .profile-menu a {
+            display: block;
+            color: #334155;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            padding: 0.55rem 0.7rem;
+            border-radius: 8px;
+            transition: 0.2s;
+        }
+        .nav-profile .profile-menu a:hover {
+            background: #f0f9f6;
+            color: #0F766E;
+        }
+        .nav-profile .profile-menu a.danger:hover {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
         /* ===== BROWSE HEADER ===== */
         .browse-header {
             background: linear-gradient(135deg, #0D9488 0%, #0F766E 50%, #115E59 100%);
@@ -130,9 +237,11 @@
             align-items: center;
             gap: 1rem;
             position: sticky;
-            top: 72px;
-            z-index: 50;
+            top: 0;
+            z-index: 999;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+            transition: box-shadow 0.3s ease;
+            margin-top: 0;
         }
         .filters-bar .search-wrapper {
             flex: 1;
@@ -162,19 +271,33 @@
             color: #94a3b8;
         }
         .filters-bar select {
-            padding: 0.6rem 2.5rem 0.6rem 1rem;
+            padding: 0.6rem 2.8rem 0.6rem 1rem;
             border: 1.5px solid #e2e8f0;
             border-radius: 60px;
             font-size: 0.85rem;
             outline: none;
             background: #f8fafc;
             cursor: pointer;
-            transition: 0.3s;
+            transition: all 0.3s ease;
             min-width: 140px;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%230D9488' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 12px;
+            color: #334155;
+        }
+        .filters-bar select:hover {
+            border-color: #0D9488;
+            background-color: white;
+            box-shadow: 0 2px 8px rgba(13, 148, 136, 0.1);
         }
         .filters-bar select:focus {
             border-color: #0D9488;
             box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.1);
+            background-color: white;
         }
         .filters-bar .date-range {
             display: flex;
@@ -276,36 +399,6 @@
             text-decoration: underline;
         }
 
-        .filters-bar select {
-    padding: 0.6rem 2.8rem 0.6rem 1rem;
-    border: 1.5px solid #e2e8f0;
-    border-radius: 60px;
-    font-size: 0.85rem;
-    outline: none;
-    background: #f8fafc;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    min-width: 140px;
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%230D9488' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 1rem center;
-    background-size: 12px;
-    color: #334155;
-}
-.filters-bar select:hover {
-    border-color: #0D9488;
-    background-color: white;
-    box-shadow: 0 2px 8px rgba(13, 148, 136, 0.1);
-}
-.filters-bar select:focus {
-    border-color: #0D9488;
-    box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.1);
-    background-color: white;
-}
-
         /* ===== RESULTS HEADER ===== */
         .results-header {
             display: flex;
@@ -332,32 +425,32 @@
             color: #64748b;
         }
         .results-header .sort-wrapper select {
-    padding: 0.4rem 2.2rem 0.4rem 1rem;
-    border: 1.5px solid #e2e8f0;
-    border-radius: 60px;
-    font-size: 0.8rem;
-    outline: none;
-    background: #f8fafc;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%230D9488' d='M5 8L1 3h8z'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 0.8rem center;
-    background-size: 10px;
-    color: #334155;
-}
-.results-header .sort-wrapper select:hover {
-    border-color: #0D9488;
-    background-color: white;
-}
-.results-header .sort-wrapper select:focus {
-    border-color: #0D9488;
-    box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.1);
-    background-color: white;
-}
+            padding: 0.4rem 2.2rem 0.4rem 1rem;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 60px;
+            font-size: 0.8rem;
+            outline: none;
+            background: #f8fafc;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%230D9488' d='M5 8L1 3h8z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0.8rem center;
+            background-size: 10px;
+            color: #334155;
+        }
+        .results-header .sort-wrapper select:hover {
+            border-color: #0D9488;
+            background-color: white;
+        }
+        .results-header .sort-wrapper select:focus {
+            border-color: #0D9488;
+            box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.1);
+            background-color: white;
+        }
 
         /* ===== RESULTS GRID ===== */
         .results-grid {
@@ -640,41 +733,6 @@
             color: rgba(255, 255, 255, 0.4);
         }
 
-        /* ===== ROLE TESTER STYLES ===== */
-        .role-tester {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: #0D9488;
-            padding: 8px 15px;
-            border-radius: 8px;
-            z-index: 9999;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .role-tester label {
-            color: white;
-            font-size: 11px;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-        }
-        .role-tester select {
-            padding: 4px 10px;
-            border-radius: 4px;
-            border: none;
-            font-size: 12px;
-            background: white;
-            color: #0D9488;
-            font-weight: 600;
-            cursor: pointer;
-            outline: none;
-        }
-        .role-tester select:focus {
-            box-shadow: 0 0 0 2px rgba(255,255,255,0.3);
-        }
-
         /* ===== RESPONSIVE ===== */
         @media (max-width: 1024px) {
             .results-grid {
@@ -713,18 +771,6 @@
             .footer {
                 padding: 2rem 1.5rem 1rem;
             }
-            .role-tester {
-                bottom: 10px;
-                right: 10px;
-                padding: 6px 12px;
-            }
-            .role-tester label {
-                font-size: 10px;
-            }
-            .role-tester select {
-                font-size: 11px;
-                padding: 3px 8px;
-            }
         }
 
         @media (max-width: 600px) {
@@ -755,6 +801,7 @@
                 align-items: stretch;
                 padding: 0.8rem 1rem;
                 gap: 0.6rem;
+                top: 56px;
             }
             .filters-bar .search-wrapper {
                 min-width: 100%;
@@ -796,40 +843,13 @@
             .browse-header p {
                 font-size: 0.9rem;
             }
-            .role-tester {
-                bottom: 8px;
-                right: 8px;
-                padding: 4px 10px;
-            }
-            .role-tester label {
-                display: none;
-            }
-            .role-tester select {
-                font-size: 10px;
-                padding: 2px 6px;
-            }
         }
     </style>
 </head>
 <body>
 
-    <!-- ===== NAVBAR ===== -->
-    <nav class="navbar" id="navbar">
-        <div class="logo">
-            <i class="fas fa-magnifying-glass-location"></i>
-            <span>Lost&Found</span>
-        </div>
-        <div class="nav-links">
-            <a href="home.html">Home</a>
-            <a href="reportitem.html">Report Lost</a>
-            <a href="itemfound.html">Report Found</a>
-            <a href="search.html" class="active">Browse</a>
-        </div>
-        <div class="nav-actions">
-            <a href="../auth/login.html">Login</a>
-            <a href="../auth/register.html" class="btn-outline">Register</a>
-        </div>
-    </nav>
+    <!-- ===== NAVBAR CONTAINER ===== -->
+    <div id="navbarContainer"></div>
 
     <!-- ===== BROWSE HEADER ===== -->
     <section class="browse-header">
@@ -910,57 +930,236 @@
         <!-- Rendered by JavaScript -->
     </div>
 
-    <!-- ===== FOOTER ===== -->
-    <footer class="footer">
-        <div class="footer-grid">
-            <div class="brand">
-                <h5><i class="fas fa-magnifying-glass-location"></i> Lost&Found</h5>
-                <p>Reuniting people with their belongings since 2024. A trusted community platform for schools, universities, and public spaces.</p>
-            </div>
-            <div>
-                <h5>Quick Links</h5>
-                <a href="reportitem.html">Report Lost</a>
-                <a href="itemfound.html">Report Found</a>
-                <a href="search.html">Browse Items</a>
-                <a href="#">How It Works</a>
-            </div>
-            <div>
-                <h5>Categories</h5>
-                <a href="#">Electronics</a>
-                <a href="#">Documents</a>
-                <a href="#">Accessories</a>
-                <a href="#">Books</a>
-                <a href="#">Clothing</a>
-            </div>
-            <div class="contact">
-                <h5>Contact</h5>
-                <p><i class="fas fa-envelope" style="margin-right:0.4rem;"></i> support@lostfound.com</p>
-                <p><i class="fas fa-phone" style="margin-right:0.4rem;"></i> +92 319 0153045</p>
-                <div class="social-icons">
-                    <a href="#"><i class="fab fa-facebook"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-linkedin"></i></a>
-                </div>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            &copy; 2026 Lost & Found Portal. All rights reserved.
-        </div>
-    </footer>
+    <!-- ===== FOOTER CONTAINER ===== -->
+    <div id="footerContainer"></div>
 
-
-
+    <!-- ========================================== -->
     <!-- ===== JAVASCRIPT ===== -->
+    <!-- ========================================== -->
     <script>
-        // ==========================================
-        // ROLE CONFIGURATION - CHANGE THIS LINE TO TEST DIFFERENT ROLES
-        // ==========================================
-        let currentUserRole = 'guest'; // CHANGE THIS to: 'user', 'manager', or 'admin' to test
+        // ============================================
+        // ROLE STATE - Read from localStorage (set by Home page)
+        // ============================================
+        // DON'T override with DEV_ROLE - just read from localStorage!
+        let storedRole = localStorage.getItem('userRole');
+        let storedLoggedIn = localStorage.getItem('isLoggedIn');
 
-        // ==========================================
+        console.log('🔍 Stored Role from localStorage:', storedRole);
+        console.log('🔍 Stored LoggedIn from localStorage:', storedLoggedIn);
+
+
+        // If still not set, use defaults
+        const isLoggedIn = storedLoggedIn === 'true' ? true : false;
+        const userRole = storedRole || 'guest';
+
+         
+        console.log('👤 Search Page Current Role (from localStorage):', userRole);
+        console.log('📌 Search Page Logged In (from localStorage):', isLoggedIn);
+
+
+        // ===== ADD BODY CLASS FOR CSS CONTROL =====
+        if (isLoggedIn) {
+            document.body.classList.add('logged-in');
+            document.body.classList.remove('guest');
+        } else {
+            document.body.classList.add('guest');
+            document.body.classList.remove('logged-in');
+        }
+
+        // Add role class to body for additional styling
+        document.body.classList.add(`role-${userRole}`);
+
+        // ============================================
+        // NAVBAR TEMPLATES (Same as Home Page)
+        // ============================================
+        const guestNavbar = `
+            <nav class="navbar" id="navbar">
+                <a href="../pub/home.html" class="logo">
+                    <i class="fas fa-magnifying-glass-location"></i>
+                    <span>Lost&Found</span>
+                </a>
+                <div class="nav-links">
+                    <a href="../pub/home.html">Home</a>
+                    <a href="../pub/search.html" class="active">Browse Items</a>
+                    <a href="#howitworks">How it Works</a>
+                </div>
+                <div class="nav-actions">
+                    <a href="../auth/login.html">Login</a>
+                    <a href="../auth/register.html" class="btn-outline">Register</a>
+                </div>
+            </nav>
+        `;
+
+        const loggedInNavbar = `
+            <nav class="navbar" id="navbar">
+                <a href="../pub/home.html" class="logo">
+                    <i class="fas fa-magnifying-glass-location"></i>
+                    <span>Lost&Found</span>
+                </a>
+                <div class="nav-links">
+                    <a href="../pub/home.html">Home</a>
+                    <a href="../pub/reportitem.html">Report Lost</a>
+                    <a href="../pub/itemfound.html">Report Found</a>
+                    <a href="../pub/search.html" class="active">Browse</a>
+                </div>
+                <div class="nav-actions">
+                    <a href="../user/notification.html" class="nav-notif" title="Notifications">
+                        <i class="fas fa-bell"></i>
+                        <span class="dot" id="notifCount">4</span>
+                    </a>
+                    <div class="nav-profile">
+                        <button class="profile-btn" id="profileBtn">👤 Muhammad <i class="fas fa-chevron-down" style="font-size:0.6rem;"></i></button>
+                        <div class="profile-menu" id="profileMenu">
+                            <a href="../user/profile.html"><i class="fas fa-user" style="margin-right:0.5rem;"></i>Profile</a>
+                            <a href="../user/profile.html"><i class="fas fa-gear" style="margin-right:0.5rem;"></i>Settings</a>
+                            <a href="#" class="danger" id="logoutLink"><i class="fas fa-right-from-bracket" style="margin-right:0.5rem;"></i>Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        `;
+
+        // ============================================
+        // FOOTER TEMPLATES (Same as Home Page)
+        // ============================================
+        const guestFooter = `
+            <footer class="footer">
+                <div class="footer-grid">
+                    <div class="brand">
+                        <h5><i class="fas fa-magnifying-glass-location"></i> Lost&Found</h5>
+                        <p>Reuniting people with their belongings since 2024. A trusted community platform for schools, universities, and public spaces.</p>
+                    </div>
+                    <div>
+                        <h5>Quick Links</h5>
+                        <a href="../pub/search.html">Browse Items</a>
+                        <a href="#howitworks">How It Works</a>
+                        <a href="../auth/login.html">Login</a>
+                        <a href="../auth/register.html">Register</a>
+                    </div>
+                    <div>
+                        <h5>Categories</h5>
+                        <a href="../pub/search.html?category=electronics">Electronics</a>
+                        <a href="../pub/search.html?category=documents">Documents</a>
+                        <a href="../pub/search.html?category=accessories">Accessories</a>
+                        <a href="../pub/search.html?category=books">Books</a>
+                        <a href="../pub/search.html?category=clothing">Clothing</a>
+                    </div>
+                    <div class="contact">
+                        <h5>Contact</h5>
+                        <p><i class="fas fa-envelope" style="margin-right:0.4rem;"></i> support@lostfound.com</p>
+                        <p><i class="fas fa-phone" style="margin-right:0.4rem;"></i> +92 319 0153045</p>
+                        <div class="social-icons">
+                            <a href="#"><i class="fab fa-facebook"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-linkedin"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    &copy; 2026 Lost & Found Portal. All rights reserved.
+                </div>
+            </footer>
+        `;
+
+        const loggedInFooter = `
+            <footer class="footer">
+                <div class="footer-grid">
+                    <div class="brand">
+                        <h5><i class="fas fa-magnifying-glass-location"></i> Lost&Found</h5>
+                        <p>Reuniting people with their belongings since 2024. A trusted community platform for schools, universities, and public spaces.</p>
+                    </div>
+                    <div>
+                        <h5>Quick Links</h5>
+                        <a href="../pub/reportitem.html">Report Lost</a>
+                        <a href="../pub/itemfound.html">Report Found</a>
+                        <a href="../pub/search.html">Browse Items</a>
+                        <a href="../user/userdashboard.html">Dashboard</a>
+                        <a href="../user/profile.html">Profile</a>
+                    </div>
+                    <div>
+                        <h5>Categories</h5>
+                        <a href="../pub/search.html?category=electronics">Electronics</a>
+                        <a href="../pub/search.html?category=documents">Documents</a>
+                        <a href="../pub/search.html?category=accessories">Accessories</a>
+                        <a href="../pub/search.html?category=books">Books</a>
+                        <a href="../pub/search.html?category=clothing">Clothing</a>
+                    </div>
+                    <div class="contact">
+                        <h5>Contact</h5>
+                        <p><i class="fas fa-envelope" style="margin-right:0.4rem;"></i> support@lostfound.com</p>
+                        <p><i class="fas fa-phone" style="margin-right:0.4rem;"></i> +92 319 0153045</p>
+                        <div class="social-icons">
+                            <a href="#"><i class="fab fa-facebook"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-linkedin"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    &copy; 2026 Lost & Found Portal. All rights reserved.
+                </div>
+            </footer>
+        `;
+
+        // ============================================
+        // LOAD COMPONENTS
+        // ============================================
+        function loadComponents() {
+            document.getElementById('navbarContainer').innerHTML = isLoggedIn ? loggedInNavbar : guestNavbar;
+            document.getElementById('footerContainer').innerHTML = isLoggedIn ? loggedInFooter : guestFooter;
+
+            if (isLoggedIn) initDropdowns();
+            initStickyNavbar();
+        }
+
+        // ============================================
+        // INIT DROPDOWNS
+        // ============================================
+        function initDropdowns() {
+            const profileBtn = document.getElementById('profileBtn');
+            const profileMenu = document.getElementById('profileMenu');
+            if (profileBtn && profileMenu) {
+                profileBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    profileMenu.classList.toggle('open');
+                });
+            }
+
+            document.addEventListener('click', function() {
+                profileMenu?.classList.remove('open');
+            });
+
+            const logoutLink = document.getElementById('logoutLink');
+            if (logoutLink) {
+                logoutLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    if (confirm('Are you sure you want to logout?')) {
+                        // Clear localStorage and redirect to home
+                        localStorage.removeItem('userRole');
+                        localStorage.removeItem('isLoggedIn');
+                        window.location.href = '../pub/home.html';
+                    }
+                });
+            }
+        }
+
+        // ============================================
+        // STICKY NAVBAR
+        // ============================================
+        function initStickyNavbar() {
+            const navbar = document.getElementById('navbar');
+            if (navbar) {
+                window.addEventListener('scroll', function() {
+                    navbar.classList.toggle('scrolled', window.scrollY > 80);
+                });
+            }
+        }
+
+        // ============================================
         // ROLE-BASED STATUS CONFIGURATION
-        // ==========================================
+        // ============================================
         const roleStatusConfig = {
             guest: {
                 visibleStatuses: ['lost', 'found'],
@@ -980,9 +1179,9 @@
             }
         };
 
-        // ==========================================
+        // ============================================
         // SAMPLE DATA WITH ALL STATUSES
-        // ==========================================
+        // ============================================
         const allItems = [
             { id: 1, title: 'Black Samsung A54', category: 'Electronics', location: 'Library', date: '2026-06-10',
                 status: 'found', description: 'Samsung A54 with blue silicone cover, screen has small scratch.',
@@ -1022,9 +1221,9 @@
                 status: 'found', description: 'Nike gym bag with gym clothes and shoes.', icon: 'fa-bag-shopping' },
         ];
 
-        // ==========================================
+        // ============================================
         // STATE
-        // ==========================================
+        // ============================================
         let currentPage = 1;
         const itemsPerPage = 12;
         let filteredItems = [...allItems];
@@ -1038,41 +1237,22 @@
             sort: 'newest'
         };
 
-        // ==========================================
+        // ============================================
         // DOM REFS
-        // ==========================================
+        // ============================================
         const resultsGrid = document.getElementById('resultsGrid');
         const pagination = document.getElementById('pagination');
         const resultCount = document.getElementById('resultCount');
         const totalCount = document.getElementById('totalCount');
         const chipsContainer = document.getElementById('chipsContainer');
         const statusToggles = document.getElementById('statusToggles');
-        const roleTester = document.getElementById('roleTester');
-        const roleIndicator = document.getElementById('roleIndicator');
 
-        // ==========================================
-        // ROLE TESTER - Set initial value
-        // ==========================================
-        if (roleTester) {
-            roleTester.value = currentUserRole;
-        }
-        updateRoleIndicator();
-
-        // ==========================================
-        // UPDATE ROLE INDICATOR
-        // ==========================================
-        function updateRoleIndicator() {
-            if (roleIndicator) {
-                roleIndicator.textContent = '✓';
-                roleIndicator.style.color = '#00ff88';
-            }
-        }
-
-        // ==========================================
+        // ============================================
         // BUILD STATUS TOGGLES BASED ON ROLE
-        // ==========================================
+        // ============================================
         function buildStatusToggles() {
-            const config = roleStatusConfig[currentUserRole] || roleStatusConfig.guest;
+            const role = isLoggedIn ? userRole : 'guest';
+            const config = roleStatusConfig[role] || roleStatusConfig.guest;
             const toggleMap = {
                 'All': 'all',
                 'Lost': 'lost',
@@ -1103,14 +1283,15 @@
             });
         }
 
-        // ==========================================
+        // ============================================
         // FILTER FUNCTIONS
-        // ==========================================
+        // ============================================
         function applyFilters() {
             let items = [...allItems];
 
-            // Filter by role visibility (only show statuses the role can see)
-            const config = roleStatusConfig[currentUserRole] || roleStatusConfig.guest;
+            // Filter by role visibility using actual role
+            const role = isLoggedIn ? userRole : 'guest';
+            const config = roleStatusConfig[role] || roleStatusConfig.guest;
             items = items.filter(item => config.visibleStatuses.includes(item.status));
 
             if (activeFilters.search) {
@@ -1159,9 +1340,9 @@
             updateChips();
         }
 
-        // ==========================================
+        // ============================================
         // RENDER RESULTS
-        // ==========================================
+        // ============================================
         function renderResults() {
             const total = filteredItems.length;
             const start = (currentPage - 1) * itemsPerPage;
@@ -1178,7 +1359,7 @@
                         <h3>No items found</h3>
                         <p>Try adjusting your filters or search terms</p>
                         <div class="empty-actions">
-                            <button class="btn-empty btn-report" onclick="window.location.href='reportitem.html'">
+                            <button class="btn-empty btn-report" onclick="window.location.href='../pub/reportitem.html'">
                                 <i class="fas fa-plus"></i> Report an Item
                             </button>
                             <button class="btn-empty btn-clear" onclick="clearAllFilters()">
@@ -1213,9 +1394,9 @@
             renderPagination(total);
         }
 
-        // ==========================================
+        // ============================================
         // RENDER PAGINATION
-        // ==========================================
+        // ============================================
         function renderPagination(total) {
             const totalPages = Math.ceil(total / itemsPerPage);
 
@@ -1262,23 +1443,19 @@
             document.querySelector('.results-grid').scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
-        // ==========================================
-        // VIEW ITEM - Navigate to Item Detail Page
-        // ==========================================
+        // ============================================
+        // VIEW ITEM
+        // ============================================
         function viewItem(id) {
-            // Store item ID and role
             sessionStorage.setItem('viewItemId', id);
-            sessionStorage.setItem('userRole', currentUserRole);
-            
-            console.log('🔍 Viewing item:', id, 'with role:', currentUserRole);
-            
-            // Navigate to item detail page
+            sessionStorage.setItem('userRole', isLoggedIn ? userRole : 'guest');
+            sessionStorage.setItem('isLoggedIn', isLoggedIn);
             window.location.href = '../user/itemdetail.html';
         }
 
-        // ==========================================
+        // ============================================
         // UPDATE CHIPS
-        // ==========================================
+        // ============================================
         function updateChips() {
             const chips = [];
             if (activeFilters.search) chips.push({ label: `Search: "${activeFilters.search}"`, key: 'search' });
@@ -1334,9 +1511,9 @@
             applyFilters();
         }
 
-        // ==========================================
+        // ============================================
         // EVENT LISTENERS
-        // ==========================================
+        // ============================================
         let searchTimeout;
         document.getElementById('searchInput').addEventListener('input', function() {
             clearTimeout(searchTimeout);
@@ -1373,55 +1550,55 @@
 
         document.getElementById('clearAllFilters').addEventListener('click', clearAllFilters);
 
-        // ==========================================
-        // ROLE TESTER EVENT
-        // ==========================================
-        if (roleTester) {
-            roleTester.addEventListener('change', function() {
-                currentUserRole = this.value;
-                sessionStorage.setItem('userRole', currentUserRole);
-                buildStatusToggles();
-                applyFilters();
-                updateRoleIndicator();
-                console.log('🔄 Role changed to:', currentUserRole);
+        // ============================================
+        // NAVIGATION LINKS
+        // ============================================
+        function initNavigation() {
+            document.querySelectorAll('.nav-links a, .nav-actions a, .footer-grid a').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    const href = this.getAttribute('href');
+                    if (href && href.startsWith('#')) return;
+
+                    const allowedPaths = [
+                        '../pub/home.html', '../pub/reportitem.html', '../pub/itemfound.html',
+                        '../pub/search.html', '../auth/login.html', '../auth/register.html',
+                        '../user/profile.html', '../user/claimrequest.html', '../user/userdashboard.html', '../user/notification.html'
+                    ];
+
+                    if (href) {
+                        const shouldNavigate = allowedPaths.some(path => href === path || href.includes(path));
+                        if (shouldNavigate) return;
+                    }
+
+                    e.preventDefault();
+                    if (this.textContent.trim() && !this.textContent.includes('👤')) {
+                        alert('🔗 ' + this.textContent.trim() + ' (demo)');
+                    }
+                });
             });
         }
 
-        // ==========================================
-        // NAV LINKS
-        // ==========================================
-        document.querySelectorAll('.nav-links a, .nav-actions a').forEach(link => {
-            link.addEventListener('click', function(e) {
-                const allowedPages = ['../auth/login.html', '../auth/register.html',
-                    'reportitem.html', 'itemfound.html', 'home.html', 'search.html'
-                ];
-
-                if (this.href) {
-                    const shouldNavigate = allowedPages.some(page => this.href.includes(page));
-                    if (shouldNavigate) {
-                        return;
-                    }
-                }
-
-                e.preventDefault();
-                if (!this.classList.contains('btn-outline') && !this.classList.contains('btn-login')) {
-                    document.querySelectorAll('.nav-links a').forEach(l => l.classList.remove('active'));
-                    this.classList.add('active');
-                }
-                alert('🔗 ' + this.textContent.trim() + ' page (demo)');
-            });
-        });
-
-        // ==========================================
+        // ============================================
         // INIT
-        // ==========================================
-        buildStatusToggles();
-        applyFilters();
+        // ============================================
+        function init() {
+            // Load navbar and footer
+            loadComponents();
+            
+            // Initialize navigation
+            initNavigation();
+            
+            // Initialize the rest
+            buildStatusToggles();
+            applyFilters();
+        }
 
-        console.log('👤 Current Role:', currentUserRole);
-        console.log('📋 Visible Statuses:', roleStatusConfig[currentUserRole]?.visibleStatuses || ['lost', 'found']);
-        console.log('💡 Change role using the dropdown in the bottom-right corner, or edit line 554');
+        // Start the application
+        init();
+
+        console.log('👤 Current Role:', isLoggedIn ? userRole : 'guest');
+        console.log('📋 Visible Statuses:', roleStatusConfig[isLoggedIn ? userRole : 'guest']?.visibleStatuses || ['lost', 'found']);
+        console.log('💡 Role is read from localStorage (set by Home page)');
     </script>
-
 </body>
 </html>

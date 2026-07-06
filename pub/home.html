@@ -137,6 +137,7 @@
             justify-content: center;
             border-radius: 50%;
             transition: 0.3s;
+            text-decoration: none;
         }
         .nav-notif:hover {
             background: rgba(255,255,255,0.12);
@@ -1358,52 +1359,68 @@
     <div id="footerContainer"></div>
 
     <!-- ===== ITEM DETAIL MODAL ===== -->
-<div class="modal-overlay" id="itemModal">
-    <div class="modal-content">
-        <button class="close-modal" id="closeModal">&times;</button>
-        <div class="modal-icon" id="modalIcon"><i class="fas fa-mobile-screen-button"></i></div>
-        <h3 id="modalTitle">Item Title</h3>
-        <div class="modal-meta">
-            <span id="modalLocation"><i class="fas fa-location-dot"></i> Location</span>
-            <span style="margin:0 0.8rem;">|</span>
-            <span id="modalDate"><i class="fas fa-calendar-day"></i> Date</span>
-            <span style="margin:0 0.8rem;">|</span>
-            <span id="modalCategory"><i class="fas fa-tag"></i> Category</span>
-        </div>
-        <div class="modal-description" id="modalDescription">
-            Item description goes here.
-        </div>
+    <div class="modal-overlay" id="itemModal">
+        <div class="modal-content">
+            <button class="close-modal" id="closeModal">&times;</button>
+            <div class="modal-icon" id="modalIcon"><i class="fas fa-mobile-screen-button"></i></div>
+            <h3 id="modalTitle">Item Title</h3>
+            <div class="modal-meta">
+                <span id="modalLocation"><i class="fas fa-location-dot"></i> Location</span>
+                <span style="margin:0 0.8rem;">|</span>
+                <span id="modalDate"><i class="fas fa-calendar-day"></i> Date</span>
+                <span style="margin:0 0.8rem;">|</span>
+                <span id="modalCategory"><i class="fas fa-tag"></i> Category</span>
+            </div>
+            <div class="modal-description" id="modalDescription">
+                Item description goes here.
+            </div>
 
-        <!-- Guest note -->
-        <div class="modal-login-note" id="modalGuestNote">
-            <i class="fas fa-lock"></i> You must login before submitting a claim.
-        </div>
+            <!-- Guest note -->
+            <div class="modal-login-note" id="modalGuestNote">
+                <i class="fas fa-lock"></i> You must login before submitting a claim.
+            </div>
 
-        <!-- Guest Actions -->
-        <div class="modal-actions" id="modalActionsGuest">
-            <a href="../auth/login.html" class="btn-claim"><i class="fas fa-right-to-bracket"></i> Login to Claim</a>
-            <button class="btn-close-modal" id="closeModalBtnGuest">Close</button>
-        </div>
+            <!-- Guest Actions -->
+            <div class="modal-actions" id="modalActionsGuest">
+                <a href="../auth/login.html" class="btn-claim"><i class="fas fa-right-to-bracket"></i> Login to Claim</a>
+                <button class="btn-close-modal" id="closeModalBtnGuest">Close</button>
+            </div>
 
-        <!-- Logged-in Actions - ONLY Claim & Close -->
-        <div class="modal-actions" id="modalActionsUser" style="display:none;">
-            <button class="btn-claim" id="claimBtn"><i class="fas fa-handshake"></i> Claim This Item</button>
-            <button class="btn-close-modal" id="closeModalBtnUser">Close</button>
+            <!-- Logged-in Actions - ONLY Claim & Close -->
+            <div class="modal-actions" id="modalActionsUser" style="display:none;">
+                <button class="btn-claim" id="claimBtn"><i class="fas fa-handshake"></i> Claim This Item</button>
+                <button class="btn-close-modal" id="closeModalBtnUser">Close</button>
+            </div>
         </div>
     </div>
-</div>
 
     <!-- ============================================ -->
     <!-- ===== JAVASCRIPT ===== -->
     <!-- ============================================ -->
     <script>
         // ============================================
-        // ROLE STATE - Controlled by Backend
+        // 🎯 DEVELOPER ROLE CONTROL - CHANGE THIS ONE LINE
         // ============================================
-        // ⚠️ SET THIS FROM YOUR BACKEND ⚠️
-        // Example: window.userLoggedIn = true;  // Logged in
-        //          window.userLoggedIn = false; // Guest
-        const isLoggedIn = window.userLoggedIn || true;
+        // Options: 'guest', 'user', 'manager', 'admin'
+        const DEV_ROLE = 'user'; // 👈 CHANGE THIS TO TEST DIFFERENT ROLES
+        // ============================================
+
+        // Override localStorage with developer role
+        localStorage.setItem('userRole', DEV_ROLE);
+        localStorage.setItem('isLoggedIn', DEV_ROLE !== 'guest');
+
+        // ============================================
+        // ROLE STATE - Read from localStorage
+        // ============================================
+        let storedRole = localStorage.getItem('userRole');
+        let storedLoggedIn = localStorage.getItem('isLoggedIn');
+
+        // If still not set, use defaults
+        const isLoggedIn = storedLoggedIn === 'true' ? true : false;
+        const userRole = storedRole || 'guest';
+
+        console.log('👤 Developer Role Set To:', userRole);
+        console.log('📌 Logged In:', isLoggedIn);
 
         // ===== ADD BODY CLASS FOR CSS CONTROL =====
         if (isLoggedIn) {
@@ -1448,12 +1465,10 @@
                     <a href="../pub/search.html">Browse</a>
                 </div>
                 <div class="nav-actions">
-    <!-- Notification Bell - Navigates to notification.html -->
-    <a href="../user/notification.html" class="nav-notif" title="Notifications" onclick="window.location.href='../user/notification.html'; return false;">
-        <i class="fas fa-bell"></i>
-        <span class="dot" id="notifCount">4</span>
-    </a>
-
+                    <a href="../user/notification.html" class="nav-notif" title="Notifications">
+                        <i class="fas fa-bell"></i>
+                        <span class="dot" id="notifCount">4</span>
+                    </a>
                     <div class="nav-profile">
                         <button class="profile-btn" id="profileBtn">👤 Muhammad <i class="fas fa-chevron-down" style="font-size:0.6rem;"></i></button>
                         <div class="profile-menu" id="profileMenu">
@@ -1632,7 +1647,10 @@
                 logoutLink.addEventListener('click', function(e) {
                     e.preventDefault();
                     if (confirm('Are you sure you want to logout?')) {
-                        window.location.href = '../auth/logout.php';
+                        // Clear localStorage and redirect
+                        localStorage.removeItem('userRole');
+                        localStorage.removeItem('isLoggedIn');
+                        window.location.href = '../pub/home.html';
                     }
                 });
             }
@@ -1796,131 +1814,131 @@
         }
 
         // ============================================
-// ITEM DETAIL MODAL
-// ============================================
-function initModal() {
-    const modalOverlay = document.getElementById('itemModal');
-    const modalTitle = document.getElementById('modalTitle');
-    const modalLocation = document.getElementById('modalLocation');
-    const modalDate = document.getElementById('modalDate');
-    const modalCategory = document.getElementById('modalCategory');
-    const modalDescription = document.getElementById('modalDescription');
-    const modalIcon = document.getElementById('modalIcon');
-    const closeModalBtnGuest = document.getElementById('closeModalBtnGuest');
-    const closeModalBtnUser = document.getElementById('closeModalBtnUser');
-    const closeModalX = document.getElementById('closeModal');
-    const claimBtn = document.getElementById('claimBtn');
+        // ITEM DETAIL MODAL
+        // ============================================
+        function initModal() {
+            const modalOverlay = document.getElementById('itemModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalLocation = document.getElementById('modalLocation');
+            const modalDate = document.getElementById('modalDate');
+            const modalCategory = document.getElementById('modalCategory');
+            const modalDescription = document.getElementById('modalDescription');
+            const modalIcon = document.getElementById('modalIcon');
+            const closeModalBtnGuest = document.getElementById('closeModalBtnGuest');
+            const closeModalBtnUser = document.getElementById('closeModalBtnUser');
+            const closeModalX = document.getElementById('closeModal');
+            const claimBtn = document.getElementById('claimBtn');
 
-    const iconMap = {
-        'Mobile': 'fa-mobile-screen-button',
-        'Wallet': 'fa-wallet',
-        'ID': 'fa-id-card',
-        'Keys': 'fa-key',
-        'Earbuds': 'fa-headphones',
-        'Book': 'fa-book',
-        'Laptop': 'fa-laptop',
-        'Charger': 'fa-plug',
-        'Bag': 'fa-bag-shopping',
-        'Watch': 'fa-clock'
-    };
+            const iconMap = {
+                'Mobile': 'fa-mobile-screen-button',
+                'Wallet': 'fa-wallet',
+                'ID': 'fa-id-card',
+                'Keys': 'fa-key',
+                'Earbuds': 'fa-headphones',
+                'Book': 'fa-book',
+                'Laptop': 'fa-laptop',
+                'Charger': 'fa-plug',
+                'Bag': 'fa-bag-shopping',
+                'Watch': 'fa-clock'
+            };
 
-    function getIconForTitle(title) {
-        const t = title.toLowerCase();
-        if (t.includes('samsung') || t.includes('phone')) return iconMap['Mobile'];
-        if (t.includes('wallet')) return iconMap['Wallet'];
-        if (t.includes('id')) return iconMap['ID'];
-        if (t.includes('key')) return iconMap['Keys'];
-        if (t.includes('earbud') || t.includes('airpod')) return iconMap['Earbuds'];
-        if (t.includes('book') || t.includes('textbook')) return iconMap['Book'];
-        if (t.includes('laptop')) return iconMap['Laptop'];
-        if (t.includes('charger')) return iconMap['Charger'];
-        if (t.includes('bag')) return iconMap['Bag'];
-        if (t.includes('watch')) return iconMap['Watch'];
-        return 'fa-box';
-    }
+            function getIconForTitle(title) {
+                const t = title.toLowerCase();
+                if (t.includes('samsung') || t.includes('phone')) return iconMap['Mobile'];
+                if (t.includes('wallet')) return iconMap['Wallet'];
+                if (t.includes('id')) return iconMap['ID'];
+                if (t.includes('key')) return iconMap['Keys'];
+                if (t.includes('earbud') || t.includes('airpod')) return iconMap['Earbuds'];
+                if (t.includes('book') || t.includes('textbook')) return iconMap['Book'];
+                if (t.includes('laptop')) return iconMap['Laptop'];
+                if (t.includes('charger')) return iconMap['Charger'];
+                if (t.includes('bag')) return iconMap['Bag'];
+                if (t.includes('watch')) return iconMap['Watch'];
+                return 'fa-box';
+            }
 
-    function openModal(card) {
-        const title = card.dataset.title || 'Unknown Item';
-        const location = card.dataset.location || 'Unknown Location';
-        const date = card.dataset.date || 'Unknown Date';
-        const category = card.dataset.category || 'Other';
-        const description = card.dataset.description || 'No description available.';
-        const iconClass = getIconForTitle(title);
+            function openModal(card) {
+                const title = card.dataset.title || 'Unknown Item';
+                const location = card.dataset.location || 'Unknown Location';
+                const date = card.dataset.date || 'Unknown Date';
+                const category = card.dataset.category || 'Other';
+                const description = card.dataset.description || 'No description available.';
+                const iconClass = getIconForTitle(title);
 
-        modalTitle.textContent = title;
-        modalLocation.innerHTML = `<i class="fas fa-location-dot"></i> ${location}`;
-        modalDate.innerHTML = `<i class="fas fa-calendar-day"></i> ${date}`;
-        modalCategory.innerHTML = `<i class="fas fa-tag"></i> ${category}`;
-        modalDescription.textContent = description;
-        modalIcon.innerHTML = `<i class="fas ${iconClass}"></i>`;
+                modalTitle.textContent = title;
+                modalLocation.innerHTML = `<i class="fas fa-location-dot"></i> ${location}`;
+                modalDate.innerHTML = `<i class="fas fa-calendar-day"></i> ${date}`;
+                modalCategory.innerHTML = `<i class="fas fa-tag"></i> ${category}`;
+                modalDescription.textContent = description;
+                modalIcon.innerHTML = `<i class="fas ${iconClass}"></i>`;
 
-        // Show correct actions based on role
-        const modalActionsGuest = document.getElementById('modalActionsGuest');
-        const modalActionsUser = document.getElementById('modalActionsUser');
-        const modalGuestNote = document.getElementById('modalGuestNote');
-        
-        if (modalActionsGuest && modalActionsUser && modalGuestNote) {
-            modalActionsGuest.style.display = isLoggedIn ? 'none' : 'flex';
-            modalActionsUser.style.display = isLoggedIn ? 'flex' : 'none';
-            modalGuestNote.style.display = isLoggedIn ? 'none' : 'flex';
+                // Show correct actions based on role
+                const modalActionsGuest = document.getElementById('modalActionsGuest');
+                const modalActionsUser = document.getElementById('modalActionsUser');
+                const modalGuestNote = document.getElementById('modalGuestNote');
+                
+                if (modalActionsGuest && modalActionsUser && modalGuestNote) {
+                    modalActionsGuest.style.display = isLoggedIn ? 'none' : 'flex';
+                    modalActionsUser.style.display = isLoggedIn ? 'flex' : 'none';
+                    modalGuestNote.style.display = isLoggedIn ? 'none' : 'flex';
+                }
+
+                modalOverlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeModal() {
+                modalOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+
+            // View button click
+            document.querySelectorAll('.item-card .view-btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    openModal(this.closest('.item-card'));
+                });
+            });
+
+            // Card click
+            document.querySelectorAll('.item-card').forEach(card => {
+                card.addEventListener('click', function(e) {
+                    if (e.target.closest('.view-btn') || e.target.closest('.save-btn')) return;
+                    openModal(this);
+                });
+            });
+
+            // Save button
+            document.querySelectorAll('.item-card .save-btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    this.classList.toggle('saved');
+                    this.innerHTML = this.classList.contains('saved')
+                        ? '<i class="fas fa-bookmark"></i>'
+                        : '<i class="fas fa-bookmark"></i>';
+                });
+            });
+
+            // Close buttons
+            if (closeModalBtnGuest) closeModalBtnGuest.addEventListener('click', closeModal);
+            if (closeModalBtnUser) closeModalBtnUser.addEventListener('click', closeModal);
+            if (closeModalX) closeModalX.addEventListener('click', closeModal);
+            
+            if (modalOverlay) {
+                modalOverlay.addEventListener('click', function(e) {
+                    if (e.target === this) closeModal();
+                });
+            }
+
+            // Claim button
+            if (claimBtn) {
+                claimBtn.addEventListener('click', function() {
+                    const itemName = modalTitle.textContent;
+                    alert('✅ Claim request sent for "' + itemName + '"\n\nThe owner/finder will be notified and contact you shortly.');
+                    closeModal();
+                });
+            }
         }
-
-        modalOverlay.classList.add('active');
-        document.body.style.overflow = 'hidden';
-    }
-
-    function closeModal() {
-        modalOverlay.classList.remove('active');
-        document.body.style.overflow = '';
-    }
-
-    // View button click
-    document.querySelectorAll('.item-card .view-btn').forEach(btn => {
-        btn.addEventListener('click', function(e) {
-            e.stopPropagation();
-            openModal(this.closest('.item-card'));
-        });
-    });
-
-    // Card click
-    document.querySelectorAll('.item-card').forEach(card => {
-        card.addEventListener('click', function(e) {
-            if (e.target.closest('.view-btn') || e.target.closest('.save-btn')) return;
-            openModal(this);
-        });
-    });
-
-    // Save button
-    document.querySelectorAll('.item-card .save-btn').forEach(btn => {
-        btn.addEventListener('click', function(e) {
-            e.stopPropagation();
-            this.classList.toggle('saved');
-            this.innerHTML = this.classList.contains('saved')
-                ? '<i class="fas fa-bookmark"></i>'
-                : '<i class="fas fa-bookmark"></i>';
-        });
-    });
-
-    // Close buttons
-    if (closeModalBtnGuest) closeModalBtnGuest.addEventListener('click', closeModal);
-    if (closeModalBtnUser) closeModalBtnUser.addEventListener('click', closeModal);
-    if (closeModalX) closeModalX.addEventListener('click', closeModal);
-    
-    if (modalOverlay) {
-        modalOverlay.addEventListener('click', function(e) {
-            if (e.target === this) closeModal();
-        });
-    }
-
-    // Claim button
-    if (claimBtn) {
-        claimBtn.addEventListener('click', function() {
-            const itemName = modalTitle.textContent;
-            alert('✅ Claim request sent for "' + itemName + '"\n\nThe owner/finder will be notified and contact you shortly.');
-            closeModal();
-        });
-    }
-}
 
         // ============================================
         // NAVIGATION LINKS
@@ -1962,7 +1980,9 @@ function initModal() {
             initNavigation();
 
             console.log('✅ Home page loaded');
-            console.log('📌 User logged in:', isLoggedIn);
+            console.log('📌 Current Role:', userRole);
+            console.log('📌 Logged In:', isLoggedIn);
+            console.log('💡 To change role, edit DEV_ROLE at the top of JavaScript');
         });
     </script>
 
