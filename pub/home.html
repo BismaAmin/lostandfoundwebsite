@@ -1205,7 +1205,7 @@
                     <span class="badge lost">●</span> Recently Lost
                 </div>
 
-                <div class="item-card" data-title="Black Samsung A54" data-location="Library" data-date="2 days ago" data-category="Electronics" data-description="Samsung A54 with blue silicone cover, screen has small scratch. Last seen near the study area.">
+                <div class="item-card" data-id="1" data-title="Black Samsung A54" data-location="Library" data-date="2 days ago" data-category="Electronics" data-description="Samsung A54 with blue silicone cover, screen has small scratch. Last seen near the study area.">
                     <div class="item-icon"><i class="fas fa-mobile-screen-button"></i></div>
                     <div class="item-info">
                         <h5>Black Samsung A54</h5>
@@ -1220,7 +1220,7 @@
                     </div>
                 </div>
 
-                <div class="item-card" data-title="Brown Leather Wallet" data-location="Parking Lot" data-date="3 days ago" data-category="Accessories" data-description="Brown leather wallet containing ID card, bank cards, and some cash. Initials 'A.K.' inside.">
+                <div class="item-card" data-id="2" data-title="Brown Leather Wallet" data-location="Parking Lot" data-date="3 days ago" data-category="Accessories" data-description="Brown leather wallet containing ID card, bank cards, and some cash. Initials 'A.K.' inside.">
                     <div class="item-icon"><i class="fas fa-wallet"></i></div>
                     <div class="item-info">
                         <h5>Brown Leather Wallet</h5>
@@ -1235,7 +1235,7 @@
                     </div>
                 </div>
 
-                <div class="item-card" data-title="Student ID Card" data-location="Cafeteria" data-date="4 days ago" data-category="Documents" data-description="University ID card - Name: Ahmad Rizwan, Faculty of Engineering. Card number: 2024-0789.">
+                <div class="item-card" data-id="3" data-title="Student ID Card" data-location="Cafeteria" data-date="4 days ago" data-category="Documents" data-description="University ID card - Name: Ahmad Rizwan, Faculty of Engineering. Card number: 2024-0789.">
                     <div class="item-icon"><i class="fas fa-id-card"></i></div>
                     <div class="item-info">
                         <h5>Student ID Card</h5>
@@ -1257,7 +1257,7 @@
                     <span class="badge found">●</span> Recently Found
                 </div>
 
-                <div class="item-card" data-title="Bunch of Keys" data-location="Sports Hall" data-date="1 day ago" data-category="Accessories" data-description="3 keys with a small silver keychain. One key has a red tag.">
+                <div class="item-card" data-id="4" data-title="Bunch of Keys" data-location="Sports Hall" data-date="1 day ago" data-category="Accessories" data-description="3 keys with a small silver keychain. One key has a red tag.">
                     <div class="item-icon"><i class="fas fa-key"></i></div>
                     <div class="item-info">
                         <h5>Bunch of Keys</h5>
@@ -1272,7 +1272,7 @@
                     </div>
                 </div>
 
-                <div class="item-card" data-title="White Earbuds" data-location="Main Hall" data-date="2 days ago" data-category="Electronics" data-description="Apple AirPods in white charging case. Case has a small scratch on the back.">
+                <div class="item-card" data-id="5" data-title="White Earbuds" data-location="Main Hall" data-date="2 days ago" data-category="Electronics" data-description="Apple AirPods in white charging case. Case has a small scratch on the back.">
                     <div class="item-icon"><i class="fas fa-headphones"></i></div>
                     <div class="item-info">
                         <h5>White Earbuds</h5>
@@ -1287,7 +1287,7 @@
                     </div>
                 </div>
 
-                <div class="item-card" data-title="Data Structures Textbook" data-location="CS Lab" data-date="3 days ago" data-category="Books" data-description="Data Structures & Algorithms textbook. Marked with sticky notes on chapter 5 and 7. Name written inside: 'M. Hassan'.">
+                <div class="item-card" data-id="6" data-title="Data Structures Textbook" data-location="CS Lab" data-date="3 days ago" data-category="Books" data-description="Data Structures & Algorithms textbook. Marked with sticky notes on chapter 5 and 7. Name written inside: 'M. Hassan'.">
                     <div class="item-icon"><i class="fas fa-book"></i></div>
                     <div class="item-info">
                         <h5>Data Structures Textbook</h5>
@@ -1388,7 +1388,7 @@
 
             <!-- Logged-in Actions - ONLY Claim & Close -->
             <div class="modal-actions" id="modalActionsUser" style="display:none;">
-                <button class="btn-claim" id="claimBtn"><i class="fas fa-handshake"></i> Claim This Item</button>
+                <button class="btn-claim" id="claimBtn"><i class="fas fa-handshake"></i> View details</button>
                 <button class="btn-close-modal" id="closeModalBtnUser">Close</button>
             </div>
         </div>
@@ -1401,28 +1401,21 @@
         // ============================================
         // 🎯 DEVELOPER ROLE CONTROL - CHANGE THIS ONE LINE
         // ============================================
-        // Options: 'guest', 'user', 'manager', 'admin'
-        const DEV_ROLE = 'user'; // 👈 CHANGE THIS TO TEST DIFFERENT ROLES
+        const DEV_ROLE = 'user';
         // ============================================
 
-        // Override localStorage with developer role
         localStorage.setItem('userRole', DEV_ROLE);
         localStorage.setItem('isLoggedIn', DEV_ROLE !== 'guest');
 
-        // ============================================
-        // ROLE STATE - Read from localStorage
-        // ============================================
         let storedRole = localStorage.getItem('userRole');
         let storedLoggedIn = localStorage.getItem('isLoggedIn');
 
-        // If still not set, use defaults
         const isLoggedIn = storedLoggedIn === 'true' ? true : false;
         const userRole = storedRole || 'guest';
 
         console.log('👤 Developer Role Set To:', userRole);
         console.log('📌 Logged In:', isLoggedIn);
 
-        // ===== ADD BODY CLASS FOR CSS CONTROL =====
         if (isLoggedIn) {
             document.body.classList.add('logged-in');
             document.body.classList.remove('guest');
@@ -1430,6 +1423,27 @@
             document.body.classList.add('guest');
             document.body.classList.remove('logged-in');
         }
+
+        // ============================================
+        // ALL ITEMS DATABASE
+        // ============================================
+        const allItems = [
+            { id: 1, title: 'Black Samsung A54', category: 'Electronics', location: 'Library', date: '2026-06-10', status: 'found', description: 'Samsung A54 with blue silicone cover, screen has small scratch.', icon: 'fa-mobile-screen-button', postedBy: 'Ahmed Khan', postedDate: '2026-06-08', contact: { name: 'Ahmed Khan', phone: '+92 319 0153045', email: 'ahmed@example.com' } },
+            { id: 2, title: 'Brown Leather Wallet', category: 'Accessories', location: 'Parking Lot', date: '2026-06-08', status: 'lost', description: 'Brown leather wallet with ID card and bank cards.', icon: 'fa-wallet', postedBy: 'Sara Ali', postedDate: '2026-06-07', contact: { name: 'Sara Ali', phone: '+92 300 1234567', email: 'sara@example.com' } },
+            { id: 3, title: 'Student ID Card', category: 'Documents', location: 'Cafeteria', date: '2026-06-07', status: 'pending', description: 'University ID card - Ahmad Rizwan, Faculty of Engineering.', icon: 'fa-id-card', postedBy: 'Omar Hassan', postedDate: '2026-06-06', contact: { name: 'Ahmad Rizwan', phone: '+92 319 0153045', email: 'ahmad.rizwan@example.com' } },
+            { id: 4, title: 'Bunch of Keys', category: 'Accessories', location: 'Sports Hall', date: '2026-06-09', status: 'approved', description: '3 keys with a small silver keychain. One key has a red tag.', icon: 'fa-key', postedBy: 'Zara Malik', postedDate: '2026-06-08', contact: { name: 'Zara Malik', phone: '+92 321 9876543', email: 'zara@example.com' } },
+            { id: 5, title: 'White Earbuds', category: 'Electronics', location: 'Main Hall', date: '2026-06-08', status: 'rejected', description: 'Apple AirPods in white charging case.', icon: 'fa-headphones', postedBy: 'Rayan Ahmed', postedDate: '2026-06-07', contact: { name: 'Rayan Ahmed', phone: '+92 300 5555555', email: 'rayan@example.com' } },
+            { id: 6, title: 'Data Structures Textbook', category: 'Books', location: 'CS Lab', date: '2026-06-07', status: 'resolved', description: 'Data Structures & Algorithms textbook with sticky notes.', icon: 'fa-book', postedBy: 'Fatima Noor', postedDate: '2026-06-05', contact: { name: 'Fatima Noor', phone: '+92 322 4444444', email: 'fatima@example.com' } },
+            { id: 7, title: 'Black Laptop Bag', category: 'Bag', location: 'Auditorium', date: '2026-06-12', status: 'lost', description: 'Black laptop bag with a small tear on the side.', icon: 'fa-bag-shopping', postedBy: 'Hassan Raza', postedDate: '2026-06-11', contact: { name: 'Hassan Raza', phone: '+92 333 3333333', email: 'hassan@example.com' } },
+            { id: 8, title: 'Silver Watch', category: 'Watch', location: 'Library', date: '2026-06-11', status: 'found', description: 'Silver analog watch with leather strap.', icon: 'fa-clock', postedBy: 'Mona Khan', postedDate: '2026-06-10', contact: { name: 'Mona Khan', phone: '+92 344 2222222', email: 'mona@example.com' } },
+            { id: 9, title: 'Gold Ring', category: 'Jewelry', location: 'Cafeteria', date: '2026-06-10', status: 'pending', description: 'Gold ring with a small diamond.', icon: 'fa-gem', postedBy: 'Ali Ahmed', postedDate: '2026-06-09', contact: { name: 'Ali Ahmed', phone: '+92 355 1111111', email: 'ali@example.com' } },
+            { id: 10, title: 'Physics Textbook', category: 'Books', location: 'Library', date: '2026-06-09', status: 'approved', description: 'University Physics textbook - 12th edition.', icon: 'fa-book', postedBy: 'Nadia Shah', postedDate: '2026-06-08', contact: { name: 'Nadia Shah', phone: '+92 366 0000000', email: 'nadia@example.com' } },
+            { id: 11, title: 'Phone Charger', category: 'Electronics', location: 'CS Lab', date: '2026-06-13', status: 'lost', description: 'USB-C fast charger for Samsung phone.', icon: 'fa-plug', postedBy: 'Usman Farooq', postedDate: '2026-06-12', contact: { name: 'Usman Farooq', phone: '+92 377 9999999', email: 'usman@example.com' } },
+            { id: 12, title: 'Blue Water Bottle', category: 'Accessories', location: 'Sports Hall', date: '2026-06-12', status: 'rejected', description: 'Blue stainless steel water bottle.', icon: 'fa-bottle-water', postedBy: 'Ayesha Khan', postedDate: '2026-06-10', contact: { name: 'Ayesha Khan', phone: '+92 388 8888888', email: 'ayesha@example.com' } },
+            { id: 13, title: 'MacBook Pro', category: 'Electronics', location: 'Library', date: '2026-06-14', status: 'found', description: 'Space gray MacBook Pro 14-inch with stickers on the lid.', icon: 'fa-laptop', postedBy: 'Bilal Ahmed', postedDate: '2026-06-13', contact: { name: 'Bilal Ahmed', phone: '+92 399 7777777', email: 'bilal@example.com' } },
+            { id: 14, title: 'Library Card', category: 'Documents', location: 'Library', date: '2026-06-13', status: 'resolved', description: 'University library card for Sarah Ahmed.', icon: 'fa-id-card', postedBy: 'Omar Farooq', postedDate: '2026-06-12', contact: { name: 'Sarah Ahmed', phone: '+92 300 6666666', email: 'sarah.ahmed@example.com' } },
+            { id: 15, title: 'Gym Bag', category: 'Bag', location: 'Sports Hall', date: '2026-06-14', status: 'found', description: 'Nike gym bag with gym clothes and shoes.', icon: 'fa-bag-shopping', postedBy: 'Hira Khan', postedDate: '2026-06-13', contact: { name: 'Hira Khan', phone: '+92 311 5555555', email: 'hira@example.com' } }
+        ];
 
         // ============================================
         // NAVBAR TEMPLATES
@@ -1647,7 +1661,6 @@
                 logoutLink.addEventListener('click', function(e) {
                     e.preventDefault();
                     if (confirm('Are you sure you want to logout?')) {
-                        // Clear localStorage and redirect
                         localStorage.removeItem('userRole');
                         localStorage.removeItem('isLoggedIn');
                         window.location.href = '../pub/home.html';
@@ -1872,7 +1885,6 @@
                 modalDescription.textContent = description;
                 modalIcon.innerHTML = `<i class="fas ${iconClass}"></i>`;
 
-                // Show correct actions based on role
                 const modalActionsGuest = document.getElementById('modalActionsGuest');
                 const modalActionsUser = document.getElementById('modalActionsUser');
                 const modalGuestNote = document.getElementById('modalGuestNote');
@@ -1930,12 +1942,23 @@
                 });
             }
 
-            // Claim button
+            // ===== FIXED CLAIM BUTTON - Uses sessionStorage =====
             if (claimBtn) {
                 claimBtn.addEventListener('click', function() {
                     const itemName = modalTitle.textContent;
-                    alert('✅ Claim request sent for "' + itemName + '"\n\nThe owner/finder will be notified and contact you shortly.');
-                    closeModal();
+                    
+                    // Find the item by title (case insensitive)
+                    const item = allItems.find(i => i.title.toLowerCase() === itemName.toLowerCase());
+                    
+                    if (item) {
+                        // Store the item ID in sessionStorage (what itemdetail.html expects)
+                        sessionStorage.setItem('viewItemId', item.id);
+                        console.log('✅ Navigating to item:', item.title, 'ID:', item.id);
+                        window.location.href = '../user/itemdetail.html';
+                    } else {
+                        alert('Item not found in database. Please try again.');
+                        console.log('❌ Item not found:', itemName);
+                    }
                 });
             }
         }
