@@ -28,6 +28,7 @@
             color: white;
             font-size: 1.4rem;
             font-weight: 800;
+            text-decoration: none;
         }
         .navbar .logo i {
             font-size: 1.8rem;
@@ -665,10 +666,10 @@
 
     <!-- ===== NAVBAR ===== -->
     <nav class="navbar">
-        <div class="logo">
+        <a href="../pub/home.html" class="logo">
             <i class="fas fa-magnifying-glass-location"></i>
             <span>Lost&Found</span>
-        </div>
+        </a>
         <div class="nav-links">
             <a href="../pub/home.html">Home</a>
             <a href="../pub/reportitem.html">Report Lost</a>
@@ -809,12 +810,11 @@
         // ==========================================
         // USER ROLE - RECEIVED FROM SEARCH PAGE
         // ==========================================
-        // This gets the role from sessionStorage (set by search page)
         const currentUserRole = sessionStorage.getItem('userRole') || 'guest';
         console.log('👤 Current User Role:', currentUserRole);
 
         // ==========================================
-        // ALL ITEMS DATABASE (SAME AS SEARCH PAGE)
+        // ALL ITEMS DATABASE
         // ==========================================
         const allItems = [
             { id: 1, title: 'Black Samsung A54', category: 'Electronics', location: 'Library', date: '2026-06-10',
@@ -886,14 +886,52 @@
         // LOAD ITEM FROM SESSION STORAGE
         // ==========================================
         function loadItem() {
-            const itemId = sessionStorage.getItem('viewItemId');
-            if (!itemId) {
-                alert('No item selected. Redirecting to browse.');
-                window.location.href = '../pub/search.html';
-                return;
+            // Check for URL parameters first
+            const urlParams = new URLSearchParams(window.location.search);
+            const itemName = urlParams.get('name');
+            
+            // If we have URL parameters, find the item by title
+            if (itemName) {
+                const item = allItems.find(i => i.title.toLowerCase() === itemName.toLowerCase());
+                if (item) {
+                    sessionStorage.setItem('viewItemId', item.id);
+                    sessionStorage.setItem('viewItemData', JSON.stringify(item));
+                } else {
+                    // Try to find by partial match
+                    const partialMatch = allItems.find(i => 
+                        i.title.toLowerCase().includes(itemName.toLowerCase()) || 
+                        itemName.toLowerCase().includes(i.title.toLowerCase())
+                    );
+                    if (partialMatch) {
+                        sessionStorage.setItem('viewItemId', partialMatch.id);
+                        sessionStorage.setItem('viewItemData', JSON.stringify(partialMatch));
+                    } else {
+                        alert('Item not found. Redirecting to browse.');
+                        window.location.href = '../pub/search.html';
+                        return;
+                    }
+                }
             }
-
-            const item = allItems.find(i => i.id === parseInt(itemId));
+            
+            // Check sessionStorage
+            let item = null;
+            const itemId = sessionStorage.getItem('viewItemId');
+            
+            if (itemId) {
+                item = allItems.find(i => i.id === parseInt(itemId));
+            }
+            
+            // If still no item, check for stored data
+            if (!item) {
+                const storedData = sessionStorage.getItem('viewItemData');
+                if (storedData) {
+                    try {
+                        const parsed = JSON.parse(storedData);
+                        item = allItems.find(i => i.id === parsed.id);
+                    } catch(e) {}
+                }
+            }
+            
             if (!item) {
                 alert('Item not found. Redirecting to browse.');
                 window.location.href = '../pub/search.html';
@@ -1349,19 +1387,33 @@
         });
 
         // ==========================================
-        // NAV LINKS
+        // NAV LINKS - FIXED (Allows navigation)
         // ==========================================
         document.querySelectorAll('.nav-links a, .nav-actions a').forEach(link => {
             link.addEventListener('click', function(e) {
-                const allowedPages = ['../auth/login.html', '../auth/register.html', 
-                    '../pub/reportitem.html', '../pub/itemfound.html', '../pub/home.html', '../pub/search.html'
-                ];
-
-                if (this.href) {
-                    const shouldNavigate = allowedPages.some(page => this.href.includes(page));
-                    if (shouldNavigate) return;
+                const href = this.getAttribute('href');
+                
+                // If it's a demo alert link, prevent navigation
+                if (href && href.startsWith('#')) {
+                    e.preventDefault();
+                    return;
                 }
-
+                
+                // If it has a proper href, let it navigate
+                if (href && !href.startsWith('#') && !href.startsWith('javascript:')) {
+                    // Allow navigation to these pages
+                    const allowedPages = ['../auth/login.html', '../auth/register.html', 
+                        '../pub/reportitem.html', '../pub/itemfound.html', '../pub/home.html', '../pub/search.html'
+                    ];
+                    
+                    const shouldNavigate = allowedPages.some(page => href.includes(page));
+                    if (shouldNavigate) {
+                        // Let the navigation happen
+                        return;
+                    }
+                }
+                
+                // For any other links, prevent navigation and show demo alert
                 e.preventDefault();
                 if (!this.classList.contains('btn-outline') && !this.classList.contains('btn-login')) {
                     document.querySelectorAll('.nav-links a').forEach(l => l.classList.remove('active'));
