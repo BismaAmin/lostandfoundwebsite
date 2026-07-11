@@ -1,0 +1,59 @@
+<!-- ===== NAVBAR - LOGGED IN ===== -->
+<nav class="navbar">
+    <a href="../pub/home.html" class="logo">
+        <i class="fas fa-magnifying-glass-location"></i>
+        <span>Lost&Found</span>
+    </a>
+    
+    <div class="nav-links">
+        <a href="../pub/home.html" id="navHome">Home</a>
+        <a href="../pub/reportitem.html" id="navReportLost">Report Lost</a>
+        <a href="../pub/itemfound.html" id="navReportFound">Report Found</a>
+        <a href="../pub/search.html" id="navBrowse">Browse</a>
+    </div>
+
+    <div class="nav-actions">
+        <!-- Notification Bell -->
+        <a href="../user/notification.html" class="nav-notif" title="Notifications">
+            <i class="fas fa-bell"></i>
+            <span class="dot" id="notifCount">4</span>
+        </a>
+
+        <!-- Avatar with Dropdown -->
+        <div class="avatar-wrapper" id="avatarBtn">
+            <div class="avatar-circle">AK</div>
+        </div>
+
+        <!-- Dropdown Menu -->
+        <div class="dropdown-menu" id="dropdownMenu">
+            <div class="dropdown-header">
+                <div class="name">Ahmed Khan</div>
+                <div class="email">ahmed@email.com</div>
+                <span class="role-badge">User</span>
+            </div>
+            
+            <a href="../user/userdashboard.html" class="dropdown-item">
+                <i class="fas fa-th-large"></i> Dashboard
+            </a>
+            <a href="../user/profile.html" class="dropdown-item">
+                <i class="fas fa-user"></i> Profile
+            </a>
+            <a href="../user/notification.html" class="dropdown-item">
+                <i class="fas fa-bell"></i> Notifications
+                <span class="badge">5</span>
+            </a>
+            
+            <div class="dropdown-divider"></div>
+            
+            <a href="../user/profile.html#settings" class="dropdown-item">
+                <i class="fas fa-cog"></i> Settings
+            </a>
+            
+            <div class="dropdown-divider"></div>
+            
+            <a href="#" class="dropdown-item logout" id="dropdownLogout">
+                <i class="fas fa-sign-out-alt"></i> Log Out
+            </a>
+        </div>
+    </div>
+</nav>
