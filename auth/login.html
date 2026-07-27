@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,29 +7,26 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
     <style>
         * {
-
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
         }
 
-   body {
-    background-image: url(lostfoundweb\WhatsApp\ Image\ 2026-07-02\ at\ 3.31.44\ PM.jpeg);
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    /* REMOVE this line: background: #F1EFE8; */
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1rem;
-    backface-visibility: visible;
-}
+        body {
+            background-image: url(WhatsApp\ Image\ 2026-07-02\ at\ 3.31.44\ PM.jpeg);
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
 
-     .login-wrapper {
+        .login-wrapper {
             max-width: 420px;
             width: 100%;
             background-color: rgba(255, 255, 255, 0.70);
@@ -45,7 +41,6 @@
             margin-bottom: 1.2rem;
         }
 
-        /* ----- LOGO STYLES (CIRCLE, NO WHITE BG) ----- */
         .logo-wrapper {
             display: flex;
             align-items: center;
@@ -58,42 +53,23 @@
             width: 100px;
             height: 100px;
             display: block;
-            border-radius: 50%;           /* <-- circle shape */
-            object-fit: cover;            /* ensures image fills circle nicely */
-            background: transparent;       /* no white background */
+            border-radius: 50%;
+            object-fit: cover;
+            background: transparent;
             box-shadow: 0 6px 20px rgba(24, 95, 165, 0.18);
             transition: transform 0.2s;
-            border: none;                 /* remove any border */
+            border: none;
         }
 
         .logo-wrapper .logo-img:hover {
             transform: scale(1.05);
         }
 
-        .logo-wrapper .logo-text {
-            font-size: 1.6rem;
-            font-weight: 700;
-            color: #0C447C;
-            letter-spacing: -0.5px;
-        }
-
-        .logo-wrapper .logo-text span {
-            font-weight: 300;
-            color: #5F5E5A;
-        }
-        /* ----- end logo styles ----- */
-
         .form-header h2 {
             font-size: 1.6rem;
             font-weight: 700;
             color: #1eb793;
             margin-top: 0.2rem;
-        }
-
-        .form-header p {
-            color: #5F5E5A;
-            font-size: 0.85rem;
-            margin-top: 0.1rem;
         }
 
         .login-form {
@@ -171,6 +147,16 @@
             padding-left: 1rem;
             min-height: 0.9rem;
             margin-top: 0.05rem;
+        }
+
+        .success-message {
+            color: #0d9488;
+            font-size: 0.85rem;
+            text-align: center;
+            padding: 8px;
+            background: #e6f7f5;
+            border-radius: 8px;
+            margin: 5px 0;
         }
 
         .form-options {
@@ -280,6 +266,30 @@
             opacity: 0.7;
         }
 
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: 10px;
+            color: white;
+            font-weight: 500;
+            z-index: 9999;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transform: translateX(120%);
+            transition: transform 0.4s ease;
+            max-width: 350px;
+        }
+        .toast.show {
+            transform: translateX(0);
+        }
+        .toast.success {
+            background: #0d9488;
+        }
+        .toast.error {
+            background: #E24B4A;
+        }
+
         @media (max-width: 700px) {
             .login-wrapper {
                 padding: 1.5rem 1.2rem 1.5rem;
@@ -296,9 +306,6 @@
                 width: 80px;
                 height: 80px;
                 max-height: 80px;
-            }
-            .logo-wrapper .logo-text {
-                font-size: 1.3rem;
             }
         }
 
@@ -320,17 +327,17 @@
 </head>
 <body>
 
+    <div id="toast" class="toast"></div>
+
     <div class="login-wrapper">
         <div class="form-header">
-            <!-- LOGO: CIRCLE, NO WHITE BG -->
             <div class="logo-wrapper">
-                <img src="logo.png" alt="Lost & Found Logo" class="logo-img" />
-                
+                <img src="cropped_circle_image.png" alt="Lost & Found Logo" class="logo-img" />
             </div>
             <h2 style="color: #1eb793;">Welcome back!</h2>
         </div>
 
-        <form class="login-form" id="loginForm" novalidate>
+        <form class="login-form" id="loginForm" novalidate autocomplete="off">
             <div class="input-group">
                 <label for="email">Email</label>
                 <div class="input-field" id="emailField">
@@ -350,6 +357,8 @@
                 <div class="error-message" id="passwordError"></div>
             </div>
 
+            <div id="loginMessage"></div>
+
             <div class="form-options">
                 <label>
                     <input type="checkbox" id="rememberMe" /> Remember me
@@ -367,7 +376,7 @@
             </div>
 
             <div class="register-cta">
-                Don’t have an account? <a href="register.html">Register here</a>
+                Don't have an account? <a href="register.html">Register here</a>
             </div>
 
             <div class="captcha-note">
@@ -377,110 +386,224 @@
     </div>
 
     <script>
-        (function() {
-            const form = document.getElementById('loginForm');
-            const emailInput = document.getElementById('email');
-            const passwordInput = document.getElementById('password');
-            const emailField = document.getElementById('emailField');
-            const passwordField = document.getElementById('passwordField');
-            const emailError = document.getElementById('emailError');
-            const passwordError = document.getElementById('passwordError');
-            const loginBtn = document.getElementById('loginBtn');
-            const togglePw = document.getElementById('togglePw');
+    (function() {
+        const form = document.getElementById('loginForm');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const emailField = document.getElementById('emailField');
+        const passwordField = document.getElementById('passwordField');
+        const emailError = document.getElementById('emailError');
+        const passwordError = document.getElementById('passwordError');
+        const loginBtn = document.getElementById('loginBtn');
+        const togglePw = document.getElementById('togglePw');
+        const loginMessage = document.getElementById('loginMessage');
+        const toast = document.getElementById('toast');
 
-            togglePw.addEventListener('click', function() {
-                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-                passwordInput.setAttribute('type', type);
-                this.innerHTML = type === 'password' ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
-            });
+        // Toggle Password
+        togglePw.addEventListener('click', function() {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+            this.innerHTML = type === 'password' ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
+        });
 
-            emailInput.addEventListener('input', function() {
-                clearFieldError(emailField, emailError);
-            });
-            passwordInput.addEventListener('input', function() {
-                clearFieldError(passwordField, passwordError);
-            });
+        // Clear Errors
+        emailInput.addEventListener('input', function() {
+            clearFieldError(emailField, emailError);
+            loginMessage.innerHTML = '';
+        });
+        passwordInput.addEventListener('input', function() {
+            clearFieldError(passwordField, passwordError);
+            loginMessage.innerHTML = '';
+        });
 
-            function clearFieldError(field, errorEl) {
-                field.classList.remove('error');
-                errorEl.textContent = '';
+        function clearFieldError(field, errorEl) {
+            field.classList.remove('error');
+            errorEl.textContent = '';
+        }
+
+        function setFieldError(field, errorEl, message) {
+            field.classList.add('error');
+            errorEl.textContent = message;
+        }
+
+        // Toast Function
+        function showToast(message, type = 'info') {
+            toast.textContent = message;
+            toast.className = 'toast ' + type;
+            setTimeout(() => toast.classList.add('show'), 100);
+            setTimeout(() => toast.classList.remove('show'), 4000);
+        }
+
+        // ============================================================
+        // ✅ LOGIN FORM SUBMIT - WITH ROLE-BASED REDIRECTION
+        // ============================================================
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            // Clear previous errors
+            clearFieldError(emailField, emailError);
+            clearFieldError(passwordField, passwordError);
+            loginMessage.innerHTML = '';
+
+            // ============================================
+            // ✅ VALIDATION
+            // ============================================
+            let isValid = true;
+            const email = emailInput.value.trim();
+            const password = passwordInput.value.trim();
+
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!email) {
+                setFieldError(emailField, emailError, 'Email is required.');
+                isValid = false;
+            } else if (!emailPattern.test(email)) {
+                setFieldError(emailField, emailError, 'Please enter a valid email address.');
+                isValid = false;
             }
 
-            function setFieldError(field, errorEl, message) {
-                field.classList.add('error');
-                errorEl.textContent = message;
+            if (!password) {
+                setFieldError(passwordField, passwordError, 'Password is required.');
+                isValid = false;
+            } else if (password.length < 6) {
+                setFieldError(passwordField, passwordError, 'Password must be at least 6 characters.');
+                isValid = false;
             }
 
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
+            if (!isValid) {
+                if (emailField.classList.contains('error')) emailInput.focus();
+                else if (passwordField.classList.contains('error')) passwordInput.focus();
+                return;
+            }
 
-                clearFieldError(emailField, emailError);
-                clearFieldError(passwordField, passwordError);
+            // ============================================
+            // ✅ SHOW LOADING
+            // ============================================
+            loginBtn.classList.add('loading');
+            loginBtn.disabled = true;
 
-                let isValid = true;
-                const email = emailInput.value.trim();
-                const password = passwordInput.value.trim();
+            try {
+                // ============================================
+                // ✅ CALL BACKEND API
+                // ============================================
+                const API_URL = 'http://localhost/lostandfoundt/backend/api/login.php';                
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        password: password
+                    })
+                });
 
-                const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                if (!email) {
-                    setFieldError(emailField, emailError, 'Email is required.');
-                    isValid = false;
-                } else if (!emailPattern.test(email)) {
-                    setFieldError(emailField, emailError, 'Please enter a valid email address.');
-                    isValid = false;
-                }
+                const data = await response.json();
+                console.log('📥 Login Response:', data);
 
-                if (!password) {
-                    setFieldError(passwordField, passwordError, 'Password is required.');
-                    isValid = false;
-                } else if (password.length < 6) {
-                    setFieldError(passwordField, passwordError, 'Password must be at least 6 characters.');
-                    isValid = false;
-                }
+                // ============================================
+                // ✅ HANDLE RESPONSE
+                // ============================================
+                if (data.success) {
+                    // ✅ Store user info
+                    localStorage.setItem('authToken', data.token);
+                    localStorage.setItem('user', JSON.stringify(data.user));
+                    
+                    // ✅ Store role separately for easy access
+                    localStorage.setItem('userRole', data.user.role);
 
-                if (!isValid) {
-                    if (emailField.classList.contains('error')) emailInput.focus();
-                    else if (passwordField.classList.contains('error')) passwordInput.focus();
-                    return;
-                }
+                    // Success message
+                    loginMessage.innerHTML = `
+                        <div class="success-message">
+                            <i class="fas fa-check-circle"></i> Login successful! Redirecting...
+                        </div>
+                    `;
 
-                loginBtn.classList.add('loading');
-                loginBtn.disabled = true;
+                    showToast('✅ Login successful!', 'success');
 
-                setTimeout(() => {
-                    loginBtn.classList.remove('loading');
-                    loginBtn.disabled = false;
-
-                    if (email === 'admin@demo.com' && password === 'pass1234') {
-                        alert('✅ Login successful! Redirecting to dashboard... (demo)');
-                        window.location.href = '../user/userdashboard.html';
+                    // Remember me
+                    if (document.getElementById('rememberMe').checked) {
+                        localStorage.setItem('rememberEmail', email);
                     } else {
-                        setFieldError(emailField, emailError, 'Incorrect email or password. Try again.');
-                        passwordField.classList.add('error');
-                        passwordError.textContent = 'Incorrect credentials.';
-                        
-                        const attemptCount = parseInt(sessionStorage.getItem('loginAttempt') || '0') + 1;
-                        sessionStorage.setItem('loginAttempt', attemptCount);
-                        if (attemptCount >= 5) {
-                            alert('⚠️ Too many failed attempts. CAPTCHA would be shown (demo).');
-                            sessionStorage.setItem('loginAttempt', '0');
-                        }
+                        localStorage.removeItem('rememberEmail');
                     }
-                }, 800);
-            });
 
-            document.getElementById('forgotLink').addEventListener('click', function(e) {
-                // Let the browser navigate
-            });
+                    // ============================================
+                    // ✅ REDIRECT BASED ON ROLE - ONLY 3 ROLES!
+                    // ============================================
+                    setTimeout(() => {
+                        const userRole = data.user.role || 'Student';
+                        console.log('🔄 Redirecting with role:', userRole);
+                        
+                        // Convert to lowercase for case-insensitive comparison
+                        const roleLower = userRole.toLowerCase().trim();
+                        console.log('🔄 Role (lowercase):', roleLower);
+                        
+                        // ✅ ONLY 3 ROLES: Student, Manager, Admin
+                        if (roleLower === 'admin') {
+                            console.log('➡️ Redirecting to Admin home page] ');
+                            window.location.href = '../pub/home.html';
+                        } 
+                        else if (roleLower === 'manager') {
+                            console.log('➡️ Redirecting to Manager home page');
+                            window.location.href = '../pub/home.html';
+                        } 
+                        else {
+                            // Student or any other role
+                            console.log('➡️ Redirecting to Student home page');
+                            window.location.href = '../pub/home.html';
+                        }
+                    }, 1500);
 
-            document.querySelector('.register-cta a').addEventListener('click', function(e) {
-                // Let the browser navigate
-            });
+                } else {
+                    // ❌ Login failed
+                    setFieldError(emailField, emailError, data.message || 'Invalid credentials');
+                    passwordField.classList.add('error');
+                    passwordError.textContent = 'Please check your password.';
+                    
+                    showToast('❌ ' + (data.message || 'Login failed'), 'error');
 
-            window.addEventListener('load', function() {
-                emailInput.focus();
-            });
-        })();
+                    // Failed attempt count
+                    let attempts = parseInt(sessionStorage.getItem('loginAttempt') || '0') + 1;
+                    sessionStorage.setItem('loginAttempt', attempts);
+                    
+                    if (attempts >= 5) {
+                        showToast('⚠️ Too many failed attempts. CAPTCHA required.', 'error');
+                        sessionStorage.setItem('loginAttempt', '0');
+                    }
+                }
+
+            } catch (error) {
+                // ❌ Network Error
+                console.error('❌ Network Error:', error);
+                loginMessage.innerHTML = `
+                    <div class="error-message" style="text-align:center; padding:10px;">
+                        <i class="fas fa-wifi"></i> Network Error! Check your connection.
+                        <br><small style="color:#999;">${error.message}</small>
+                    </div>
+                `;
+                showToast('❌ Network Error: ' + error.message, 'error');
+            }
+
+            // ============================================
+            // ✅ REMOVE LOADING
+            // ============================================
+            loginBtn.classList.remove('loading');
+            loginBtn.disabled = false;
+        });
+
+        // ============================================
+        // ✅ REMEMBER ME
+        // ============================================
+        window.addEventListener('load', function() {
+            const rememberEmail = localStorage.getItem('rememberEmail');
+            if (rememberEmail) {
+                emailInput.value = rememberEmail;
+                document.getElementById('rememberMe').checked = true;
+            }
+            emailInput.focus();
+        });
+
+    })();
     </script>
 
 </body>
