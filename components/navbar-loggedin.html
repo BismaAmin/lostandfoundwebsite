@@ -1,8 +1,9 @@
 <!-- ===== NAVBAR - LOGGED IN ===== -->
-<nav class="navbar">
+<nav class="navbar" id="mainNavbar">
+    <!-- Logo -->
     <a href="../pub/home.html" class="logo">
-        <i class="fas fa-magnifying-glass-location"></i>
-        <span>Lost&Found</span>
+        <img src="cropped_circle_image.png" alt="Lost&Found Logo" class="logo-img">
+        <span class="logo-text">Lost&Found</span>
     </a>
     
     <div class="nav-links">
@@ -24,7 +25,7 @@
             <div class="avatar-circle">AK</div>
         </div>
 
-        <!-- Dropdown Menu -->
+        <!-- Dropdown Menu - Now includes all sidebar items -->
         <div class="dropdown-menu" id="dropdownMenu">
             <div class="dropdown-header">
                 <div class="name">Ahmed Khan</div>
@@ -32,28 +33,598 @@
                 <span class="role-badge">User</span>
             </div>
             
+            <!-- Dashboard -->
             <a href="../user/userdashboard.html" class="dropdown-item">
                 <i class="fas fa-th-large"></i> Dashboard
             </a>
-            <a href="../user/profile.html" class="dropdown-item">
-                <i class="fas fa-user"></i> Profile
-            </a>
-            <a href="../user/notification.html" class="dropdown-item">
+            
+            
+            <!-- Notifications (active) -->
+            <a href="../user/notification.html" class="dropdown-item active">
                 <i class="fas fa-bell"></i> Notifications
                 <span class="badge">5</span>
             </a>
             
             <div class="dropdown-divider"></div>
             
-            <a href="../user/profile.html#settings" class="dropdown-item">
-                <i class="fas fa-cog"></i> Settings
+            <!-- Profile -->
+            <a href="../user/profile.html" class="dropdown-item">
+                <i class="fas fa-user"></i> Profile
             </a>
             
             <div class="dropdown-divider"></div>
             
+            <!-- Logout -->
             <a href="#" class="dropdown-item logout" id="dropdownLogout">
                 <i class="fas fa-sign-out-alt"></i> Log Out
             </a>
         </div>
     </div>
 </nav>
+
+<!-- ============================================
+     STYLES FOR LOGGED-IN NAVBAR
+     ============================================ -->
+<style>
+    /* ===== NAVBAR CONTAINER ===== */
+    .navbar {
+        background: #125251;
+        padding: 0.8rem 3rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        transition: all 0.3s ease;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: 0 4px 30px rgba(18, 82, 81, 0.2);
+    }
+
+    .navbar.scrolled {
+        background: #0d3f3e;
+        box-shadow: 0 8px 40px rgba(18, 82, 81, 0.3);
+        padding: 0.6rem 3rem;
+    }
+
+    /* ===== LOGO ===== */
+    .logo {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .logo-img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        object-fit: cover;
+        background: transparent;
+        border: 2.5px solid rgba(255, 255, 255, 0.25);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .logo-img:hover {
+        transform: scale(1.08);
+        box-shadow: 0 0 30px rgba(255, 255, 255, 0.2);
+    }
+
+    .logo-text {
+        font-size: 1.5rem;
+        font-weight: 800;
+        color: white;
+        letter-spacing: -0.5px;
+        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    /* ===== NAV LINKS ===== */
+    .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 2.5rem;
+    }
+
+    .nav-links a {
+        color: rgba(255, 255, 255, 0.8);
+        text-decoration: none;
+        font-size: 0.95rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        position: relative;
+        padding: 0.3rem 0;
+    }
+
+    .nav-links a::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 50%;
+        width: 0;
+        height: 3px;
+        background: #FFD700;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+        transform: translateX(-50%);
+        box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+    }
+
+    .nav-links a:hover::after,
+    .nav-links a.active::after {
+        width: 80%;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+        color: white;
+    }
+
+    /* ===== NOTIFICATION BELL ===== */
+    .nav-notif {
+        position: relative;
+        color: rgba(255, 255, 255, 0.9);
+        text-decoration: none;
+        width: 46px;
+        height: 46px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        transition: all 0.3s ease;
+    }
+
+    .nav-notif:hover {
+        background: rgba(255, 255, 255, 0.15);
+        color: white;
+        transform: scale(1.05);
+    }
+
+    .nav-notif i {
+        font-size: 1.6rem;
+        transition: transform 0.3s ease;
+    }
+
+    .nav-notif:hover i {
+        transform: rotate(15deg) scale(1.1);
+    }
+
+    .nav-notif .dot {
+        position: absolute;
+        top: 3px;
+        right: 3px;
+        background: #EF4444;
+        color: white;
+        font-size: 0.6rem;
+        font-weight: 800;
+        min-width: 20px;
+        height: 20px;
+        border-radius: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 5px;
+        border: 2px solid #125251;
+        animation: pulse-dot 2s infinite;
+    }
+
+    @keyframes pulse-dot {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.15); }
+        100% { transform: scale(1); }
+    }
+
+    /* ===== AVATAR ===== */
+    .avatar-wrapper {
+        cursor: pointer;
+        position: relative;
+    }
+
+    .avatar-circle {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #ffffff, #d8f3ea);
+        color: #125251;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 1rem;
+        border: 2.5px solid rgba(255, 255, 255, 0.4);
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+    }
+
+    .avatar-circle:hover {
+        transform: scale(1.08);
+        border-color: white;
+        box-shadow: 0 0 35px rgba(255, 255, 255, 0.25);
+    }
+
+    /* ===== DROPDOWN MENU ===== */
+    .dropdown-menu {
+        display: none;
+        position: absolute;
+        top: 120%;
+        right: 0;
+        background: white;
+        min-width: 260px;
+        border-radius: 16px;
+        box-shadow: 0 16px 60px rgba(0, 0, 0, 0.15);
+        padding: 0.6rem;
+        z-index: 200;
+        animation: dropdownFade 0.3s ease;
+    }
+
+    .dropdown-menu.open {
+        display: block;
+    }
+
+    @keyframes dropdownFade {
+        from {
+            opacity: 0;
+            transform: translateY(-10px) scale(0.96);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+
+    .dropdown-header {
+        padding: 0.8rem 0.8rem 0.6rem;
+        border-bottom: 1px solid #f1f5f9;
+        margin-bottom: 0.3rem;
+    }
+
+    .dropdown-header .name {
+        font-weight: 700;
+        color: #125251;
+        font-size: 0.95rem;
+    }
+
+    .dropdown-header .email {
+        font-size: 0.75rem;
+        color: #94a3b8;
+        margin-top: 0.05rem;
+    }
+
+    .dropdown-header .role-badge {
+        display: inline-block;
+        padding: 0.15rem 0.8rem;
+        border-radius: 60px;
+        font-size: 0.6rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        background: #d8f3ea;
+        color: #125251;
+        margin-top: 0.3rem;
+    }
+
+    .dropdown-item {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        padding: 0.65rem 0.8rem;
+        border-radius: 10px;
+        color: #334155;
+        text-decoration: none;
+        font-size: 0.85rem;
+        font-weight: 500;
+        transition: all 0.2s ease;
+    }
+
+    .dropdown-item:hover {
+        background: #d8f3ea;
+        color: #125251;
+    }
+
+    .dropdown-item.active {
+        background: #125251;
+        color: white;
+    }
+
+    .dropdown-item.active i {
+        color: white;
+    }
+
+    .dropdown-item.active:hover {
+        background: #0d3f3e;
+    }
+
+    .dropdown-item i {
+        width: 1.2rem;
+        text-align: center;
+        color: #64748b;
+        font-size: 0.95rem;
+    }
+
+    .dropdown-item:hover i {
+        color: #125251;
+    }
+
+    .dropdown-item .badge {
+        background: #EF4444;
+        color: white;
+        font-size: 0.6rem;
+        font-weight: 700;
+        padding: 0.1rem 0.6rem;
+        border-radius: 60px;
+        margin-left: auto;
+    }
+
+    .dropdown-item.active .badge {
+        background: rgba(255, 255, 255, 0.3);
+    }
+
+    .dropdown-divider {
+        height: 1px;
+        background: #f1f5f9;
+        margin: 0.3rem 0.8rem;
+    }
+
+    .dropdown-item.logout {
+        color: #EF4444;
+    }
+
+    .dropdown-item.logout:hover {
+        background: #fef2f2;
+        color: #dc2626;
+    }
+
+    .dropdown-item.logout i {
+        color: #EF4444;
+    }
+
+    .dropdown-item.logout:hover i {
+        color: #dc2626;
+    }
+
+    /* ===== NAV ACTIONS ===== */
+    .nav-actions {
+        display: flex;
+        align-items: center;
+        gap: 1.2rem;
+        position: relative;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 992px) {
+        .navbar {
+            padding: 0.6rem 1.5rem;
+            flex-wrap: wrap;
+        }
+        .navbar.scrolled {
+            padding: 0.5rem 1.5rem;
+        }
+        .nav-links {
+            gap: 1.2rem;
+        }
+        .nav-links a {
+            font-size: 0.85rem;
+        }
+        .logo-img {
+            width: 42px;
+            height: 42px;
+        }
+        .logo-text {
+            font-size: 1.2rem;
+        }
+        .nav-notif i {
+            font-size: 1.3rem;
+        }
+        .avatar-circle {
+            width: 38px;
+            height: 38px;
+            font-size: 0.85rem;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .navbar {
+            padding: 0.5rem 1rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .navbar.scrolled {
+            padding: 0.4rem 1rem;
+        }
+        .nav-links {
+            gap: 0.8rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            order: 2;
+            width: 100%;
+        }
+        .nav-links a {
+            font-size: 0.75rem;
+            padding: 0.2rem 0;
+        }
+        .logo {
+            order: 1;
+        }
+        .nav-actions {
+            order: 3;
+            gap: 0.5rem;
+        }
+        .logo-img {
+            width: 36px;
+            height: 36px;
+        }
+        .logo-text {
+            font-size: 1rem;
+        }
+        .nav-notif i {
+            font-size: 1.1rem;
+        }
+        .nav-notif {
+            width: 38px;
+            height: 38px;
+        }
+        .nav-notif .dot {
+            min-width: 16px;
+            height: 16px;
+            font-size: 0.5rem;
+            top: 2px;
+            right: 2px;
+        }
+        .avatar-circle {
+            width: 34px;
+            height: 34px;
+            font-size: 0.75rem;
+        }
+        .dropdown-menu {
+            min-width: 210px;
+            right: -10px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .navbar {
+            padding: 0.4rem 0.8rem;
+        }
+        .nav-links {
+            gap: 0.5rem;
+        }
+        .nav-links a {
+            font-size: 0.65rem;
+        }
+        .logo-img {
+            width: 30px;
+            height: 30px;
+        }
+        .logo-text {
+            font-size: 0.85rem;
+        }
+        .nav-actions {
+            gap: 0.3rem;
+        }
+        .nav-notif i {
+            font-size: 0.95rem;
+        }
+        .nav-notif {
+            width: 32px;
+            height: 32px;
+        }
+        .nav-notif .dot {
+            min-width: 14px;
+            height: 14px;
+            font-size: 0.4rem;
+            top: 1px;
+            right: 1px;
+        }
+        .avatar-circle {
+            width: 28px;
+            height: 28px;
+            font-size: 0.65rem;
+        }
+        .dropdown-menu {
+            min-width: 180px;
+            right: -5px;
+            padding: 0.4rem;
+        }
+        .dropdown-item {
+            font-size: 0.75rem;
+            padding: 0.5rem 0.6rem;
+        }
+    }
+</style>
+
+<!-- ============================================
+     JAVASCRIPT FOR NAVBAR FUNCTIONALITY
+     ============================================ -->
+<script>
+    (function() {
+        // ===== STICKY NAVBAR ON SCROLL =====
+        const navbar = document.getElementById('mainNavbar');
+        if (navbar) {
+            window.addEventListener('scroll', function() {
+                navbar.classList.toggle('scrolled', window.scrollY > 80);
+            });
+        }
+
+        // ===== DROPDOWN TOGGLE =====
+        const avatarBtn = document.getElementById('avatarBtn');
+        const dropdownMenu = document.getElementById('dropdownMenu');
+
+        if (avatarBtn && dropdownMenu) {
+            avatarBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                dropdownMenu.classList.toggle('open');
+            });
+
+            document.addEventListener('click', function(e) {
+                if (!avatarBtn.contains(e.target) && !dropdownMenu.contains(e.target)) {
+                    dropdownMenu.classList.remove('open');
+                }
+            });
+        }
+
+        // ===== LOGOUT FUNCTION =====
+        const logoutBtn = document.getElementById('dropdownLogout');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                if (confirm('Are you sure you want to logout?')) {
+                    localStorage.removeItem('userRole');
+                    localStorage.removeItem('isLoggedIn');
+                    sessionStorage.removeItem('userRole');
+                    sessionStorage.removeItem('isLoggedIn');
+                    window.location.href = '../auth/login.html';
+                }
+            });
+        }
+
+        // ===== SET ACTIVE LINK =====
+        function setActiveLink() {
+            const currentPath = window.location.pathname;
+            const pageMap = {
+                'home.html': 'navHome',
+                'reportitem.html': 'navReportLost',
+                'itemfound.html': 'navReportFound',
+                'search.html': 'navBrowse',
+                'notification.html': 'navHome',
+                'userdashboard.html': 'navHome',
+                'profile.html': 'navHome',
+                'claimrequest.html': 'navHome',
+                'itemdetail.html': 'navHome'
+            };
+
+            let activeId = 'navHome';
+            for (const [page, id] of Object.entries(pageMap)) {
+                if (currentPath.includes(page)) {
+                    activeId = id;
+                    break;
+                }
+            }
+
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.classList.remove('active');
+                if (link.id === activeId) {
+                    link.classList.add('active');
+                }
+            });
+
+            // Set active state in dropdown
+            document.querySelectorAll('.dropdown-item').forEach(item => {
+                item.classList.remove('active');
+                if (currentPath.includes('notification.html') && item.textContent.trim() === 'Notifications') {
+                    item.classList.add('active');
+                }
+                if (currentPath.includes('userdashboard.html') && item.textContent.trim() === 'Dashboard') {
+                    item.classList.add('active');
+                }
+                if (currentPath.includes('profile.html') && item.textContent.trim() === 'Profile') {
+                    item.classList.add('active');
+                }
+            });
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', setActiveLink);
+        } else {
+            setActiveLink();
+        }
+    })();
+</script>
