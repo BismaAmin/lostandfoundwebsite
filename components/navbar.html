@@ -1,5 +1,5 @@
 <!-- ===== NAVBAR - GUEST ===== -->
-<nav class="navbar">
+<nav class="navbar" id="mainNavbar">
     <a href="../pub/home.html" class="logo">
         <i class="fas fa-magnifying-glass-location"></i>
         <span>Lost&Found</span>
@@ -16,3 +16,239 @@
         <a href="../auth/register.html" class="btn-primary-nav">Sign Up</a>
     </div>
 </nav>
+
+<!-- ============================================
+     STYLES FOR GUEST NAVBAR
+     ============================================ -->
+<style>
+    /* ===== NAVBAR CONTAINER ===== */
+    .navbar {
+        background: #0D9488;
+        padding: 0.8rem 3rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        transition: all 0.3s ease;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        box-shadow: 0 4px 30px rgba(13, 148, 136, 0.2);
+    }
+
+    /* ===== SCROLL EFFECT ===== */
+    .navbar.scrolled {
+        background: #0F766E;
+        box-shadow: 0 8px 40px rgba(13, 148, 136, 0.3);
+        padding: 0.6rem 3rem;
+    }
+
+    /* ===== LOGO ===== */
+    .logo {
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        text-decoration: none;
+        color: white;
+        font-size: 1.4rem;
+        font-weight: 800;
+        letter-spacing: -0.5px;
+    }
+
+    .logo i {
+        font-size: 1.8rem;
+        background: rgba(255, 255, 255, 0.15);
+        padding: 0.4rem;
+        border-radius: 12px;
+    }
+
+    /* ===== NAV LINKS ===== */
+    .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 2.5rem;
+    }
+
+    .nav-links a {
+        color: rgba(255, 255, 255, 0.8);
+        text-decoration: none;
+        font-size: 0.9rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        position: relative;
+        padding: 0.3rem 0;
+    }
+
+    /* ===== UNDERLINE EFFECT ===== */
+    .nav-links a::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 50%;
+        width: 0;
+        height: 3px;
+        background: #FFD700;
+        border-radius: 4px;
+        transition: all 0.3s ease;
+        transform: translateX(-50%);
+        box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+    }
+
+    .nav-links a:hover::after,
+    .nav-links a.active::after {
+        width: 80%;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+        color: white;
+    }
+
+    /* ===== NAV ACTIONS ===== */
+    .nav-actions {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .nav-actions a {
+        color: white;
+        text-decoration: none;
+        font-size: 0.85rem;
+        font-weight: 500;
+        transition: 0.3s;
+    }
+
+    .btn-outline {
+        border: 2px solid rgba(255, 255, 255, 0.4);
+        padding: 0.4rem 1.6rem;
+        border-radius: 60px;
+        transition: all 0.3s;
+        background: rgba(255, 255, 255, 0.05);
+    }
+
+    .btn-outline:hover {
+        background: white;
+        color: #0D9488;
+        border-color: white;
+        transform: translateY(-2px);
+    }
+
+    .btn-primary-nav {
+        background: white;
+        color: #0D9488;
+        padding: 0.4rem 1.6rem;
+        border-radius: 60px;
+        transition: all 0.3s;
+        font-weight: 600;
+    }
+
+    .btn-primary-nav:hover {
+        background: #FFD700;
+        color: #0F766E;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 20px rgba(255, 215, 0, 0.3);
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 900px) {
+        .navbar {
+            padding: 0.6rem 1.5rem;
+            flex-wrap: wrap;
+        }
+        .navbar.scrolled {
+            padding: 0.5rem 1.5rem;
+        }
+        .nav-links {
+            gap: 1.2rem;
+        }
+        .nav-links a {
+            font-size: 0.8rem;
+        }
+    }
+
+    @media (max-width: 600px) {
+        .navbar {
+            padding: 0.5rem 1rem;
+            flex-wrap: wrap;
+        }
+        .navbar.scrolled {
+            padding: 0.4rem 1rem;
+        }
+        .nav-links {
+            gap: 0.8rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            order: 2;
+            width: 100%;
+        }
+        .nav-links a {
+            font-size: 0.7rem;
+        }
+        .logo {
+            order: 1;
+            font-size: 1.1rem;
+        }
+        .logo i {
+            font-size: 1.3rem;
+            padding: 0.3rem;
+        }
+        .nav-actions {
+            order: 3;
+            gap: 0.5rem;
+        }
+        .nav-actions a {
+            font-size: 0.7rem;
+        }
+        .btn-outline,
+        .btn-primary-nav {
+            padding: 0.2rem 1rem;
+        }
+    }
+</style>
+
+<!-- ============================================
+     JAVASCRIPT FOR NAVBAR FUNCTIONALITY
+     ============================================ -->
+<script>
+    // ===== STICKY NAVBAR ON SCROLL =====
+    (function() {
+        const navbar = document.getElementById('mainNavbar');
+        if (navbar) {
+            window.addEventListener('scroll', function() {
+                navbar.classList.toggle('scrolled', window.scrollY > 80);
+            });
+        }
+
+        // ===== SET ACTIVE LINK BASED ON CURRENT PAGE =====
+        function setActiveLink() {
+            const currentPath = window.location.pathname;
+            const pageMap = {
+                'home.html': 'navHome',
+                'search.html': 'navBrowse'
+            };
+
+            let activeId = 'navHome';
+            for (const [page, id] of Object.entries(pageMap)) {
+                if (currentPath.includes(page)) {
+                    activeId = id;
+                    break;
+                }
+            }
+
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.classList.remove('active');
+                if (link.id === activeId) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        // Run on page load
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', setActiveLink);
+        } else {
+            setActiveLink();
+        }
+    })();
+</script>
