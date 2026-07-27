@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,7 +24,6 @@
             align-items: center;
             justify-content: center;
             padding: 1rem;
-            backface-visibility: visible;
         }
 
         .register-wrapper {
@@ -35,7 +33,6 @@
             border-radius: 24px;
             box-shadow: 0 8px 30px rgba(12, 68, 124, 0.08);
             padding: 2rem 2.5rem 2rem;
-            transition: all 0.2s;
         }
 
         .form-header {
@@ -43,7 +40,6 @@
             margin-bottom: 1.5rem;
         }
 
-        /* ----- LOGO STYLES (bigger, circular) ----- */
         .logo-wrapper {
             display: flex;
             align-items: center;
@@ -67,11 +63,7 @@
         .logo-wrapper .logo-img:hover {
             transform: scale(1.05);
         }
-        /* ----- end logo styles ----- */
 
-        .form-header .logo-icon {
-            display: none;
-        }
         .form-header h2 {
             font-size: 1.3rem;
             font-weight: 700;
@@ -128,8 +120,7 @@
             text-align: center;
             flex-shrink: 0;
         }
-        .input-field input,
-        .input-field select {
+        .input-field input {
             border: none;
             background: transparent;
             padding: 0.5rem 0;
@@ -137,12 +128,6 @@
             font-size: 0.88rem;
             outline: none;
             color: #2C2C2A;
-        }
-        .input-field select {
-            cursor: pointer;
-            appearance: auto;
-            -webkit-appearance: auto;
-            padding-right: 1.5rem;
         }
         .input-field input::placeholder {
             color: #afafa2;
@@ -153,16 +138,6 @@
             right: 1rem;
             color: #5F5E5A;
             font-size: 0.8rem;
-        }
-        .input-field .field-icon-right.success {
-            color: #1D9E75;
-        }
-        .input-field .select-arrow {
-            color: #5F5E5A;
-            font-size: 0.7rem;
-            margin-left: auto;
-            padding-left: 0.3rem;
-            pointer-events: none;
         }
         .input-field .toggle-pw {
             cursor: pointer;
@@ -179,15 +154,9 @@
             border-color: #E24B4A;
             background: #fff6f5;
         }
-        .input-field.error:focus-within {
-            box-shadow: 0 0 0 3px rgba(226, 75, 74, 0.12);
-        }
         .input-field.success {
             border-color: #1D9E75;
             background: #f0faf6;
-        }
-        .input-field.success:focus-within {
-            box-shadow: 0 0 0 3px rgba(29, 158, 117, 0.12);
         }
 
         .error-message {
@@ -217,7 +186,6 @@
             background: #E2E8F0;
             border-radius: 4px;
             overflow: hidden;
-            transition: 0.3s;
         }
         .strength-bar .fill {
             height: 100%;
@@ -232,15 +200,9 @@
             color: #5F5E5A;
             text-align: right;
         }
-        .strength-text.weak {
-            color: #E24B4A;
-        }
-        .strength-text.fair {
-            color: #EF9F27;
-        }
-        .strength-text.strong {
-            color: #1D9E75;
-        }
+        .strength-text.weak { color: #E24B4A; }
+        .strength-text.fair { color: #EF9F27; }
+        .strength-text.strong { color: #1D9E75; }
 
         .checkbox-group {
             display: flex;
@@ -270,7 +232,6 @@
             text-decoration: underline;
         }
 
-        /* ----- BUTTON STYLES with #0d9488 ----- */
         .btn-register {
             background: #0d9488;
             color: white;
@@ -293,9 +254,6 @@
         .btn-register.active:hover {
             background: #0a7a70;
             transform: translateY(-1px);
-        }
-        .btn-register.active:active {
-            transform: scale(0.97);
         }
         .btn-register .spinner {
             display: none;
@@ -345,6 +303,58 @@
             text-decoration: underline;
         }
 
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-width: 400px;
+        }
+
+        .toast {
+            padding: 16px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 14px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+            animation: slideInRight 0.4s ease;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .toast.success { background: #0d9488; }
+        .toast.error { background: #E24B4A; }
+        .toast.info { background: #3B82F6; }
+
+        .toast .toast-close {
+            margin-left: auto;
+            cursor: pointer;
+            font-size: 1.1rem;
+            opacity: 0.8;
+            background: none;
+            border: none;
+            color: white;
+        }
+
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(100px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes slideOutRight {
+            from { opacity: 1; transform: translateX(0); }
+            to { opacity: 0; transform: translateX(100px); }
+        }
+
+        .toast.hiding {
+            animation: slideOutRight 0.3s ease forwards;
+        }
+
         .modal-overlay {
             display: none;
             position: fixed;
@@ -381,9 +391,6 @@
             background: none;
             border: none;
         }
-        .modal-content .close-modal:hover {
-            color: #2C2C2A;
-        }
         .modal-content h4 {
             font-size: 1.1rem;
             color: #0C447C;
@@ -407,9 +414,6 @@
             .form-header h2 {
                 font-size: 1.1rem;
             }
-            .modal-content {
-                padding: 1.5rem;
-            }
             .logo-wrapper .logo-img {
                 width: 90px;
                 height: 90px;
@@ -420,9 +424,10 @@
 </head>
 <body>
 
+    <div class="toast-container" id="toastContainer"></div>
+
     <div class="register-wrapper">
         <div class="form-header">
-            <!-- LOGO: bigger circular image -->
             <div class="logo-wrapper">
                 <img src="cropped_circle_image.png" alt="Lost & Found Logo" class="logo-img" />
             </div>
@@ -431,12 +436,11 @@
         </div>
 
         <form class="register-form" id="registerForm" novalidate>
-
             <div class="input-group">
                 <label for="fullName">Full Name</label>
                 <div class="input-field" id="nameField">
                     <i class="fas fa-user"></i>
-                    <input type="text" id="fullName" placeholder="First and last name" autofocus required />
+                    <input type="text" id="fullName" placeholder="First and last name" required />
                 </div>
                 <div class="error-message" id="nameError"></div>
             </div>
@@ -478,21 +482,7 @@
                 <div class="error-message" id="confirmError"></div>
             </div>
 
-            <div class="input-group">
-                <label for="role">Role</label>
-                <div class="input-field" id="roleField">
-                    <i class="fas fa-user-tag"></i>
-                    <select id="role" required>
-                        <option value="">Select your role</option>
-                        <option value="User">User</option>
-                        <option value="Manager">Manager</option>
-                        <option value="Admin">Admin</option>
-                    </select>
-                </div>
-                <div class="error-message" id="roleError"></div>
-            </div>
-
-            <div></div>
+            <!-- ✅ ROLE DROPDOWN REMOVED - Role is automatically set to "Student" -->
 
             <div class="full-width checkbox-group">
                 <input type="checkbox" id="termsCheck" required />
@@ -504,7 +494,7 @@
             <div class="full-width error-message" id="termsError"></div>
 
             <button type="submit" class="full-width btn-register" id="registerBtn" disabled>
-                <span class="btn-text">Create account <i class="fas fa-arrow-right" style="margin-left:0.2rem;"></i></span>
+                <span class="btn-text">Create account <i class="fas fa-arrow-right"></i></span>
                 <span class="spinner"></span>
             </button>
 
@@ -515,7 +505,6 @@
             <div class="full-width login-cta">
                 Already have an account? <a href="login.html">Log in</a>
             </div>
-
         </form>
     </div>
 
@@ -523,333 +512,352 @@
         <div class="modal-content">
             <button class="close-modal" id="closeModal">&times;</button>
             <h4 id="modalTitle">Terms of Service</h4>
-            <p id="modalBody">
-                By using this platform, you agree to our terms...
-                <br /><br />
-                <strong>1. Acceptance of Terms</strong><br />
-                By creating an account, you agree to comply with these terms.
-                <br /><br />
-                <strong>2. User Responsibilities</strong><br />
-                You are responsible for the accuracy of your reports and claims.
-                <br /><br />
-                <strong>3. Privacy</strong><br />
-                Your personal information is protected and never shared without consent.
-            </p>
+            <p id="modalBody"></p>
         </div>
     </div>
 
     <script>
-        (function() {
-            const form = document.getElementById('registerForm');
-            const nameInput = document.getElementById('fullName');
-            const nameField = document.getElementById('nameField');
-            const nameError = document.getElementById('nameError');
-
-            const emailInput = document.getElementById('email');
-            const emailField = document.getElementById('emailField');
-            const emailError = document.getElementById('emailError');
-            const emailSuccess = document.getElementById('emailSuccess');
-            const emailCheckIcon = document.getElementById('emailCheckIcon');
-
-            const passwordInput = document.getElementById('password');
-            const passwordField = document.getElementById('passwordField');
-            const passwordError = document.getElementById('passwordError');
-            const strengthFill = document.getElementById('strengthFill');
-            const strengthText = document.getElementById('strengthText');
-
-            const confirmInput = document.getElementById('confirmPassword');
-            const confirmField = document.getElementById('confirmField');
-            const confirmError = document.getElementById('confirmError');
-            const confirmIcon = document.getElementById('confirmIcon');
-
-            const roleSelect = document.getElementById('role');
-            const roleField = document.getElementById('roleField');
-            const roleError = document.getElementById('roleError');
-
-            const termsCheck = document.getElementById('termsCheck');
-            const termsError = document.getElementById('termsError');
-
-            const registerBtn = document.getElementById('registerBtn');
-            const togglePw = document.getElementById('togglePw');
-
-            const modalOverlay = document.getElementById('modalOverlay');
-            const modalTitle = document.getElementById('modalTitle');
-            const modalBody = document.getElementById('modalBody');
-            const closeModal = document.getElementById('closeModal');
-            const termsLink = document.getElementById('termsLink');
-            const privacyLink = document.getElementById('privacyLink');
-
-            togglePw.addEventListener('click', function() {
-                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-                passwordInput.setAttribute('type', type);
-                this.innerHTML = type === 'password' ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
+    // ============================================================
+    // ✅ SIMPLE REGISTER SCRIPT - DIRECT API CALL
+    // ============================================================
+    document.addEventListener('DOMContentLoaded', function() {
+        
+const API_URL = 'http://localhost/lostandfoundt/backend/api/register.php';        
+        const form = document.getElementById('registerForm');
+        const registerBtn = document.getElementById('registerBtn');
+        const toastContainer = document.getElementById('toastContainer');
+        
+        // ============================================================
+        // ✅ TOAST FUNCTION
+        // ============================================================
+        function showToast(message, type = 'success') {
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                <span>${message}</span>
+                <button class="toast-close">&times;</button>
+            `;
+            toastContainer.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.classList.add('hiding');
+                setTimeout(() => toast.remove(), 300);
+            }, 5000);
+            
+            toast.querySelector('.toast-close').addEventListener('click', function() {
+                toast.classList.add('hiding');
+                setTimeout(() => toast.remove(), 300);
             });
-
-            function validateName() {
-                const name = nameInput.value.trim();
-                if (name.length < 2) {
-                    setError(nameField, nameError, 'Name must be at least 2 characters.');
-                    return false;
-                } else if (name.length > 50) {
-                    setError(nameField, nameError, 'Name must be less than 50 characters.');
-                    return false;
-                } else {
-                    clearError(nameField, nameError);
-                    return true;
-                }
+        }
+        
+        // ============================================================
+        // ✅ FORM SUBMIT
+        // ============================================================
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Get data
+            const name = document.getElementById('fullName').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            
+            // ✅ ROLE IS NOW ALWAYS "Student" - NOT from dropdown!
+            const role = 'Student';
+            
+            console.log('📝 Form Data:', { name, email, password, role });
+            
+            // Validation
+            if (!name || name.length < 2) {
+                showToast('Name must be at least 2 characters', 'error');
+                return;
             }
-            nameInput.addEventListener('input', validateName);
-
-            let emailTimeout;
-            const registeredEmails = ['test@demo.com', 'admin@demo.com', 'user@example.com'];
-
-            function validateEmail() {
-                const email = emailInput.value.trim();
-                const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-                if (!email) {
-                    clearError(emailField, emailError);
-                    clearSuccess(emailSuccess);
-                    emailCheckIcon.textContent = '';
-                    return false;
-                }
-
-                if (!pattern.test(email)) {
-                    setError(emailField, emailError, 'Please enter a valid email address.');
-                    clearSuccess(emailSuccess);
-                    emailCheckIcon.textContent = '';
-                    return false;
-                }
-
-                clearError(emailField, emailError);
-                emailCheckIcon.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
-                clearSuccess(emailSuccess);
-
-                clearTimeout(emailTimeout);
-                emailTimeout = setTimeout(() => {
-                    if (registeredEmails.includes(email.toLowerCase())) {
-                        setError(emailField, emailError, 'Email already registered.');
-                        emailCheckIcon.innerHTML = '<i class="fas fa-times" style="color:#E24B4A;"></i>';
-                        clearSuccess(emailSuccess);
-                    } else {
-                        clearError(emailField, emailError);
-                        emailCheckIcon.innerHTML = '<i class="fas fa-check" style="color:#1D9E75;"></i>';
-                        setSuccess(emailSuccess, 'Email available');
-                    }
-                }, 500);
-
-                return true;
+            
+            if (!email || !email.includes('@')) {
+                showToast('Please enter a valid email', 'error');
+                return;
             }
-            emailInput.addEventListener('input', validateEmail);
-            emailInput.addEventListener('blur', validateEmail);
-
-            function checkPasswordStrength(password) {
-                let score = 0;
-                if (password.length >= 6) score++;
-                if (password.length >= 10) score++;
-                if (/[a-z]/.test(password) && /[A-Z]/.test(password)) score++;
-                if (/\d/.test(password)) score++;
-                if (/[^a-zA-Z0-9]/.test(password)) score++;
-
-                if (password.length === 0) return { label: '', width: 0, class: '' };
-                if (score <= 2) return { label: 'Weak', width: 33, class: 'weak' };
-                if (score <= 3) return { label: 'Fair', width: 66, class: 'fair' };
-                return { label: 'Strong', width: 100, class: 'strong' };
+            
+            if (!password || password.length < 6) {
+                showToast('Password must be at least 6 characters', 'error');
+                return;
             }
-
-            function updateStrength() {
-                const password = passwordInput.value;
-                const result = checkPasswordStrength(password);
-                strengthFill.style.width = result.width + '%';
-                strengthFill.style.background = result.class === 'weak' ? '#E24B4A' :
-                    result.class === 'fair' ? '#EF9F27' : '#1D9E75';
-                strengthText.textContent = result.label || '';
-                strengthText.className = 'strength-text ' + result.class;
-
-                if (password && password.length < 6) {
-                    setError(passwordField, passwordError, 'Password must be at least 6 characters.');
-                } else if (password && password.length >= 6) {
-                    clearError(passwordField, passwordError);
-                }
+            
+            if (password !== document.getElementById('confirmPassword').value) {
+                showToast('Passwords do not match', 'error');
+                return;
             }
-            passwordInput.addEventListener('input', updateStrength);
-
-            function validateConfirm() {
-                const password = passwordInput.value;
-                const confirm = confirmInput.value;
-
-                if (!confirm) {
-                    clearError(confirmField, confirmError);
-                    confirmIcon.textContent = '';
-                    confirmField.classList.remove('success');
-                    return false;
-                }
-
-                if (password === confirm) {
-                    clearError(confirmField, confirmError);
-                    confirmIcon.innerHTML = '<i class="fas fa-check" style="color:#1D9E75;"></i>';
-                    confirmField.classList.add('success');
-                    return true;
-                } else {
-                    setError(confirmField, confirmError, 'Passwords do not match.');
-                    confirmIcon.textContent = '';
-                    confirmField.classList.remove('success');
-                    return false;
-                }
+            
+            if (!document.getElementById('termsCheck').checked) {
+                showToast('Please accept Terms and Privacy Policy', 'error');
+                return;
             }
-            confirmInput.addEventListener('input', validateConfirm);
-
-            function validateRole() {
-                if (roleSelect.value === '') {
-                    setError(roleField, roleError, 'Please select your role.');
-                    return false;
-                } else {
-                    clearError(roleField, roleError);
-                    return true;
-                }
-            }
-            roleSelect.addEventListener('change', validateRole);
-
-            function validateTerms() {
-                if (!termsCheck.checked) {
-                    termsError.textContent = 'You must agree to the Terms and Privacy Policy.';
-                    return false;
-                } else {
-                    termsError.textContent = '';
-                    return true;
-                }
-            }
-            termsCheck.addEventListener('change', validateTerms);
-
-            function setError(field, errorEl, message) {
-                field.classList.add('error');
-                field.classList.remove('success');
-                errorEl.textContent = message;
-            }
-
-            function clearError(field, errorEl) {
-                field.classList.remove('error');
-                errorEl.textContent = '';
-            }
-
-            function setSuccess(el, message) {
-                el.textContent = message;
-            }
-
-            function clearSuccess(el) {
-                el.textContent = '';
-            }
-
-            function checkFormValidity() {
-                const nameValid = nameInput.value.trim().length >= 2 && nameInput.value.trim().length <= 50;
-                const emailValid = emailInput.value.trim() && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput.value.trim()) &&
-                    !registeredEmails.includes(emailInput.value.trim().toLowerCase());
-                const passwordValid = passwordInput.value.length >= 6;
-                const confirmValid = passwordInput.value === confirmInput.value && confirmInput.value.length > 0;
-                const roleValid = roleSelect.value !== '';
-                const termsValid = termsCheck.checked;
-
-                const allValid = nameValid && emailValid && passwordValid && confirmValid && roleValid && termsValid;
-
-                if (allValid) {
-                    registerBtn.classList.add('active');
-                    registerBtn.disabled = false;
-                } else {
-                    registerBtn.classList.remove('active');
-                    registerBtn.disabled = true;
-                }
-                return allValid;
-            }
-
-            [nameInput, emailInput, passwordInput, confirmInput, roleSelect, termsCheck].forEach(el => {
-                el.addEventListener('input', checkFormValidity);
-                el.addEventListener('change', checkFormValidity);
-            });
-
-            passwordInput.addEventListener('input', function() {
-                updateStrength();
-                checkFormValidity();
-            });
-
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
-
-                const isValid = validateName() &&
-                    validateEmail() &&
-                    passwordInput.value.length >= 6 &&
-                    validateConfirm() &&
-                    validateRole() &&
-                    validateTerms();
-
-                if (!isValid || !checkFormValidity()) {
-                    if (nameField.classList.contains('error')) nameInput.focus();
-                    else if (emailField.classList.contains('error')) emailInput.focus();
-                    else if (passwordField.classList.contains('error')) passwordInput.focus();
-                    else if (confirmField.classList.contains('error')) confirmInput.focus();
-                    else if (roleField.classList.contains('error')) roleSelect.focus();
-                    return;
-                }
-
-                registerBtn.classList.add('loading');
-                registerBtn.disabled = true;
-
-                setTimeout(() => {
+            
+            // Show loading
+            registerBtn.classList.add('loading');
+            registerBtn.disabled = true;
+            
+            try {
+                // ✅ DIRECT API CALL with role = 'Student'
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name: name,
+                        email: email,
+                        password: password,
+                        role: role // ✅ Always 'Student'
+                    })
+                });
+                
+                console.log('📥 Response Status:', response.status);
+                
+                const text = await response.text();
+                console.log('📥 Raw Response:', text);
+                
+                let data;
+                try {
+                    data = JSON.parse(text);
+                } catch(e) {
+                    console.error('JSON Parse Error:', e);
+                    showToast('Server error: Invalid response', 'error');
                     registerBtn.classList.remove('loading');
                     registerBtn.disabled = false;
-                    registerBtn.classList.add('active');
-                    alert('📧 Check your inbox to verify your email!\n\nDemo: verification email sent to ' + emailInput.value.trim());
-                }, 1200);
-            });
-
-            function openModal(title, body) {
-                modalTitle.textContent = title;
-                modalBody.innerHTML = body;
-                modalOverlay.classList.add('active');
-                document.body.style.overflow = 'hidden';
-            }
-
-            function closeModalFn() {
-                modalOverlay.classList.remove('active');
-                document.body.style.overflow = '';
-            }
-
-            termsLink.addEventListener('click', function(e) {
-                e.preventDefault();
-                openModal('Terms of Service',
-                    '<strong>1. Acceptance of Terms</strong><br>By creating an account, you agree to comply with these terms.<br><br><strong>2. User Responsibilities</strong><br>You are responsible for the accuracy of your reports and claims.<br><br><strong>3. Prohibited Activities</strong><br>Do not post false claims or spam.<br><br><strong>4. Termination</strong><br>We reserve the right to suspend accounts that violate these terms.'
-                    );
-            });
-
-            privacyLink.addEventListener('click', function(e) {
-                e.preventDefault();
-                openModal('Privacy Policy',
-                    '<strong>1. Data Collection</strong><br>We collect your name, email, and role to provide our services.<br><br><strong>2. Data Usage</strong><br>Your information is used only for item recovery and communication.<br><br><strong>3. Data Protection</strong><br>Your personal information is never shared without your explicit consent.<br><br><strong>4. Your Rights</strong><br>You can request data deletion at any time.'
-                    );
-            });
-
-            closeModal.addEventListener('click', closeModalFn);
-            modalOverlay.addEventListener('click', function(e) {
-                if (e.target === this) closeModalFn();
-            });
-
-            nameInput.addEventListener('blur', function() {
-                if (this.value) {
-                    this.value = this.value.replace(/\b\w/g, l => l.toUpperCase());
+                    return;
                 }
-            });
-
-            window.addEventListener('load', function() {
-                nameInput.focus();
-            });
-
-            checkFormValidity();
-
-            document.querySelector('.login-cta a').addEventListener('click', function(e) {
-                // Let the browser navigate
-            });
-
-        })();
+                
+                if (data.success) {
+                    showToast('✅ ' + data.message, 'success');
+                    
+                    // Reset form
+                    form.reset();
+                    document.getElementById('strengthFill').style.width = '0%';
+                    document.getElementById('strengthText').textContent = '';
+                    document.getElementById('emailCheckIcon').textContent = '';
+                    document.getElementById('confirmIcon').textContent = '';
+                    
+                    registerBtn.classList.remove('active');
+                    registerBtn.disabled = true;
+                    
+                    // Redirect after 2 seconds
+                    setTimeout(() => {
+                        window.location.href = 'login.html';
+                    }, 2000);
+                    
+                } else {
+                    showToast('❌ ' + data.message, 'error');
+                }
+                
+            } catch(error) {
+                console.error('❌ Network Error:', error);
+                showToast('❌ Network Error: ' + error.message, 'error');
+            }
+            
+            registerBtn.classList.remove('loading');
+            registerBtn.disabled = false;
+        });
+        
+        // ============================================================
+        // ✅ ENABLE BUTTON WHEN FORM IS VALID
+        // ============================================================
+        function checkFormValidity() {
+            const name = document.getElementById('fullName').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const confirm = document.getElementById('confirmPassword').value;
+            const terms = document.getElementById('termsCheck').checked;
+            
+            // ✅ Role is always "Student" - no need to check dropdown
+            
+            const valid = name.length >= 2 && 
+                         email.includes('@') && 
+                         password.length >= 6 && 
+                         password === confirm && 
+                         terms;
+            
+            if (valid) {
+                registerBtn.classList.add('active');
+                registerBtn.disabled = false;
+            } else {
+                registerBtn.classList.remove('active');
+                registerBtn.disabled = true;
+            }
+        }
+        
+        // Add event listeners for validation
+        ['fullName', 'email', 'password', 'confirmPassword', 'termsCheck'].forEach(id => {
+            document.getElementById(id).addEventListener('input', checkFormValidity);
+            document.getElementById(id).addEventListener('change', checkFormValidity);
+        });
+        
+        // ============================================================
+        // ✅ PASSWORD TOGGLE
+        // ============================================================
+        document.getElementById('togglePw').addEventListener('click', function() {
+            const pw = document.getElementById('password');
+            const type = pw.type === 'password' ? 'text' : 'password';
+            pw.type = type;
+            this.innerHTML = type === 'password' ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
+        });
+        
+        // ============================================================
+        // ✅ PASSWORD STRENGTH
+        // ============================================================
+        document.getElementById('password').addEventListener('input', function() {
+            const val = this.value;
+            const fill = document.getElementById('strengthFill');
+            const text = document.getElementById('strengthText');
+            
+            let score = 0;
+            if (val.length >= 6) score++;
+            if (val.length >= 10) score++;
+            if (/[a-z]/.test(val) && /[A-Z]/.test(val)) score++;
+            if (/\d/.test(val)) score++;
+            if (/[^a-zA-Z0-9]/.test(val)) score++;
+            
+            if (val.length === 0) {
+                fill.style.width = '0%';
+                text.textContent = '';
+                return;
+            }
+            
+            if (score <= 2) {
+                fill.style.width = '33%';
+                fill.style.background = '#E24B4A';
+                text.textContent = 'Weak';
+                text.className = 'strength-text weak';
+            } else if (score <= 3) {
+                fill.style.width = '66%';
+                fill.style.background = '#EF9F27';
+                text.textContent = 'Fair';
+                text.className = 'strength-text fair';
+            } else {
+                fill.style.width = '100%';
+                fill.style.background = '#1D9E75';
+                text.textContent = 'Strong';
+                text.className = 'strength-text strong';
+            }
+        });
+        
+        // ============================================================
+        // ✅ CONFIRM PASSWORD MATCH
+        // ============================================================
+        document.getElementById('confirmPassword').addEventListener('input', function() {
+            const pw = document.getElementById('password').value;
+            const confirm = this.value;
+            const icon = document.getElementById('confirmIcon');
+            
+            if (confirm.length === 0) {
+                icon.textContent = '';
+                return;
+            }
+            
+            if (pw === confirm) {
+                icon.innerHTML = '<i class="fas fa-check" style="color:#1D9E75;"></i>';
+            } else {
+                icon.innerHTML = '<i class="fas fa-times" style="color:#E24B4A;"></i>';
+            }
+        });
+        
+        // ============================================================
+        // ✅ EMAIL CHECK
+        // ============================================================
+        let emailTimeout;
+        document.getElementById('email').addEventListener('input', function() {
+            const email = this.value.trim();
+            const icon = document.getElementById('emailCheckIcon');
+            
+            if (!email || !email.includes('@')) {
+                icon.textContent = '';
+                return;
+            }
+            
+            icon.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+            
+            clearTimeout(emailTimeout);
+            emailTimeout = setTimeout(async function() {
+                try {
+                    const response = await fetch('http://localhost/lostandfoundt/backend/api/check-email.php', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email: email })
+                    });
+                    const data = await response.json();
+                    
+                    if (data.exists) {
+                        icon.innerHTML = '<i class="fas fa-times" style="color:#E24B4A;"></i>';
+                        document.getElementById('emailError').textContent = 'Email already registered';
+                        document.getElementById('emailField').classList.add('error');
+                    } else {
+                        icon.innerHTML = '<i class="fas fa-check" style="color:#1D9E75;"></i>';
+                        document.getElementById('emailError').textContent = '';
+                        document.getElementById('emailField').classList.remove('error');
+                        document.getElementById('emailSuccess').textContent = 'Email available';
+                    }
+                    checkFormValidity();
+                } catch(e) {
+                    console.warn('Email check failed:', e);
+                    icon.innerHTML = '<i class="fas fa-check" style="color:#1D9E75;"></i>';
+                }
+            }, 500);
+        });
+        
+        // ============================================================
+        // ✅ MODAL
+        // ============================================================
+        const modalOverlay = document.getElementById('modalOverlay');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalBody = document.getElementById('modalBody');
+        const closeModal = document.getElementById('closeModal');
+        
+        document.getElementById('termsLink').addEventListener('click', function(e) {
+            e.preventDefault();
+            modalTitle.textContent = 'Terms of Service';
+            modalBody.innerHTML = `
+                <strong>1. Acceptance of Terms</strong><br>
+                By creating an account, you agree to comply with these terms.<br><br>
+                <strong>2. User Responsibilities</strong><br>
+                You are responsible for the accuracy of your reports and claims.<br><br>
+                <strong>3. Prohibited Activities</strong><br>
+                Do not post false claims or spam.<br><br>
+                <strong>4. Termination</strong><br>
+                We reserve the right to suspend accounts that violate these terms.
+            `;
+            modalOverlay.classList.add('active');
+        });
+        
+        document.getElementById('privacyLink').addEventListener('click', function(e) {
+            e.preventDefault();
+            modalTitle.textContent = 'Privacy Policy';
+            modalBody.innerHTML = `
+                <strong>1. Data Collection</strong><br>
+                We collect your name, email, and role to provide our services.<br><br>
+                <strong>2. Data Usage</strong><br>
+                Your information is used only for item recovery and communication.<br><br>
+                <strong>3. Data Protection</strong><br>
+                Your personal information is never shared without your consent.<br><br>
+                <strong>4. Your Rights</strong><br>
+                You can request data deletion at any time.
+            `;
+            modalOverlay.classList.add('active');
+        });
+        
+        closeModal.addEventListener('click', function() {
+            modalOverlay.classList.remove('active');
+        });
+        
+        modalOverlay.addEventListener('click', function(e) {
+            if (e.target === this) {
+                modalOverlay.classList.remove('active');
+            }
+        });
+        
+        console.log('✅ Register page loaded!');
+        console.log('🔗 API URL:', API_URL);
+        console.log('📌 Role is automatically set to: Student');
+        
+    });
     </script>
-
 </body>
 </html>
