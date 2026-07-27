@@ -15,26 +15,38 @@
         }
 
         body {
-            background: #f0f9f6;
+            background-color: white;
         }
 
-        /* ===== BODY CLASSES FOR ROLE-BASED HIDING ===== */
-        body.logged-in .guest-only {
-            display: none !important;
-        }
-        body.logged-in .user-only {
-            display: inline-flex !important;
-        }
-        body.guest .user-only {
-            display: none !important;
-        }
-        body.guest .guest-only {
-            display: block !important;
-        }
+        /* ===== ROLE-BASED HIDING ===== */
+        .role-guest .guest-only { display: block !important; }
+        .role-guest .user-only { display: none !important; }
+        .role-guest .admin-only { display: none !important; }
+        .role-guest .manager-only { display: none !important; }
+
+        .role-user .guest-only { display: none !important; }
+        .role-user .user-only { display: block !important; }
+        .role-user .admin-only { display: none !important; }
+        .role-user .manager-only { display: none !important; }
+
+        .role-admin .guest-only { display: none !important; }
+        .role-admin .user-only { display: none !important; }
+        .role-admin .admin-only { display: block !important; }
+        .role-admin .manager-only { display: none !important; }
+
+        .role-manager .guest-only { display: none !important; }
+        .role-manager .user-only { display: none !important; }
+        .role-manager .admin-only { display: none !important; }
+        .role-manager .manager-only { display: block !important; }
+
+        .guest-only { display: none !important; }
+        .user-only { display: none !important; }
+        .admin-only { display: none !important; }
+        .manager-only { display: none !important; }
 
         /* ===== NAVBAR ===== */
         .navbar {
-            background: #0D9488;
+            background: #125251;
             padding: 0.8rem 3rem;
             display: flex;
             align-items: center;
@@ -43,12 +55,13 @@
             top: 0;
             z-index: 100;
             transition: all 0.3s ease;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
             margin-bottom: 0;
+            flex-wrap: wrap;
         }
         .navbar.scrolled {
-            background: #0F766E;
-            box-shadow: 0 8px 40px rgba(13, 148, 136, 0.3);
+            background: #062b2a;
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.25);
         }
         .navbar .logo {
             display: flex;
@@ -59,20 +72,35 @@
             font-weight: 800;
             letter-spacing: -0.5px;
             text-decoration: none;
+            cursor: pointer;
         }
-        .navbar .logo i {
-            font-size: 1.8rem;
-            background: rgba(255, 255, 255, 0.15);
-            padding: 0.4rem;
-            border-radius: 12px;
+        .navbar .logo img {
+            height: 42px;
+            width: 42px;
+            border-radius: 50%;
+            object-fit: cover;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2);
         }
+        .navbar .logo img:hover {
+            transform: scale(1.08) rotate(-4deg);
+            box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.4);
+        }
+        .navbar .logo span {
+            transition: color 0.3s;
+        }
+        .navbar .logo:hover span {
+            color: #f5d371;
+        }
+
         .nav-links {
             display: flex;
             align-items: center;
             gap: 2.5rem;
+            flex-wrap: wrap;
         }
         .nav-links a {
-            color: rgba(255, 255, 255, 0.8);
+            color: rgba(255, 255, 255, 0.85);
             text-decoration: none;
             font-size: 0.9rem;
             font-weight: 500;
@@ -86,7 +114,7 @@
             left: 0;
             width: 0;
             height: 2px;
-            background: white;
+            background: #f5d371;
             transition: width 0.3s;
         }
         .nav-links a:hover::after,
@@ -97,10 +125,12 @@
         .nav-links a.active {
             color: white;
         }
+
         .nav-actions {
             display: flex;
             align-items: center;
             gap: 1rem;
+            flex-wrap: wrap;
         }
         .nav-actions a {
             color: white;
@@ -118,9 +148,10 @@
         }
         .nav-actions .btn-outline:hover {
             background: white;
-            color: #0D9488;
+            color: #0b3b3a;
             border-color: white;
             transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
         }
 
         .nav-notif {
@@ -138,7 +169,8 @@
             text-decoration: none;
         }
         .nav-notif:hover {
-            background: rgba(255,255,255,0.12);
+            background: rgba(255, 255, 255, 0.12);
+            transform: scale(1.05);
         }
         .nav-notif .dot {
             position: absolute;
@@ -165,8 +197,8 @@
             align-items: center;
             gap: 0.4rem;
             color: white;
-            background: rgba(255,255,255,0.1);
-            border: 1px solid rgba(255,255,255,0.2);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             padding: 0.35rem 0.9rem;
             border-radius: 60px;
             cursor: pointer;
@@ -174,22 +206,29 @@
             font-weight: 600;
             transition: 0.3s;
         }
+        .nav-profile .profile-btn i.fa-user-circle {
+            font-size: 1.1rem;
+        }
         .nav-profile .profile-btn:hover {
-            background: rgba(255,255,255,0.18);
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
         .nav-profile .profile-menu {
             display: none;
             position: absolute;
             top: 120%;
             right: 0;
-            background: white;
-            width: 180px;
+            background: #ffffff;
+            min-width: 200px;
             border-radius: 14px;
-            box-shadow: 0 16px 50px rgba(0,0,0,0.18);
+            box-shadow: 0 16px 50px rgba(0, 0, 0, 0.18);
             padding: 0.5rem;
             z-index: 200;
         }
-        .nav-profile .profile-menu.open { display: block; }
+        .nav-profile .profile-menu.open {
+            display: block;
+        }
         .nav-profile .profile-menu a {
             display: block;
             color: #334155;
@@ -203,15 +242,25 @@
         .nav-profile .profile-menu a:hover {
             background: #f0f9f6;
             color: #0F766E;
+            transform: translateX(4px);
         }
         .nav-profile .profile-menu a.danger:hover {
             background: #fee2e2;
             color: #dc2626;
         }
+        .nav-profile .profile-menu a i {
+            width: 1.2rem;
+            margin-right: 0.3rem;
+        }
+        .nav-profile .profile-menu .profile-divider {
+            height: 1px;
+            background: #e6f0ed;
+            margin: 0.3rem 0.5rem;
+        }
 
         /* ===== BROWSE HEADER ===== */
         .browse-header {
-            background: linear-gradient(135deg, #0D9488 0%, #0F766E 50%, #115E59 100%);
+            background: linear-gradient(145deg, #0d5e5a 0%, #1a8f88 40%, #3acfc4 80%, #7af0e6 100%);
             padding: 2.5rem 3rem 3rem;
             text-align: center;
             color: white;
@@ -259,8 +308,8 @@
             background: #f8fafc;
         }
         .filters-bar .search-wrapper input:focus {
-            border-color: #0D9488;
-            box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.1);
+            border-color: #125251;
+            box-shadow: 0 0 0 3px rgba(18, 82, 81, 0.1);
             background: white;
         }
         .filters-bar .search-wrapper i {
@@ -283,43 +332,21 @@
             appearance: none;
             -webkit-appearance: none;
             -moz-appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%230D9488' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23125251' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
             background-repeat: no-repeat;
             background-position: right 1rem center;
             background-size: 12px;
             color: #334155;
         }
         .filters-bar select:hover {
-            border-color: #0D9488;
+            border-color: #125251;
             background-color: white;
-            box-shadow: 0 2px 8px rgba(13, 148, 136, 0.1);
+            box-shadow: 0 2px 8px rgba(18, 82, 81, 0.1);
         }
         .filters-bar select:focus {
-            border-color: #0D9488;
-            box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.1);
+            border-color: #125251;
+            box-shadow: 0 0 0 3px rgba(18, 82, 81, 0.1);
             background-color: white;
-        }
-        .filters-bar .date-range {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        .filters-bar .date-range input {
-            padding: 0.5rem 0.8rem;
-            border: 1.5px solid #e2e8f0;
-            border-radius: 60px;
-            font-size: 0.8rem;
-            outline: none;
-            background: #f8fafc;
-            transition: 0.3s;
-        }
-        .filters-bar .date-range input:focus {
-            border-color: #0D9488;
-            box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.1);
-        }
-        .filters-bar .date-range span {
-            color: #64748b;
-            font-size: 0.8rem;
         }
 
         /* ===== STATUS TOGGLES ===== */
@@ -347,9 +374,9 @@
             color: #0F766E;
         }
         .status-toggles .toggle-btn.active {
-            background: #0D9488;
+            background: #125251;
             color: white;
-            box-shadow: 0 4px 12px rgba(13, 148, 136, 0.25);
+            box-shadow: 0 4px 12px rgba(18, 82, 81, 0.25);
         }
         .status-toggles .toggle-btn.hidden {
             display: none;
@@ -370,7 +397,7 @@
             align-items: center;
             gap: 0.4rem;
             padding: 0.3rem 0.8rem;
-            background: #e6f5f2;
+            background: #bafae4;
             border-radius: 60px;
             font-size: 0.75rem;
             font-weight: 500;
@@ -387,7 +414,7 @@
         }
         .filter-chips .clear-all {
             font-size: 0.75rem;
-            color: #0D9488;
+            color: #125251;
             cursor: pointer;
             font-weight: 600;
             background: none;
@@ -395,7 +422,7 @@
             transition: 0.3s;
         }
         .filter-chips .clear-all:hover {
-            color: #0F766E;
+            color: #0d3f3e;
             text-decoration: underline;
         }
 
@@ -436,19 +463,19 @@
             appearance: none;
             -webkit-appearance: none;
             -moz-appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%230D9488' d='M5 8L1 3h8z'/%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%23125251' d='M5 8L1 3h8z'/%3E%3C/svg%3E");
             background-repeat: no-repeat;
             background-position: right 0.8rem center;
             background-size: 10px;
             color: #334155;
         }
         .results-header .sort-wrapper select:hover {
-            border-color: #0D9488;
+            border-color: #125251;
             background-color: white;
         }
         .results-header .sort-wrapper select:focus {
-            border-color: #0D9488;
-            box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.1);
+            border-color: #125251;
+            box-shadow: 0 0 0 3px rgba(18, 82, 81, 0.1);
             background-color: white;
         }
 
@@ -472,17 +499,17 @@
         }
         .result-card:hover {
             transform: translateY(-4px);
-            box-shadow: 0 12px 40px rgba(13, 148, 136, 0.08);
-            border-color: #0D9488;
+            box-shadow: 0 12px 40px rgba(18, 82, 81, 0.08);
+            border-color: #125251;
         }
         .result-card .card-image {
             height: 160px;
-            background: #e6f5f2;
+            background: #bafae4;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 3rem;
-            color: #0D9488;
+            color: #125251;
             position: relative;
         }
         .result-card .card-image .status-badge {
@@ -498,30 +525,12 @@
         }
 
         /* ===== ALL STATUS BADGE COLORS ===== */
-        .status-badge.lost {
-            background: #fee2e2;
-            color: #dc2626;
-        }
-        .status-badge.found {
-            background: #d1fae5;
-            color: #059669;
-        }
-        .status-badge.pending {
-            background: #fef3c7;
-            color: #92400e;
-        }
-        .status-badge.approved {
-            background: #dbeafe;
-            color: #2563eb;
-        }
-        .status-badge.rejected {
-            background: #fee2e2;
-            color: #b91c1c;
-        }
-        .status-badge.resolved {
-            background: #e0e7ff;
-            color: #4338ca;
-        }
+        .status-badge.lost { background: #fee2e2; color: #dc2626; }
+        .status-badge.found { background: #d1fae5; color: #059669; }
+        .status-badge.pending { background: #fef3c7; color: #92400e; }
+        .status-badge.approved { background: #dbeafe; color: #2563eb; }
+        .status-badge.rejected { background: #fee2e2; color: #b91c1c; }
+        .status-badge.resolved { background: #e0e7ff; color: #4338ca; }
 
         .result-card .card-body {
             padding: 1rem 1.2rem 1.2rem;
@@ -554,7 +563,7 @@
         }
         .result-card .card-body .view-btn {
             margin-top: 0.8rem;
-            background: #0D9488;
+            background: #125251;
             color: white;
             border: none;
             padding: 0.4rem 1.2rem;
@@ -565,7 +574,23 @@
             transition: 0.3s;
         }
         .result-card .card-body .view-btn:hover {
-            background: #0F766E;
+            background: #0d3f3e;
+            transform: scale(1.04);
+        }
+        .result-card .card-body .delete-btn {
+            margin-top: 0.8rem;
+            background: #dc2626;
+            color: white;
+            border: none;
+            padding: 0.4rem 1.2rem;
+            border-radius: 60px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .result-card .card-body .delete-btn:hover {
+            background: #b91c1c;
             transform: scale(1.04);
         }
 
@@ -604,11 +629,11 @@
             transition: 0.3s;
         }
         .empty-state .empty-actions .btn-report {
-            background: #0D9488;
+            background: #125251;
             color: white;
         }
         .empty-state .empty-actions .btn-report:hover {
-            background: #0F766E;
+            background: #0d3f3e;
             transform: translateY(-2px);
         }
         .empty-state .empty-actions .btn-clear {
@@ -641,13 +666,13 @@
             color: #334155;
         }
         .pagination button:hover:not(:disabled) {
-            border-color: #0D9488;
-            color: #0D9488;
+            border-color: #125251;
+            color: #125251;
         }
         .pagination button.active {
-            background: #0D9488;
+            background: #125251;
             color: white;
-            border-color: #0D9488;
+            border-color: #125251;
         }
         .pagination button:disabled {
             opacity: 0.4;
@@ -656,6 +681,43 @@
         .pagination .dots {
             color: #94a3b8;
             padding: 0 0.3rem;
+        }
+
+        /* ===== SLIDE UP BUTTON ===== */
+        .slide-up-btn {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 52px;
+            height: 52px;
+            background: #125251;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 1.6rem;
+            box-shadow: 0 6px 20px rgba(18, 82, 81, 0.35);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+        }
+        .slide-up-btn.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .slide-up-btn:hover {
+            background: #0d3f3e;
+            transform: translateY(-4px) scale(1.04);
+            box-shadow: 0 10px 30px rgba(18, 82, 81, 0.45);
+        }
+        .slide-up-btn i {
+            line-height: 1;
         }
 
         /* ===== FOOTER ===== */
@@ -678,6 +740,13 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
+        }
+        .footer-grid .brand h5 img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(255,255,255,0.15);
         }
         .footer-grid .brand p {
             color: rgba(255, 255, 255, 0.6);
@@ -771,6 +840,36 @@
             .footer {
                 padding: 2rem 1.5rem 1rem;
             }
+            .navbar .logo img {
+                width: 40px;
+                height: 40px;
+            }
+            .navbar .logo span {
+                font-size: 1.2rem;
+            }
+            .slide-up-btn {
+                bottom: 1.5rem;
+                right: 1.5rem;
+                width: 46px;
+                height: 46px;
+                font-size: 1.4rem;
+            }
+            .nav-profile .profile-btn {
+                padding: 0.25rem 0.6rem;
+                font-size: 0.7rem;
+            }
+            .nav-profile .profile-btn i.fa-user-circle {
+                font-size: 0.9rem;
+            }
+            .nav-profile .profile-menu {
+                min-width: 180px;
+                right: -10px;
+                padding: 0.4rem;
+            }
+            .nav-profile .profile-menu a {
+                font-size: 0.75rem;
+                padding: 0.4rem 0.6rem;
+            }
         }
 
         @media (max-width: 600px) {
@@ -809,13 +908,6 @@
             .filters-bar select {
                 min-width: 100%;
             }
-            .filters-bar .date-range {
-                flex-wrap: wrap;
-            }
-            .filters-bar .date-range input {
-                flex: 1;
-                min-width: 80px;
-            }
             .status-toggles {
                 justify-content: center;
             }
@@ -842,6 +934,55 @@
             }
             .browse-header p {
                 font-size: 0.9rem;
+            }
+            .navbar .logo img {
+                width: 32px;
+                height: 32px;
+            }
+            .navbar .logo span {
+                font-size: 1rem;
+            }
+            .slide-up-btn {
+                bottom: 1rem;
+                right: 1rem;
+                width: 42px;
+                height: 42px;
+                font-size: 1.2rem;
+            }
+            .nav-profile .profile-btn {
+                padding: 0.2rem 0.5rem;
+                font-size: 0.65rem;
+            }
+            .nav-profile .profile-btn i.fa-user-circle {
+                font-size: 0.8rem;
+            }
+            .nav-profile .profile-menu {
+                min-width: 170px;
+                right: -5px;
+                padding: 0.4rem;
+            }
+            .nav-profile .profile-menu a {
+                font-size: 0.7rem;
+                padding: 0.35rem 0.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-profile .profile-btn {
+                padding: 0.15rem 0.4rem;
+                font-size: 0.6rem;
+            }
+            .nav-profile .profile-btn i.fa-user-circle {
+                font-size: 0.7rem;
+            }
+            .nav-profile .profile-menu {
+                min-width: 160px;
+                right: -5px;
+                padding: 0.3rem;
+            }
+            .nav-profile .profile-menu a {
+                font-size: 0.65rem;
+                padding: 0.3rem 0.4rem;
             }
         }
     </style>
@@ -888,12 +1029,6 @@
             <option value="CS Lab">CS Lab</option>
         </select>
 
-        <div class="date-range">
-            <input type="date" id="dateFrom" />
-            <span>to</span>
-            <input type="date" id="dateTo" />
-        </div>
-
         <!-- ===== STATUS TOGGLES ===== -->
         <div class="status-toggles" id="statusToggles">
             <!-- All buttons will be shown/hidden by JavaScript -->
@@ -930,6 +1065,11 @@
         <!-- Rendered by JavaScript -->
     </div>
 
+    <!-- ===== SLIDE UP BUTTON ===== -->
+    <button class="slide-up-btn" id="slideUpBtn" aria-label="Scroll to top">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
     <!-- ===== FOOTER CONTAINER ===== -->
     <div id="footerContainer"></div>
 
@@ -938,50 +1078,55 @@
     <!-- ========================================== -->
     <script>
         // ============================================
-        // ROLE STATE - Read from localStorage (set by Home page)
+        // ROLE STATE - Read from sessionStorage (set by Home page)
         // ============================================
-        // DON'T override with DEV_ROLE - just read from localStorage!
-        let storedRole = localStorage.getItem('userRole');
-        let storedLoggedIn = localStorage.getItem('isLoggedIn');
+        let storedRole = sessionStorage.getItem('userRole');
+        let storedLoggedIn = sessionStorage.getItem('isLoggedIn');
 
-        console.log('🔍 Stored Role from localStorage:', storedRole);
-        console.log('🔍 Stored LoggedIn from localStorage:', storedLoggedIn);
-
-
-        // If still not set, use defaults
         const isLoggedIn = storedLoggedIn === 'true' ? true : false;
         const userRole = storedRole || 'guest';
 
-         
-        console.log('👤 Search Page Current Role (from localStorage):', userRole);
-        console.log('📌 Search Page Logged In (from localStorage):', isLoggedIn);
-
+        console.log('👤 Search Page Current Role (from sessionStorage):', userRole);
+        console.log('📌 Search Page Logged In (from sessionStorage):', isLoggedIn);
 
         // ===== ADD BODY CLASS FOR CSS CONTROL =====
-        if (isLoggedIn) {
-            document.body.classList.add('logged-in');
-            document.body.classList.remove('guest');
-        } else {
-            document.body.classList.add('guest');
-            document.body.classList.remove('logged-in');
-        }
-
-        // Add role class to body for additional styling
-        document.body.classList.add(`role-${userRole}`);
+        document.body.className = `role-${userRole}`;
 
         // ============================================
-        // NAVBAR TEMPLATES (Same as Home Page)
+        // ROLE-BASED STATUS CONFIGURATION - CORRECTED
+        // ============================================
+        const roleStatusConfig = {
+            guest: {
+                visibleStatuses: ['lost', 'found'],
+                toggles: ['All', 'Lost', 'Found']
+            },
+            user: {
+                visibleStatuses: ['lost', 'found'],
+                toggles: ['All', 'Lost', 'Found']
+            },
+            manager: {
+                visibleStatuses: ['pending', 'approved', 'rejected', 'resolved'],
+                toggles: ['All', 'Pending', 'Approved', 'Rejected', 'Resolved']
+            },
+            admin: {
+                visibleStatuses: ['pending', 'approved', 'rejected', 'resolved'],
+                toggles: ['All', 'Pending', 'Approved', 'Rejected', 'Resolved']
+            }
+        };
+
+        // ============================================
+        // NAVBAR TEMPLATES
         // ============================================
         const guestNavbar = `
             <nav class="navbar" id="navbar">
                 <a href="../pub/home.html" class="logo">
-                    <i class="fas fa-magnifying-glass-location"></i>
+                    <img src="cropped_circle_image.png" alt="Lost&Found" />
                     <span>Lost&Found</span>
                 </a>
                 <div class="nav-links">
                     <a href="../pub/home.html">Home</a>
                     <a href="../pub/search.html" class="active">Browse Items</a>
-                    <a href="#howitworks">How it Works</a>
+                    <a href="../pub/home.html#howitworks">How it Works</a>
                 </div>
                 <div class="nav-actions">
                     <a href="../auth/login.html">Login</a>
@@ -990,10 +1135,10 @@
             </nav>
         `;
 
-        const loggedInNavbar = `
+        const userNavbar = `
             <nav class="navbar" id="navbar">
                 <a href="../pub/home.html" class="logo">
-                    <i class="fas fa-magnifying-glass-location"></i>
+                    <img src="cropped_circle_image.png" alt="Lost&Found" />
                     <span>Lost&Found</span>
                 </a>
                 <div class="nav-links">
@@ -1008,11 +1153,80 @@
                         <span class="dot" id="notifCount">4</span>
                     </a>
                     <div class="nav-profile">
-                        <button class="profile-btn" id="profileBtn">👤 Muhammad <i class="fas fa-chevron-down" style="font-size:0.6rem;"></i></button>
+                        <button class="profile-btn" id="profileBtn">
+                            <i class="fas fa-user-circle"></i> Muhammad
+                            <i class="fas fa-chevron-down" style="font-size:0.6rem;margin-left:0.2rem;"></i>
+                        </button>
                         <div class="profile-menu" id="profileMenu">
-                            <a href="../user/profile.html"><i class="fas fa-user" style="margin-right:0.5rem;"></i>Profile</a>
-                            <a href="../user/profile.html"><i class="fas fa-gear" style="margin-right:0.5rem;"></i>Settings</a>
-                            <a href="#" class="danger" id="logoutLink"><i class="fas fa-right-from-bracket" style="margin-right:0.5rem;"></i>Logout</a>
+                            <a href="../user/userdashboard.html"><i class="fas fa-th-large"></i> Dashboard</a>
+                            <a href="../user/notification.html"><i class="fas fa-bell"></i> Notifications</a>
+                            <a href="../user/profile.html"><i class="fas fa-user"></i> Profile</a>
+                            <div class="profile-divider"></div>
+                            <a href="#" class="danger" id="logoutLink"><i class="fas fa-sign-out-alt"></i> Log Out</a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        `;
+
+        const managerNavbar = `
+            <nav class="navbar" id="navbar">
+                <a href="../pub/home.html" class="logo">
+                    <img src="cropped_circle_image.png" alt="Lost&Found" />
+                    <span>Lost&Found</span>
+                </a>
+                <div class="nav-links">
+                    <a href="../pub/home.html">Home</a>
+                    <a href="../pub/search.html" class="active">Search</a>
+                </div>
+                <div class="nav-actions">
+                    <a href="../user/notification.html" class="nav-notif" title="Notifications">
+                        <i class="fas fa-bell"></i>
+                        <span class="dot">5</span>
+                    </a>
+                    <div class="nav-profile">
+                        <button class="profile-btn" id="profileBtn">
+                            <i class="fas fa-user-circle"></i> Manager
+                            <i class="fas fa-chevron-down" style="font-size:0.6rem;margin-left:0.2rem;"></i>
+                        </button>
+                        <div class="profile-menu" id="profileMenu">
+                            <a href="../pub/cliamreport.html"><i class="fas fa-search"></i> Claim Report</a>
+                            <a href="../user/notification.html"><i class="fas fa-th-large"></i> Notifaction</a>
+                            <a href="../user/profile.html"><i class="fas fa-user"></i> Profile</a>
+                            <div class="profile-divider"></div>
+                            <a href="#" class="danger" id="logoutLink"><i class="fas fa-sign-out-alt"></i> Log Out</a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        `;
+
+        const adminNavbar = `
+            <nav class="navbar" id="navbar">
+                <a href="../pub/home.html" class="logo">
+                    <img src="cropped_circle_image.png" alt="Lost&Found" />
+                    <span>Lost&Found</span>
+                </a>
+                <div class="nav-links">
+                    <a href="../pub/home.html">Home</a>
+                    <a href="../pub/search.html" class="active">Search</a>
+                </div>
+                <div class="nav-actions">
+                    <a href="../user/notification.html" class="nav-notif" title="Notifications">
+                        <i class="fas fa-bell"></i>
+                        <span class="dot">7</span>
+                    </a>
+                    <div class="nav-profile">
+                        <button class="profile-btn" id="profileBtn">
+                            <i class="fas fa-user-circle"></i> Admin
+                            <i class="fas fa-chevron-down" style="font-size:0.6rem;margin-left:0.2rem;"></i>
+                        </button>
+                        <div class="profile-menu" id="profileMenu">
+                            <a href="../pub/claimreport.html"><i class="fas fa-search"></i> Claim Report</a>
+                            <a href="../user/notification.html"><i class="fas fa-th-large"></i> Notification</a>
+                            <a href="../user/profile.html"><i class="fas fa-user"></i> Profile</a>
+                            <div class="profile-divider"></div>
+                            <a href="#" class="danger" id="logoutLink"><i class="fas fa-sign-out-alt"></i> Log Out</a>
                         </div>
                     </div>
                 </div>
@@ -1020,19 +1234,22 @@
         `;
 
         // ============================================
-        // FOOTER TEMPLATES (Same as Home Page)
+        // FOOTER TEMPLATES
         // ============================================
         const guestFooter = `
             <footer class="footer">
                 <div class="footer-grid">
                     <div class="brand">
-                        <h5><i class="fas fa-magnifying-glass-location"></i> Lost&Found</h5>
+                        <h5>
+                            <img src="cropped_circle_image.png" alt="Lost&Found logo" />
+                            Lost&Found
+                        </h5>
                         <p>Reuniting people with their belongings since 2024. A trusted community platform for schools, universities, and public spaces.</p>
                     </div>
                     <div>
                         <h5>Quick Links</h5>
                         <a href="../pub/search.html">Browse Items</a>
-                        <a href="#howitworks">How It Works</a>
+                        <a href="../pub/home.html#howitworks">How it Works</a>
                         <a href="../auth/login.html">Login</a>
                         <a href="../auth/register.html">Register</a>
                     </div>
@@ -1062,11 +1279,14 @@
             </footer>
         `;
 
-        const loggedInFooter = `
+        const userFooter = `
             <footer class="footer">
                 <div class="footer-grid">
                     <div class="brand">
-                        <h5><i class="fas fa-magnifying-glass-location"></i> Lost&Found</h5>
+                        <h5>
+                            <img src="cropped_circle_image.png" alt="Lost&Found logo" />
+                            Lost&Found
+                        </h5>
                         <p>Reuniting people with their belongings since 2024. A trusted community platform for schools, universities, and public spaces.</p>
                     </div>
                     <div>
@@ -1103,15 +1323,121 @@
             </footer>
         `;
 
+        const managerFooter = `
+            <footer class="footer">
+                <div class="footer-grid">
+                    <div class="brand">
+                        <h5>
+                            <img src="cropped_circle_image.png" alt="Lost&Found logo" />
+                            Lost&Found <span style="font-size:0.6rem;background:#f5d371;color:#0b3b3a;padding:0.1rem 0.6rem;border-radius:60px;margin-left:0.5rem;">MANAGER</span>
+                        </h5>
+                        <p>Manager moderation tools are available directly from the Search page and Item Detail pages.</p>
+                    </div>
+                    <div>
+                        <h5>Quick Links</h5>
+                        <a href="../pub/search.html">Search</a>
+                        <a href="../pub/claimreport.html">Claim Report</a>
+                    </div>
+                    <div>
+                        <h5>Categories</h5>
+                        <a href="../pub/search.html?category=electronics">Electronics</a>
+                        <a href="../pub/search.html?category=documents">Documents</a>
+                        <a href="../pub/search.html?category=accessories">Accessories</a>
+                        <a href="../pub/search.html?category=books">Books</a>
+                    </div>
+                    <div class="contact">
+                        <h5>Contact</h5>
+                        <p><i class="fas fa-envelope" style="margin-right:0.4rem;"></i> manager@lostfound.com</p>
+                        <p><i class="fas fa-phone" style="margin-right:0.4rem;"></i> +92 319 0153045</p>
+                        <div class="social-icons">
+                            <a href="#"><i class="fab fa-facebook"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-linkedin"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    &copy; 2026 Lost & Found Portal. All rights reserved.
+                </div>
+            </footer>
+        `;
+
+        const adminFooter = `
+            <footer class="footer">
+                <div class="footer-grid">
+                    <div class="brand">
+                        <h5>
+                            <img src="cropped_circle_image.png" alt="Lost&Found logo" />
+                            Lost&Found <span style="font-size:0.6rem;background:#f5d371;color:#0b3b3a;padding:0.1rem 0.6rem;border-radius:60px;margin-left:0.5rem;">ADMIN</span>
+                        </h5>
+                        <p>Admin controls are available directly from the Search page and Item Detail pages.</p>
+                    </div>
+                    <div>
+                        <h5>Quick Links</h5>
+                        <a href="../pub/search.html">Search</a>
+                        <a href="../pub/claimreport.html">Claim Report</a>
+                    </div>
+                    <div>
+                        <h5>Categories</h5>
+                        <a href="../pub/search.html?category=electronics">Electronics</a>
+                        <a href="../pub/search.html?category=documents">Documents</a>
+                        <a href="../pub/search.html?category=accessories">Accessories</a>
+                        <a href="../pub/search.html?category=books">Books</a>
+                    </div>
+                    <div class="contact">
+                        <h5>Contact</h5>
+                        <p><i class="fas fa-envelope" style="margin-right:0.4rem;"></i> admin@lostfound.com</p>
+                        <p><i class="fas fa-phone" style="margin-right:0.4rem;"></i> +92 319 0153045</p>
+                        <div class="social-icons">
+                            <a href="#"><i class="fab fa-facebook"></i></a>
+                            <a href="#"><i class="fab fa-twitter"></i></a>
+                            <a href="#"><i class="fab fa-instagram"></i></a>
+                            <a href="#"><i class="fab fa-linkedin"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    &copy; 2026 Lost & Found Portal. All rights reserved.
+                </div>
+            </footer>
+        `;
+
         // ============================================
         // LOAD COMPONENTS
         // ============================================
         function loadComponents() {
-            document.getElementById('navbarContainer').innerHTML = isLoggedIn ? loggedInNavbar : guestNavbar;
-            document.getElementById('footerContainer').innerHTML = isLoggedIn ? loggedInFooter : guestFooter;
+            let navbarHtml;
+            let footerHtml;
+
+            switch(userRole) {
+                case 'guest':
+                    navbarHtml = guestNavbar;
+                    footerHtml = guestFooter;
+                    break;
+                case 'user':
+                    navbarHtml = userNavbar;
+                    footerHtml = userFooter;
+                    break;
+                case 'manager':
+                    navbarHtml = managerNavbar;
+                    footerHtml = managerFooter;
+                    break;
+                case 'admin':
+                    navbarHtml = adminNavbar;
+                    footerHtml = adminFooter;
+                    break;
+                default:
+                    navbarHtml = guestNavbar;
+                    footerHtml = guestFooter;
+            }
+
+            document.getElementById('navbarContainer').innerHTML = navbarHtml;
+            document.getElementById('footerContainer').innerHTML = footerHtml;
 
             if (isLoggedIn) initDropdowns();
             initStickyNavbar();
+            initSlideUpButton();
         }
 
         // ============================================
@@ -1127,8 +1453,10 @@
                 });
             }
 
-            document.addEventListener('click', function() {
-                profileMenu?.classList.remove('open');
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.nav-profile')) {
+                    profileMenu?.classList.remove('open');
+                }
             });
 
             const logoutLink = document.getElementById('logoutLink');
@@ -1136,9 +1464,8 @@
                 logoutLink.addEventListener('click', function(e) {
                     e.preventDefault();
                     if (confirm('Are you sure you want to logout?')) {
-                        // Clear localStorage and redirect to home
-                        localStorage.removeItem('userRole');
-                        localStorage.removeItem('isLoggedIn');
+                        sessionStorage.removeItem('userRole');
+                        sessionStorage.removeItem('isLoggedIn');
                         window.location.href = '../pub/home.html';
                     }
                 });
@@ -1158,26 +1485,24 @@
         }
 
         // ============================================
-        // ROLE-BASED STATUS CONFIGURATION
+        // SLIDE UP BUTTON
         // ============================================
-        const roleStatusConfig = {
-            guest: {
-                visibleStatuses: ['lost', 'found'],
-                toggles: ['All', 'Lost', 'Found']
-            },
-            user: {
-                visibleStatuses: ['lost', 'found', 'pending', 'approved', 'rejected', 'resolved'],
-                toggles: ['All', 'Lost', 'Found', 'Pending Review', 'Approved', 'Rejected', 'Resolved']
-            },
-            manager: {
-                visibleStatuses: ['lost', 'found', 'pending', 'approved', 'rejected', 'resolved'],
-                toggles: ['All', 'Lost', 'Found', 'Pending Review', 'Approved', 'Rejected', 'Resolved']
-            },
-            admin: {
-                visibleStatuses: ['lost', 'found', 'pending', 'approved', 'rejected', 'resolved'],
-                toggles: ['All', 'Lost', 'Found', 'Pending Review', 'Approved', 'Rejected', 'Resolved']
+        function initSlideUpButton() {
+            const slideUpBtn = document.getElementById('slideUpBtn');
+            if (slideUpBtn) {
+                window.addEventListener('scroll', function() {
+                    if (window.scrollY > 400) {
+                        slideUpBtn.classList.add('visible');
+                    } else {
+                        slideUpBtn.classList.remove('visible');
+                    }
+                });
+
+                slideUpBtn.addEventListener('click', function() {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
             }
-        };
+        }
 
         // ============================================
         // SAMPLE DATA WITH ALL STATUSES
@@ -1232,8 +1557,6 @@
             category: '',
             location: '',
             status: 'all',
-            dateFrom: '',
-            dateTo: '',
             sort: 'newest'
         };
 
@@ -1251,13 +1574,12 @@
         // BUILD STATUS TOGGLES BASED ON ROLE
         // ============================================
         function buildStatusToggles() {
-            const role = isLoggedIn ? userRole : 'guest';
-            const config = roleStatusConfig[role] || roleStatusConfig.guest;
+            const config = roleStatusConfig[userRole] || roleStatusConfig.guest;
             const toggleMap = {
                 'All': 'all',
                 'Lost': 'lost',
                 'Found': 'found',
-                'Pending Review': 'pending',
+                'Pending': 'pending',
                 'Approved': 'approved',
                 'Rejected': 'rejected',
                 'Resolved': 'resolved'
@@ -1272,7 +1594,6 @@
                 statusToggles.appendChild(btn);
             });
 
-            // Re-bind click events
             document.querySelectorAll('.status-toggles .toggle-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
                     document.querySelectorAll('.status-toggles .toggle-btn').forEach(b => b.classList.remove('active'));
@@ -1289,9 +1610,7 @@
         function applyFilters() {
             let items = [...allItems];
 
-            // Filter by role visibility using actual role
-            const role = isLoggedIn ? userRole : 'guest';
-            const config = roleStatusConfig[role] || roleStatusConfig.guest;
+            const config = roleStatusConfig[userRole] || roleStatusConfig.guest;
             items = items.filter(item => config.visibleStatuses.includes(item.status));
 
             if (activeFilters.search) {
@@ -1314,14 +1633,6 @@
                 items = items.filter(item => item.status === activeFilters.status);
             }
 
-            if (activeFilters.dateFrom) {
-                items = items.filter(item => item.date >= activeFilters.dateFrom);
-            }
-
-            if (activeFilters.dateTo) {
-                items = items.filter(item => item.date <= activeFilters.dateTo);
-            }
-
             switch (activeFilters.sort) {
                 case 'newest':
                     items.sort((a, b) => new Date(b.date) - new Date(a.date));
@@ -1341,7 +1652,7 @@
         }
 
         // ============================================
-        // RENDER RESULTS
+        // RENDER RESULTS - UPDATED: ONLY ADMIN CAN DELETE
         // ============================================
         function renderResults() {
             const total = filteredItems.length;
@@ -1372,6 +1683,9 @@
                 return;
             }
 
+            // ONLY Admin can delete - Manager CANNOT delete
+            const showDelete = (userRole === 'admin');
+
             resultsGrid.innerHTML = pageItems.map(item => `
                 <div class="result-card" data-id="${item.id}">
                     <div class="card-image">
@@ -1386,12 +1700,33 @@
                             <span><i class="fas fa-tag"></i> ${item.category}</span>
                         </div>
                         <div class="description">${item.description}</div>
-                        <button class="view-btn" onclick="viewItem(${item.id})">View Details</button>
+                        <div style="display:flex; gap:0.5rem; margin-top:0.8rem; flex-wrap:wrap;">
+                            <button class="view-btn" onclick="viewItem(${item.id})">View Details</button>
+                            ${showDelete ? `<button class="delete-btn" onclick="deleteItem(${item.id})"><i class="fas fa-trash"></i> Delete</button>` : ''}
+                        </div>
                     </div>
                 </div>
             `).join('');
 
             renderPagination(total);
+        }
+
+        // ============================================
+        // DELETE ITEM (Admin only)
+        // ============================================
+        function deleteItem(id) {
+            if (userRole !== 'admin') {
+                alert('❌ Only Admin can delete items!');
+                return;
+            }
+            if (confirm('⚠️ Are you sure you want to delete this item? This action cannot be undone!')) {
+                const index = allItems.findIndex(item => item.id === id);
+                if (index !== -1) {
+                    allItems.splice(index, 1);
+                    alert('🗑️ Item deleted successfully!');
+                    applyFilters();
+                }
+            }
         }
 
         // ============================================
@@ -1448,7 +1783,7 @@
         // ============================================
         function viewItem(id) {
             sessionStorage.setItem('viewItemId', id);
-            sessionStorage.setItem('userRole', isLoggedIn ? userRole : 'guest');
+            sessionStorage.setItem('userRole', userRole);
             sessionStorage.setItem('isLoggedIn', isLoggedIn);
             window.location.href = '../user/itemdetail.html';
         }
@@ -1462,10 +1797,6 @@
             if (activeFilters.category) chips.push({ label: `Category: ${activeFilters.category}`, key: 'category' });
             if (activeFilters.location) chips.push({ label: `Location: ${activeFilters.location}`, key: 'location' });
             if (activeFilters.status !== 'all') chips.push({ label: `Status: ${activeFilters.status}`, key: 'status' });
-            if (activeFilters.dateFrom) chips.push({ label: `From: ${new Date(activeFilters.dateFrom).toLocaleDateString()}`,
-                key: 'dateFrom' });
-            if (activeFilters.dateTo) chips.push({ label: `To: ${new Date(activeFilters.dateTo).toLocaleDateString()}`,
-                key: 'dateTo' });
 
             if (chips.length === 0) {
                 chipsContainer.innerHTML =
@@ -1486,8 +1817,6 @@
             if (key === 'search') document.getElementById('searchInput').value = '';
             if (key === 'category') document.getElementById('categoryFilter').value = '';
             if (key === 'location') document.getElementById('locationFilter').value = '';
-            if (key === 'dateFrom') document.getElementById('dateFrom').value = '';
-            if (key === 'dateTo') document.getElementById('dateTo').value = '';
             if (key === 'status') {
                 document.querySelectorAll('.status-toggles .toggle-btn').forEach(btn => {
                     btn.classList.toggle('active', btn.dataset.status === 'all');
@@ -1497,13 +1826,10 @@
         }
 
         function clearAllFilters() {
-            activeFilters = { search: '', category: '', location: '', status: 'all', dateFrom: '', dateTo: '',
-                sort: 'newest' };
+            activeFilters = { search: '', category: '', location: '', status: 'all', sort: 'newest' };
             document.getElementById('searchInput').value = '';
             document.getElementById('categoryFilter').value = '';
             document.getElementById('locationFilter').value = '';
-            document.getElementById('dateFrom').value = '';
-            document.getElementById('dateTo').value = '';
             document.querySelectorAll('.status-toggles .toggle-btn').forEach(btn => {
                 btn.classList.toggle('active', btn.dataset.status === 'all');
             });
@@ -1533,16 +1859,6 @@
             applyFilters();
         });
 
-        document.getElementById('dateFrom').addEventListener('change', function() {
-            activeFilters.dateFrom = this.value;
-            applyFilters();
-        });
-
-        document.getElementById('dateTo').addEventListener('change', function() {
-            activeFilters.dateTo = this.value;
-            applyFilters();
-        });
-
         document.getElementById('sortSelect').addEventListener('change', function() {
             activeFilters.sort = this.value;
             applyFilters();
@@ -1557,7 +1873,10 @@
             document.querySelectorAll('.nav-links a, .nav-actions a, .footer-grid a').forEach(link => {
                 link.addEventListener('click', function(e) {
                     const href = this.getAttribute('href');
-                    if (href && href.startsWith('#')) return;
+                    
+                    if (href && href.startsWith('#')) {
+                        return;
+                    }
 
                     const allowedPaths = [
                         '../pub/home.html', '../pub/reportitem.html', '../pub/itemfound.html',
@@ -1567,7 +1886,9 @@
 
                     if (href) {
                         const shouldNavigate = allowedPaths.some(path => href === path || href.includes(path));
-                        if (shouldNavigate) return;
+                        if (shouldNavigate) {
+                            return;
+                        }
                     }
 
                     e.preventDefault();
@@ -1582,23 +1903,23 @@
         // INIT
         // ============================================
         function init() {
-            // Load navbar and footer
             loadComponents();
-            
-            // Initialize navigation
             initNavigation();
-            
-            // Initialize the rest
             buildStatusToggles();
             applyFilters();
         }
 
-        // Start the application
         init();
 
-        console.log('👤 Current Role:', isLoggedIn ? userRole : 'guest');
-        console.log('📋 Visible Statuses:', roleStatusConfig[isLoggedIn ? userRole : 'guest']?.visibleStatuses || ['lost', 'found']);
-        console.log('💡 Role is read from localStorage (set by Home page)');
+        console.log('👤 Current Role:', userRole);
+        console.log('📋 Visible Statuses:', roleStatusConfig[userRole]?.visibleStatuses || ['lost', 'found']);
+        console.log('📋 Status Toggles:', roleStatusConfig[userRole]?.toggles || ['All', 'Lost', 'Found']);
+        
+        if (userRole === 'admin') {
+            console.log('🗑️ Delete button enabled for: Admin only');
+        } else if (userRole === 'manager') {
+            console.log('🗑️ Delete button disabled for: Manager');
+        }
     </script>
 </body>
 </html>
